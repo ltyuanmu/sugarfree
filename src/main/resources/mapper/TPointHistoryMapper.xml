@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sugarfree.dao.mapper.TPointHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.sugarfree.dao.model.TPointHistory" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="fk_wx_user_id" property="fkWxUserId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="VARCHAR" />
+    <result column="remark_time" property="remarkTime" jdbcType="TIMESTAMP" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="relate_wx_user_id" property="relateWxUserId" jdbcType="INTEGER" />
+  </resultMap>
+</mapper>

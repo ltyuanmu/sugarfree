@@ -1,0 +1,35 @@
+server.port:  8080
+server.tomcat.access_log_enabled: true
+server.tomcat.basedir: target/tomcat
+spring:
+    datasource:
+        name: wutang
+        url: jdbc:mysql://223.167.85.2:40788/wutang?useUnicode=true&characterEncoding=UTF-8&amp;amp;autoReconnect=true
+        username: lt
+        password: lt7jiannan
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 20
+    thymeleaf:
+        cache: false
+        mode: HTML5
+        encoding: UTF-8
+        content-type: text/html
+wechat:
+    mp:
+        appId: wx5ab31280a17fd0ab
+        secret: fc4b690876c23a9b13e2497d1f2751e8
+        token: sugarfree
+        aesKey: qcgUpRRcUIFO5ZzOBEgyHgJM5yRx6XLwWa8L74ZTFl8

@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name = "format-detection" content = "telephone=no" />
+    <title th:text="${article.title}" >${article.title}</title>
+    <script type="text/javascript" th:src="@{js/device-adapter.js}"></script>
+    <script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
+    <link  type="text/css" rel="stylesheet" th:href="@{css/CssReset.min.css}"/>
+    <link  type="text/css" rel="stylesheet" th:href="@{css/common.css}"/>
+    <link  type="text/css" rel="stylesheet" th:href="@{css/quick.css}"/>
+    <link  type="text/css" rel="stylesheet" th:href="@{css/articleView.css}"/>
+</head>
+<body>
+    <div class="container articlePreView">
+        <div class="contentWrap">
+            <div class="outline">
+                <h1 class="title" th:text="${article.title}" ></h1>
+                <div class="courseNumber" th:text="'第'+${article.classTime}+'课'"></div>
+                <div class="subject" th:text="${article.abstarct}" ></div>
+            </div>
+            <div class="mainContent">
+                <div class="content" th:utext="${article.context}"></div>
+            </div>
+
+            <div class="qrCode">
+                <p>
+                    我是「${nickname}」，邀请你和我一起关注这个好吃的公众号(๑´ڡ`๑)。通过下方的二维码，你我可各获得一个积分 。
+                </p>
+                <p class="tc">
+                    <!--<img alt="" src="">-->
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+</html>

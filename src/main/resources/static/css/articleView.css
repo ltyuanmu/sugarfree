@@ -1,0 +1,73 @@
+.articlePreView  .outline{
+	background: #FFF;
+	margin: 0 0.16rem;
+	margin-bottom: 0.32rem;
+	padding: 0.32rem;
+	color: rgb(89, 89, 89);
+}
+
+.articlePreView   .outline .title{
+	line-height: 0.64rem;
+    font-size: 0.48rem;
+    margin-bottom: 0.32rem;
+    color: rgb(9,9,9);
+}
+
+.articlePreView  .outline  .courseNumber{
+	margin-bottom: 0.32rem;
+}
+
+.articlePreView  .outline  .subject{
+	line-height: 0.42rem;
+}
+
+.articlePreView .mainContent{
+	background: #FFF;
+	padding: 0 0.32rem;
+	line-height: 0.32rem;
+    margin-bottom: 1rem;
+}
+
+.articlePreView .content{
+	margin-top: 0.32rem;
+}
+
+.articlePreView img{
+	width: 6.8rem;
+    max-width: 100%;
+}
+
+.articlePreView strong span{
+	font-weight: bold;
+}
+
+
+
+
+.articlePreView .subscribe,
+.articlePreView .subscribe p,
+.articlePreView .qrCode p
+{
+	color: #707070;
+	line-height:0.32rem;
+	margin-bottom: 0.28rem;
+}
+
+.articlePreView .subscribe{
+	margin-bottom: 1rem;
+}
+
+.articlePreView .qrCode{
+	padding: 0 0.32rem;
+}
+
+.articlePreView .qrCode p img{
+	width: 4.8rem;
+}
+
+.articlePreView .op input[type=button]{
+	width: 1.5rem;
+	height:0.56rem;
+	background: #4984B8;
+	border-radius: 6px;
+}

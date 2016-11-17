@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sugarfree.dao.mapper.TSubscriberPushMapper" >
+  <resultMap id="BaseResultMap" type="com.sugarfree.dao.model.TSubscriberPush" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="fk_wx_user_id" property="fkWxUserId" jdbcType="INTEGER" />
+    <result column="fk_article_id" property="fkArticleId" jdbcType="INTEGER" />
+    <result column="article_title" property="articleTitle" jdbcType="VARCHAR" />
+    <result column="staus" property="staus" jdbcType="VARCHAR" />
+    <result column="push_time" property="pushTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+</mapper>

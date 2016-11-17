@@ -1,0 +1,18 @@
+body{
+	background:#F1F1F1;
+}
+
+h1,h2,h3,h4,h5,h6{
+	margin: 0px;
+	padding: 0px;
+}
+.container{
+	width: 100%;
+	max-width: 7.5rem;
+	margin: 0 auto;
+	font-size: 0.28rem;
+}
+
+.contentWrap{
+	margin-top: 0.32rem;
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sugarfree.dao.mapper.TSubscriberMapper" >
+  <resultMap id="BaseResultMap" type="com.sugarfree.dao.model.TSubscriber" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="fk_wx_user_id" property="fkWxUserId" jdbcType="INTEGER" />
+    <result column="fk_menu_id" property="fkMenuId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="last_class_time" property="lastClassTime" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="op_user" property="opUser" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>
