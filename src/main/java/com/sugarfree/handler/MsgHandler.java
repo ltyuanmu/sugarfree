@@ -1,6 +1,7 @@
 package com.sugarfree.handler;
 
 import com.sugarfree.builder.TextBuilder;
+import com.sugarfree.service.PointService;
 import com.sugarfree.utils.JsonUtils;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -9,6 +10,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -23,6 +25,9 @@ import java.util.Map;
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class MsgHandler extends AbstractHandler {
+
+    @Autowired
+    private PointService pointService;
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
@@ -44,6 +49,11 @@ public class MsgHandler extends AbstractHandler {
             }
         } catch (WxErrorException e) {
             e.printStackTrace();
+        }
+        if("积分".equals(wxMessage.getContent())){
+            int point = pointService.getPointByOpenId(wxMessage.getFromUser());
+            String message = "您的积分为:"+point+"!";
+            return new TextBuilder().build(message,wxMessage,weixinService);
         }
 
         //TODO 组装回复消息

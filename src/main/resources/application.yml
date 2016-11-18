@@ -33,3 +33,5 @@ wechat:
         secret: fc4b690876c23a9b13e2497d1f2751e8
         token: sugarfree
         aesKey: qcgUpRRcUIFO5ZzOBEgyHgJM5yRx6XLwWa8L74ZTFl8
+
+serviceUrl: http://mymoney.sh1.newtouch.com

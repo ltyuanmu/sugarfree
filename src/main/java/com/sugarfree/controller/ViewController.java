@@ -2,6 +2,9 @@ package com.sugarfree.controller;
 
 import com.sugarfree.dao.model.TArticle;
 import com.sugarfree.service.ArticleService;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +24,9 @@ public class ViewController {
     @Autowired
     private ArticleService articleService;
 
+    @Autowired
+    private WxMpService wxService;
+
     /*菜单文章的详细介绍
     *以上是静态内容
     *出现订阅按钮 提示订阅需要XX积分
@@ -38,7 +44,12 @@ public class ViewController {
     *可以进行分享
     * */
     @RequestMapping(method = RequestMethod.GET,value = "/artucle/{id}")
-    public ModelAndView getArtucle(@PathVariable String id){
+    public ModelAndView getArtucle(@PathVariable String id,String code){
+        try {
+            WxMpOAuth2AccessToken accessToken = wxService.oauth2getAccessToken(code);
+            accessToken.getOpenId();
+        } catch (WxErrorException e) {
+        }
         TArticle article = articleService.getArticleById(Integer.valueOf(id));
         return new ModelAndView("article","article",article);
     }

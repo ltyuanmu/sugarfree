@@ -9,13 +9,14 @@ public class TWxUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "openId")
-    private String openid;
+    @Column(name = "open_id")
+    private String openId;
 
-    @Column(name = "nick_name")
-    private String nickName;
+    private String nickname;
 
-    private Integer sex;
+    private String sex;
+
+    private String language;
 
     private String city;
 
@@ -23,21 +24,27 @@ public class TWxUser {
 
     private String province;
 
-    private String language;
+    @Column(name = "head_img_url")
+    private String headImgUrl;
 
-    /**
-     * 头像
-     */
-    private String icon;
+    @Column(name = "subscribe_time")
+    private Long subscribeTime;
 
-    private String unionid;
+    @Column(name = "union_id")
+    private String unionId;
+
+    @Column(name = "sex_id")
+    private Integer sexId;
 
     /**
      * 备注
      */
     private String remark;
 
-    private Integer groupid;
+    @Column(name = "group_id")
+    private Integer groupId;
+
+    private Boolean subscribe;
 
     @Column(name = "qr_url")
     private String qrUrl;
@@ -50,8 +57,8 @@ public class TWxUser {
      */
     private Integer point;
 
-    @Column(name = "recommend_openId")
-    private String recommendOpenid;
+    @Column(name = "recommend_open_id")
+    private String recommendOpenId;
 
     @Column(name = "create_time")
     private Date createTime;
@@ -83,45 +90,59 @@ public class TWxUser {
     }
 
     /**
-     * @return openId
+     * @return open_id
      */
-    public String getOpenid() {
-        return openid;
+    public String getOpenId() {
+        return openId;
     }
 
     /**
-     * @param openid
+     * @param openId
      */
-    public void setOpenid(String openid) {
-        this.openid = openid;
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 
     /**
-     * @return nick_name
+     * @return nickname
      */
-    public String getNickName() {
-        return nickName;
+    public String getNickname() {
+        return nickname;
     }
 
     /**
-     * @param nickName
+     * @param nickname
      */
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     /**
      * @return sex
      */
-    public Integer getSex() {
+    public String getSex() {
         return sex;
     }
 
     /**
      * @param sex
      */
-    public void setSex(Integer sex) {
+    public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    /**
+     * @return language
+     */
+    public String getLanguage() {
+        return language;
+    }
+
+    /**
+     * @param language
+     */
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     /**
@@ -167,49 +188,59 @@ public class TWxUser {
     }
 
     /**
-     * @return language
+     * @return head_img_url
      */
-    public String getLanguage() {
-        return language;
+    public String getHeadImgUrl() {
+        return headImgUrl;
     }
 
     /**
-     * @param language
+     * @param headImgUrl
      */
-    public void setLanguage(String language) {
-        this.language = language;
+    public void setHeadImgUrl(String headImgUrl) {
+        this.headImgUrl = headImgUrl;
     }
 
     /**
-     * 获取头像
-     *
-     * @return icon - 头像
+     * @return subscribe_time
      */
-    public String getIcon() {
-        return icon;
+    public Long getSubscribeTime() {
+        return subscribeTime;
     }
 
     /**
-     * 设置头像
-     *
-     * @param icon 头像
+     * @param subscribeTime
      */
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setSubscribeTime(Long subscribeTime) {
+        this.subscribeTime = subscribeTime;
     }
 
     /**
-     * @return unionid
+     * @return union_id
      */
-    public String getUnionid() {
-        return unionid;
+    public String getUnionId() {
+        return unionId;
     }
 
     /**
-     * @param unionid
+     * @param unionId
      */
-    public void setUnionid(String unionid) {
-        this.unionid = unionid;
+    public void setUnionId(String unionId) {
+        this.unionId = unionId;
+    }
+
+    /**
+     * @return sex_id
+     */
+    public Integer getSexId() {
+        return sexId;
+    }
+
+    /**
+     * @param sexId
+     */
+    public void setSexId(Integer sexId) {
+        this.sexId = sexId;
     }
 
     /**
@@ -231,17 +262,31 @@ public class TWxUser {
     }
 
     /**
-     * @return groupid
+     * @return group_id
      */
-    public Integer getGroupid() {
-        return groupid;
+    public Integer getGroupId() {
+        return groupId;
     }
 
     /**
-     * @param groupid
+     * @param groupId
      */
-    public void setGroupid(Integer groupid) {
-        this.groupid = groupid;
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
+    }
+
+    /**
+     * @return subscribe
+     */
+    public Boolean getSubscribe() {
+        return subscribe;
+    }
+
+    /**
+     * @param subscribe
+     */
+    public void setSubscribe(Boolean subscribe) {
+        this.subscribe = subscribe;
     }
 
     /**
@@ -291,17 +336,17 @@ public class TWxUser {
     }
 
     /**
-     * @return recommend_openId
+     * @return recommend_open_id
      */
-    public String getRecommendOpenid() {
-        return recommendOpenid;
+    public String getRecommendOpenId() {
+        return recommendOpenId;
     }
 
     /**
-     * @param recommendOpenid
+     * @param recommendOpenId
      */
-    public void setRecommendOpenid(String recommendOpenid) {
-        this.recommendOpenid = recommendOpenid;
+    public void setRecommendOpenId(String recommendOpenId) {
+        this.recommendOpenId = recommendOpenId;
     }
 
     /**
