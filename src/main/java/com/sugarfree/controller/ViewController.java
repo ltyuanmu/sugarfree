@@ -13,6 +13,7 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -107,7 +108,10 @@ public class ViewController {
             subscriber.setStatus("0");
             subscriberService.insert(subscriber);
         }
-        return new ModelAndView("subscriberReturn","ret","1");
+        ModelAndView modelAndView =new ModelAndView("subscriberReturn");
+        modelAndView.addObject("ret","1");
+        modelAndView.addObject("menuId",menuId);
+        return modelAndView;
     }
 
     /**
@@ -133,6 +137,7 @@ public class ViewController {
             return modelAndView;
         }else{
             List<TArticle> articleList = articleService.getArticleList(wxUser.getId(), menuId);
+
             return new ModelAndView("articleList","list",articleList);
         }
     }
