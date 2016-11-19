@@ -1,0 +1,44 @@
+.columnDetail{
+	
+}
+
+.columnDetail strong span{
+	font-weight: bold;
+}
+
+.columnDetail .content{
+	line-height: 0.32rem;
+	padding: 0 0.32rem;
+}
+
+
+.columnDetail .subscribe,
+.columnDetail .subscribe p,
+.columnDetail .qrCode p
+{
+	color: #707070;
+	line-height:0.32rem;
+	margin-bottom: 0.28rem;
+}
+
+.columnDetail .subscribe{
+	margin-bottom: 1rem;
+}
+
+.columnDetail .qrCode{
+	padding: 0 0.32rem;
+}
+
+.columnDetail .qrCode p img{
+	width: 4.8rem;
+}
+
+.columnDetail .op input[type=button]{
+	width: 1.5rem;
+	height:0.56rem;
+	background: #4984B8;
+	border-radius: 6px;
+}
+
+
+

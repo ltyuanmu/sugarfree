@@ -2,6 +2,8 @@ package com.sugarfree.service;
 
 import com.sugarfree.dao.model.TArticle;
 
+import java.util.List;
+
 /**
  * @ClassName: ${}
  * @Description:
@@ -17,7 +19,7 @@ public interface ArticleService {
      */
     TArticle getArticleByEnumId(Integer enumId);
     //通过用户id和菜单id查看该用户的订阅情况
-
+    List<TArticle> getArticleList(int openId, int menuId);
     /**
      * 通过文章id获得文章详情
      * @param id

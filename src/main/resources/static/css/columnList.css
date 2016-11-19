@@ -1,0 +1,23 @@
+.columnList{
+	width: 7.5rem;
+	max-width: 7.5rem;
+    font-size:0.28rem;
+    margin: 0 auto;
+    background: #FFF;
+}
+
+.columnList {
+	overflow: hidden;
+}
+
+.columnItem{
+	float: left;
+}
+
+.columnList .qrImage{
+	width: 100%;
+}
+
+.columnItem input[type="button"]{
+	background: #97FFFF;
+}
