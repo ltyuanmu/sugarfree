@@ -117,7 +117,7 @@ public class ViewController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET,value = "/articleList/{menuId}")
-    public ModelAndView getArticleList(@PathVariable int menuId,HttpServletRequest request){
+    public ModelAndView getArticleList(@PathVariable int menuId,HttpServletRequest request) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser = getWxUser(request);
         TSubscriber subscriber = subscriberService.getSubscriberByOpenId(wxUser.getId(), menuId);
@@ -126,6 +126,9 @@ public class ViewController {
             TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
             ModelAndView modelAndView = new ModelAndView("menuAbstract");
             modelAndView.addObject("menuAbstract",menuAbstract);
+            //获得二维码图片
+            String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
+            wxUser.setQrUrl(url);
             modelAndView.addObject("user",wxUser);
             return modelAndView;
         }else{
