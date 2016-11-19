@@ -77,6 +77,7 @@ public class ViewController {
             } catch (WxErrorException e) {
                 log.error(e.getMessage(),e);
             }
+            session.setAttribute(code,openId);
         }
         return wxUserService.getWxUserByOpenId(openId);
     }
