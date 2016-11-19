@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-    <meta name = "format-detection" content = "telephone=no">
+<meta>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name = "format-detection" content = "telephone=no" />
     <title>专栏简介</title>
     <script type="text/javascript" th:src="@{js/device-adapter.js}"></script>
     <link  type="text/css" rel="stylesheet" th:href="@{css/CssReset.min.css}"/>
@@ -20,7 +20,7 @@
                 <div class="subject" th:text="${menuAbstract.abstarct}" ></div>
             </div>
             <div class="mainContent">
-                <div class="content" th:text="${menuAbstract.context}">aaaa</div>
+                <div class="content" th:utext="${menuAbstract.context}">aaaa</div>
             </div>
 
             <div class="qrCode">
