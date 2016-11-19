@@ -41,7 +41,7 @@ public class TArticle {
     private String type;
 
     @Column(name = "class_time")
-    private String classTime;
+    private Integer classTime;
 
     /**
      * 状态:0:未提交,1:提交
@@ -190,14 +190,14 @@ public class TArticle {
     /**
      * @return class_time
      */
-    public String getClassTime() {
+    public Integer getClassTime() {
         return classTime;
     }
 
     /**
      * @param classTime
      */
-    public void setClassTime(String classTime) {
+    public void setClassTime(Integer classTime) {
         this.classTime = classTime;
     }
 

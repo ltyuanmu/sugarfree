@@ -1,8 +1,6 @@
 package com.sugarfree.controller;
 
-import com.sugarfree.constant.*;
 import com.sugarfree.constant.Enum;
-import com.sugarfree.dao.mapper.TSubscriberMapper;
 import com.sugarfree.dao.model.TArticle;
 import com.sugarfree.dao.model.TSubscriber;
 import com.sugarfree.dao.model.TWxUser;
@@ -10,9 +8,11 @@ import com.sugarfree.service.ArticleService;
 import com.sugarfree.service.PointService;
 import com.sugarfree.service.SubscriberService;
 import com.sugarfree.service.WxUserSubscribeService;
+import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +31,7 @@ import java.util.List;
  * @author: LT
  * @date: 2016/11/16
  */
+@Slf4j
 @Controller
 public class ViewController {
 
@@ -59,66 +62,74 @@ public class ViewController {
 
     /**
      * 获取openId
-     * @param code
+     * @param request
      * @return
      */
-    private TWxUser getWxUser(String code){
-        WxMpOAuth2AccessToken accessToken = null;
-        try {
-            accessToken = wxService.oauth2getAccessToken(code);
-        } catch (WxErrorException e) {
-            e.printStackTrace();
+    private TWxUser getWxUser(HttpServletRequest request){
+        String code = request.getParameter("code");
+        HttpSession session = request.getSession();
+        String openId = (String) session.getAttribute(code);
+        if(StringUtils.isEmpty(openId)){
+            try {
+                WxMpOAuth2AccessToken accessToken = wxService.oauth2getAccessToken(code);
+                openId = accessToken.getOpenId();
+            } catch (WxErrorException e) {
+                log.error(e.getMessage(),e);
+            }
         }
-        return wxUserService.getWxUserByOpenId(accessToken.getOpenId());
+        return wxUserService.getWxUserByOpenId(openId);
     }
 
     /**
      * 订阅
-     * @param id
-     * @param code
+     * @param menuId
+     * @param request
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET,value = "/subscribe/{id}/{code}")
-    public ModelAndView subscribe(@PathVariable int id,@PathVariable String code){
+    @RequestMapping(method = RequestMethod.GET,value = "/subscribe/{menuId}")
+    public ModelAndView subscribe(@PathVariable int menuId, HttpServletRequest request){
         //获取用户信息
-        TWxUser wxUser = getWxUser(code);
+        TWxUser wxUser = getWxUser(request);
         //获取订阅需要的积分?菜单匹配积分
         int needPoint = pointService.getPointByEvent(Enum.PointEvent.SUBSCRIBE);
         if (needPoint > wxUser.getPoint())
         {
             //需要积分大于用户已有积分提示积分不够
-            return new ModelAndView("subscriberReturn","ret","");
+            return new ModelAndView("subscriberReturn","ret","0");
         }else{
             //添加积分变更历史记录，扣除积分
             pointService.updatePoint(wxUser.getOpenId(), Enum.PointEvent.SUBSCRIBE, "");
             //添加订阅记录
             TSubscriber subscriber = new TSubscriber();
             subscriber.setCreateTime(new Date());
-            subscriber.setFkMenuId(id);
+            subscriber.setFkMenuId(menuId);
             subscriber.setFkWxUserId(wxUser.getId());
             subscriber.setStatus("0");
             subscriberService.insert(subscriber);
         }
-        return new ModelAndView("subscriberReturn","ret","");
+        return new ModelAndView("subscriberReturn","ret","1");
     }
 
     /**
      * 获取订阅list
-     * @param id
-     * @param code
+     * @param menuId
+     * @param request
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET,value = "/articleList/{id}/{code}")
-    public ModelAndView getArticleList(@PathVariable int id,String code){
+    @RequestMapping(method = RequestMethod.GET,value = "/articleList/{menuId}")
+    public ModelAndView getArticleList(@PathVariable int menuId,HttpServletRequest request){
         //获取用户信息
-        TWxUser wxUser = getWxUser(code);
-        TSubscriber subscriber = subscriberService.getSubscriberByOpenId(wxUser.getId(), id);
+        TWxUser wxUser = getWxUser(request);
+        TSubscriber subscriber = subscriberService.getSubscriberByOpenId(wxUser.getId(), menuId);
         if (null == subscriber)
         {
-            TArticle menuAbstract = articleService.getArticleByEnumId(id);
-            return new ModelAndView("menuAbstract","menuAbstract",menuAbstract);
+            TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
+            ModelAndView modelAndView = new ModelAndView("menuAbstract");
+            modelAndView.addObject("menuAbstract",menuAbstract);
+            modelAndView.addObject("user",wxUser);
+            return modelAndView;
         }else{
-            List<TArticle> articleList = articleService.getArticleList(wxUser.getId(), id);
+            List<TArticle> articleList = articleService.getArticleList(wxUser.getId(), menuId);
             return new ModelAndView("articleList","list",articleList);
         }
     }

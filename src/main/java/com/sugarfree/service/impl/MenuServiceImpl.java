@@ -1,5 +1,6 @@
 package com.sugarfree.service.impl;
 
+import com.sugarfree.configuration.WechatMpProperties;
 import com.sugarfree.dao.mapper.TMenuMapper;
 import com.sugarfree.dao.model.TMenu;
 import com.sugarfree.service.MenuService;
@@ -10,8 +11,11 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpMenuService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.URLEditor;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -30,8 +34,11 @@ public class MenuServiceImpl implements MenuService {
     @Autowired
     private WxMpService wxService;
 
+    @Autowired
+    private WechatMpProperties wechatMpProperties;
+
     @Override
-    public void updateMenu() {
+    public void updateMenu() throws UnsupportedEncodingException {
         List<TMenu> tMenus = tMenuMapper.selectAll();
         WxMenu wxMeun = this.generateWxMenu(tMenus);
         System.out.println(wxMeun.toJson());
@@ -47,7 +54,7 @@ public class MenuServiceImpl implements MenuService {
      * @param tMenus
      * @return
      */
-    private WxMenu generateWxMenu(List<TMenu> tMenus){
+    private WxMenu generateWxMenu(List<TMenu> tMenus) throws UnsupportedEncodingException {
         List<TMenu> buttonList = new ArrayList<>();
         Map<String,List<TMenu>> map = new HashMap<>();
         for(TMenu menu:tMenus){
@@ -80,6 +87,8 @@ public class MenuServiceImpl implements MenuService {
                 return m1.getId()-m2.getId();
             });
             List<WxMenuButton> subButtons = new ArrayList();
+            String templateUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=_APPID_&redirect_uri=_MENUURL_&response_type=code&scope=snsapi_base#wechat_redirect";
+            templateUrl = templateUrl.replaceAll("_APPID_",wechatMpProperties.getAppId());
             for(TMenu subMenu :subMenus){
                 WxMenuButton subButton  = new WxMenuButton();
                 subButton.setName(subMenu.getName());
@@ -88,11 +97,13 @@ public class MenuServiceImpl implements MenuService {
                     case "1":
                     case "2":
                         subButton.setType("view");
-                        subButton.setUrl(subMenu.getUrl());
+                        String url = URLEncoder.encode(subMenu.getUrl(), "UTF-8");
+                        url = templateUrl.replaceAll("_MENUURL_", url);
+                        subButton.setUrl(url);
                         break;
                     case "3":
                         subButton.setType("click");
-                        subButton.setKey("POINT");
+                        subButton.setKey("MY_POINT");
                         break;
                     default:
                         break;

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * @ClassName: ${}
  * @Description:
@@ -24,7 +26,12 @@ public class EnumController {
 
     @PostMapping(value = "/menu")
     public ResponseEntity updateMenu(){
-        this.menuService.updateMenu();
+        try {
+            this.menuService.updateMenu();
+        } catch (UnsupportedEncodingException e) {
+            log.error(e.getMessage(),e);
+            return ResponseEntity.status(500).build();
+        }
         return ResponseEntity.ok().build();
     }
 }

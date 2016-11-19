@@ -1,5 +1,7 @@
 package com.sugarfree.service;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * @ClassName: ${}
  * @Description:
@@ -10,6 +12,6 @@ public interface MenuService {
     /**
      * 更新菜单样式
      */
-    void updateMenu();
+    void updateMenu() throws UnsupportedEncodingException;
 
 }

@@ -13,8 +13,9 @@
 <body>
 <div class="columnList">
     <div class="columns" style="overflow: hidden;">
-        <th:forEach items="${columnList}" var="column">
-            <div class="columnItem">
+        <div class="columnItem" th:each="article,articleStat ${list}" >
+
+        </div>
                 <img alt="" th:src="" style="width: 1.5rem;height: 1.5rem;">
                  {$column.columnname }&nbsp;&nbsp;
                 <th:forEach items="${myColumnList}" var="myColumn">
@@ -29,7 +30,6 @@
                     </th:choose>
                 </th:forEach>
             </div>
-        </th:forEach>
     </div>
 </div>
 
