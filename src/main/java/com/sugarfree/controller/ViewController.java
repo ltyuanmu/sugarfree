@@ -67,17 +67,20 @@ public class ViewController {
      * @return
      */
     private TWxUser getWxUser(HttpServletRequest request){
-        String code = request.getParameter("code");
         HttpSession session = request.getSession();
-        String openId = (String) session.getAttribute(code);
+        String openId = (String) session.getAttribute("openId");
         if(StringUtils.isEmpty(openId)){
             try {
+                String code = request.getParameter("code");
                 WxMpOAuth2AccessToken accessToken = wxService.oauth2getAccessToken(code);
                 openId = accessToken.getOpenId();
             } catch (WxErrorException e) {
                 log.error(e.getMessage(),e);
             }
-            session.setAttribute(code,openId);
+            if(StringUtils.isEmpty(openId)){
+                throw new RuntimeException("openId is null");
+            }
+            session.setAttribute("openId",openId);
         }
         return wxUserService.getWxUserByOpenId(openId);
     }
