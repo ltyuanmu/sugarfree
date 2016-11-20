@@ -161,9 +161,22 @@ public class ViewController {
     *可以进行分享
     * */
     @RequestMapping(method = RequestMethod.GET,value = "/article/{id}")
-    public ModelAndView getArticle(@PathVariable int id){
+    public ModelAndView getArticle(@PathVariable int id,HttpServletRequest request){
+        //获取用户信息
+        TWxUser wxUser = getWxUser(request);
+        ModelAndView modelAndView = new ModelAndView("article");
+        //获得二维码图片
+        String url = null;
+        try {
+            url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
+        wxUser.setQrUrl(url);
+        modelAndView.addObject("user",wxUser);
         TArticle article = articleService.getArticleById(id);
-        return new ModelAndView("article","article",article);
+        modelAndView.addObject("article", article);
+        return modelAndView;
     }
 
 

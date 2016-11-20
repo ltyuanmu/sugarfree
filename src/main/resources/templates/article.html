@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
     <meta name = "format-detection" content = "telephone=no" />
     <title th:text="${article.title}" ></title>
-    <script type="text/javascript" th:src="@{js/device-adapter.js}"></script>
-    <script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
-    <link  type="text/css" rel="stylesheet" th:href="@{css/CssReset.min.css}"/>
-    <link  type="text/css" rel="stylesheet" th:href="@{css/common.css}"/>
-    <link  type="text/css" rel="stylesheet" th:href="@{css/articleView.css}"/>
+    <script type="text/javascript" th:src="@{/js/device-adapter.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <link  type="text/css" rel="stylesheet" th:href="@{/css/CssReset.min.css}"/>
+    <link  type="text/css" rel="stylesheet" th:href="@{/css/common.css}"/>
+    <link  type="text/css" rel="stylesheet" th:href="@{/css/articleView.css}"/>
 </head>
 <body>
     <div class="container articlePreView">
@@ -23,6 +23,12 @@
                 <div class="content" th:utext="${article.context}"></div>
             </div>
 
+            <div class="qrCode">
+                <p th:text="|我是 ${user.nickname}，邀请你和我一起关注这个好吃的公众号(๑´ڡ`๑)。通过下方的二维码，你我可各获得一个积分 。|"></p>
+                <p class="tc">
+                    <img alt="" th:src="${user.qrUrl}"  />
+                </p>
+            </div>
         </div>
     </div>
 </body>
