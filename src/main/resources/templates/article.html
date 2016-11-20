@@ -9,7 +9,6 @@
     <script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
     <link  type="text/css" rel="stylesheet" th:href="@{css/CssReset.min.css}"/>
     <link  type="text/css" rel="stylesheet" th:href="@{css/common.css}"/>
-    <link  type="text/css" rel="stylesheet" th:href="@{css/quick.css}"/>
     <link  type="text/css" rel="stylesheet" th:href="@{css/articleView.css}"/>
 </head>
 <body>
@@ -24,14 +23,6 @@
                 <div class="content" th:utext="${article.context}"></div>
             </div>
 
-            <div class="qrCode">
-                <p>
-                    我是「${nickname}」，邀请你和我一起关注这个好吃的公众号(๑´ڡ`๑)。通过下方的二维码，你我可各获得一个积分 。
-                </p>
-                <p class="tc">
-                    <!--<img alt="" src="">-->
-                </p>
-            </div>
         </div>
     </div>
 </body>

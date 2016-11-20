@@ -16,3 +16,21 @@ h1,h2,h3,h4,h5,h6{
 .contentWrap{
 	margin-top: 0.32rem;
 }
+
+.op input[type=button]{
+	width: 1.5rem;
+	height:0.56rem;
+	background: #4984B8;
+	border-radius: 6px;
+}
+.tc{
+	text-align: center;
+}
+
+.tr{
+	text-align: right;
+}
+
+.curp{
+	cursor: pointer;
+}

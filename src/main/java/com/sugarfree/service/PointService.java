@@ -33,6 +33,11 @@ public interface PointService {
      */
     void updatePoint(String openId,Enum.PointEvent pointEvent,String recommendOrInviteOpenId);
 
-
+    /**
+     * 订阅扣除用户积分
+     * @param openId
+     * @param point 扣除的积分
+     */
+    void updatePoint(String openId,int point,String content);
 
 }

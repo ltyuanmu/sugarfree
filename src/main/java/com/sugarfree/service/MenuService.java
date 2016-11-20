@@ -1,5 +1,7 @@
 package com.sugarfree.service;
 
+import com.sugarfree.dao.model.TMenu;
+
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -13,5 +15,7 @@ public interface MenuService {
      * 更新菜单样式
      */
     void updateMenu() throws UnsupportedEncodingException;
+
+    TMenu getMenuById(int menuId);
 
 }

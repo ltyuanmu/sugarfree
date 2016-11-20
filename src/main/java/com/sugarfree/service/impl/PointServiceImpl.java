@@ -78,4 +78,22 @@ public class PointServiceImpl implements PointService{
         tPointHistoryMapper.insertSelective(tPointHistory);
     }
 
+    @Override
+    public void updatePoint(String openId, int point,String content) {
+        //获得事件的积分
+        int myPoint = this.getPointByOpenId(openId);
+        //更新积分
+        TWxUser tWxUser = new TWxUser();
+        tWxUser.setPoint(myPoint-point);
+        this.wxUserSubscribeService.updateWxUserByOpenId(openId, tWxUser);
+        //添加积分历史记录
+        TWxUser wxUser = this.wxUserSubscribeService.getWxUserByOpenId(openId);
+        TPointHistory tPointHistory = new TPointHistory();
+        tPointHistory.setFkWxUserId(wxUser.getId());
+        tPointHistory.setRemarkTime(new Date());
+        tPointHistory.setScore(String.valueOf(-point));
+        tPointHistory.setSource(content);
+        tPointHistoryMapper.insertSelective(tPointHistory);
+    }
+
 }

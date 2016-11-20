@@ -21,14 +21,14 @@ public class TArticle {
     private String title;
 
     /**
-     * 作者名
-     */
-    private String author;
-
-    /**
      * 摘要
      */
     private String abstarct;
+
+    /**
+     * 作者名
+     */
+    private String author;
 
     /**
      * 文章图标

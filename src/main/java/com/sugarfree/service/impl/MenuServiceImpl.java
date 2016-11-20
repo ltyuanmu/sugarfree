@@ -49,6 +49,13 @@ public class MenuServiceImpl implements MenuService {
         }
     }
 
+    @Override
+    public TMenu getMenuById(int menuId) {
+        TMenu menu = new TMenu();
+        menu.setId(menuId);
+        return tMenuMapper.selectOne(menu);
+    }
+
     /**
      * 生成微信菜单 (待完善)
      * @param tMenus

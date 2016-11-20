@@ -14,5 +14,6 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="delete_state" property="deleteState" jdbcType="VARCHAR" />
     <result column="op_user" property="opUser" jdbcType="VARCHAR" />
+    <result column="point" property="point" jdbcType="INTEGER" />
   </resultMap>
 </mapper>

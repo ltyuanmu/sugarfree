@@ -40,6 +40,11 @@ public class TMenu {
     private String opUser;
 
     /**
+     * 订阅消耗的积分
+     */
+    private Integer point;
+
+    /**
      * 获取主键id
      *
      * @return id - 主键id
@@ -175,5 +180,23 @@ public class TMenu {
      */
     public void setOpUser(String opUser) {
         this.opUser = opUser;
+    }
+
+    /**
+     * 获取订阅消耗的积分
+     *
+     * @return point - 订阅消耗的积分
+     */
+    public Integer getPoint() {
+        return point;
+    }
+
+    /**
+     * 设置订阅消耗的积分
+     *
+     * @param point 订阅消耗的积分
+     */
+    public void setPoint(Integer point) {
+        this.point = point;
     }
 }

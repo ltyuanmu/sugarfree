@@ -14,10 +14,9 @@ public class Enum {
 
     //积分设置 point_conf
     public enum PointEvent{
-        SUBSCRIBE("subscribe"),
-        SHARE("share"),
-        ARTICLE("article"),
-        RECOMMEND("recommend");
+        SUBSCRIBE("关注了该微信"),
+        SHARE("分享链接"),
+        RECOMMEND("推荐用户关注");
         private String context;
 
         private PointEvent(String context){

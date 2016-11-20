@@ -8,14 +8,13 @@
     <script type="text/javascript" th:src="@{/js/device-adapter.js}"></script>
     <link  type="text/css" rel="stylesheet" th:href="@{/css/CssReset.min.css}"/>
     <link  type="text/css" rel="stylesheet" th:href="@{/css/common.css}"/>
-    <link  type="text/css" rel="stylesheet" th:href="@{/css/quick.css}"/>
     <link  type="text/css" rel="stylesheet" th:href="@{/css/columnDetail.css}"/>
 </head>
 <body>
     <div class="container columnDetail">
         <div class="content" th:utext="${menuAbstract.context}"></div>
         <div class="subscribe tc">
-            <p>订阅烘焙入门专栏需消耗3个积分，你准备好了吗?</p>
+            <p th:text="|订阅烘焙入门专栏需消耗${menuPoint}个积分，你准备好了吗?|"></p>
             <p>点击【订阅】，明天开启烘焙之旅</p>
             <p class="op tc">
                 <input type="button" value="【订阅】" onclick="subscribe();" ></input>
@@ -34,7 +33,7 @@
         /*<![CDATA[*/
 
                     function subscribe(){
-                        if(confirm("订阅需要花费"+ 3 +"积分，确定要订阅吗？")){
+                        if(confirm("|订阅需要花费${menuPoint}积分，确定要订阅吗？|")){
                             alert('111')
                                    var menuId =[[${menuAbstract.fkMenuId}]];
                             location.href='/subscribe/'+menuId;

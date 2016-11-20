@@ -2,12 +2,10 @@ package com.sugarfree.controller;
 
 import com.sugarfree.constant.Enum;
 import com.sugarfree.dao.model.TArticle;
+import com.sugarfree.dao.model.TMenu;
 import com.sugarfree.dao.model.TSubscriber;
 import com.sugarfree.dao.model.TWxUser;
-import com.sugarfree.service.ArticleService;
-import com.sugarfree.service.PointService;
-import com.sugarfree.service.SubscriberService;
-import com.sugarfree.service.WxUserSubscribeService;
+import com.sugarfree.service.*;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -44,6 +42,9 @@ public class ViewController {
 
     @Autowired
     private PointService pointService;
+
+    @Autowired
+    private MenuService menuService;
 
     @Autowired
     private WxMpService wxService;
@@ -95,15 +96,15 @@ public class ViewController {
     public ModelAndView subscribe(@PathVariable int menuId, HttpServletRequest request){
         //获取用户信息
         TWxUser wxUser = getWxUser(request);
-        //获取订阅需要的积分?菜单匹配积分
-        int needPoint = pointService.getPointByEvent(Enum.PointEvent.SUBSCRIBE);
-        if (needPoint > wxUser.getPoint())
+        //获取订阅扣除积分
+        TMenu menu = menuService.getMenuById(menuId);
+        if (menu.getPoint() > wxUser.getPoint())
         {
             //需要积分大于用户已有积分提示积分不够
             return new ModelAndView("subscriberReturn","ret","0");
         }else{
             //添加积分变更历史记录，扣除积分
-            pointService.updatePoint(wxUser.getOpenId(), Enum.PointEvent.SUBSCRIBE, "");
+            pointService.updatePoint(wxUser.getOpenId(),menu.getPoint(), "订阅"+menu.getName()+"扣除积分");
             //添加订阅记录
             TSubscriber subscriber = new TSubscriber();
             subscriber.setCreateTime(new Date());
@@ -138,11 +139,18 @@ public class ViewController {
             String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
             wxUser.setQrUrl(url);
             modelAndView.addObject("user",wxUser);
+            //获取订阅扣除积分
+            TMenu menu = menuService.getMenuById(menuId);
+            modelAndView.addObject("menuPoint",menu.getPoint());
             return modelAndView;
         }else{
-            List<TArticle> articleList = articleService.getArticleList(wxUser.getId(), menuId);
-
-            return new ModelAndView("articleList","list",articleList);
+            List<TArticle> articleList = articleService.getArticleList(8/*wxUser.getId()*/, menuId);
+            ModelAndView modelAndView = new ModelAndView("articleList");
+            modelAndView.addObject("list",articleList);
+            //获取订阅扣除积分
+            TMenu menu = menuService.getMenuById(menuId);
+            modelAndView.addObject("menu", menu.getName());
+            return modelAndView;
         }
     }
 
