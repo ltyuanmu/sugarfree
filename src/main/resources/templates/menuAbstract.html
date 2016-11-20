@@ -33,7 +33,7 @@
         /*<![CDATA[*/
 
                     function subscribe(){
-                        if(confirm("|订阅需要花费${menuPoint}积分，确定要订阅吗？|")){
+                        if(confirm("|订阅需要花费[[${menuPoint}]]积分，确定要订阅吗？|")){
                             alert('111')
                                    var menuId =[[${menuAbstract.fkMenuId}]];
                             location.href='/subscribe/'+menuId;

@@ -14,13 +14,18 @@ public class Enum {
 
     //积分设置 point_conf
     public enum PointEvent{
-        SUBSCRIBE("关注了该微信"),
-        SHARE("分享链接"),
-        RECOMMEND("推荐用户关注");
+        SUBSCRIBE("subscribe","关注了该微信"),
+        SHARE("share","分享链接"),
+        RECOMMEND("recommend","推荐用户关注");
+        private String key;
         private String context;
 
-        private PointEvent(String context){
+        PointEvent(String key,String context){
             this.context = context;
+        }
+
+        public String getKey(){
+            return this.key;
         }
 
         public String getContext(){

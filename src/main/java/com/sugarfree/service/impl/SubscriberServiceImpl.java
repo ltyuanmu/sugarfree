@@ -23,9 +23,9 @@ public class SubscriberServiceImpl implements SubscriberService{
     }
 
     @Override
-    public TSubscriber getSubscriberByOpenId(int openId, int menuId) {
+    public TSubscriber getSubscriberByUserId(int userId, int menuId) {
         TSubscriber tSubscriber = new TSubscriber();
-        tSubscriber.setFkWxUserId(openId);
+        tSubscriber.setFkWxUserId(userId);
         tSubscriber.setFkMenuId(menuId);
         return subscriberMapper.selectOne(tSubscriber);
     }

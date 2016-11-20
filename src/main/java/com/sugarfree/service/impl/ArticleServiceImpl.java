@@ -36,16 +36,15 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
-    public List<TArticle> getArticleList(int openId, int menuId) {
-        TSubscriber tSubscriber = subscriberService.getSubscriberByOpenId(openId, menuId);
-        TArticle tArticle = new TArticle();
-        tArticle.setFkMenuId(menuId);
-        tArticle.setDeleteState("0");
-        tArticle.setType("0");
+    public List<TArticle> getArticleList(int userId, int menuId) {
+        TSubscriber tSubscriber = subscriberService.getSubscriberByUserId(userId, menuId);
         Example example = new Example(TArticle.class);
-        example.createCriteria().andLessThanOrEqualTo("classTime",tSubscriber.getLastClassTime());
-        this.tArticleMapper.selectByExample(example);
-        return this.tArticleMapper.select(tArticle);
+        example.createCriteria()
+                .andEqualTo("deleteState","0")
+                .andEqualTo("status","1")
+                .andEqualTo("fkMenuId",menuId)
+                .andLessThanOrEqualTo("classTime",tSubscriber.getLastClassTime());
+        return this.tArticleMapper.selectByExample(example);
     }
 
     @Override

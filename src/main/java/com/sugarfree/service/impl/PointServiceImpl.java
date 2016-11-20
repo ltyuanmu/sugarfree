@@ -44,7 +44,7 @@ public class PointServiceImpl implements PointService{
     @Override
     public int getPointByEvent(Enum.PointEvent pointEvent) {
         TPara tPara = new TPara();
-        tPara.setParaName(pointEvent.getContext());
+        tPara.setParaName(pointEvent.getKey());
         TPara tPara1 = tParaMapper.selectOne(tPara);
         Optional<TPara> optional = Optional.ofNullable(tPara1);
         return optional.map(t -> { return Integer.parseInt(t.getParaValue()); }).orElse(0);

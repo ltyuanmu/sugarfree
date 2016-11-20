@@ -1,6 +1,8 @@
 package com.sugarfree.service.impl;
 
+import com.sugarfree.dao.mapper.TSubscriberMapper;
 import com.sugarfree.dao.mapper.TWxUserMapper;
+import com.sugarfree.dao.model.TSubscriber;
 import com.sugarfree.dao.model.TWxUser;
 import com.sugarfree.service.WxUserSubscribeService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +39,8 @@ public class WxUserSubscribeServiceImpl implements WxUserSubscribeService{
     private TWxUserMapper tWxUserMapper;
     @Autowired
     private WxMpService wxService;
+    @Autowired
+    private TSubscriberMapper tSubscriberMapper;
 
     @Override
     public void saveWxUser(WxMpUser userWxInfo,WxMpQrCodeTicket qrCodeTicket) {
@@ -69,9 +73,14 @@ public class WxUserSubscribeServiceImpl implements WxUserSubscribeService{
 
     @Override
     public void unSubscribeWxUser(String openId) {
+        //删除订阅用户
         TWxUser user = new TWxUser();
         user.setOpenId(openId);
         this.tWxUserMapper.delete(user);
+        //删除订阅内容
+        TSubscriber tSubscriber = new TSubscriber();
+        tSubscriber.setFkWxUserId(user.getId());
+        this.tSubscriberMapper.delete(tSubscriber);
     }
 
     @Override

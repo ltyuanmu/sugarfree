@@ -17,8 +17,8 @@ public interface SubscriberService {
 
     /**
      * 根据用户id获取订阅信息
-     * @param openId
+     * @param userId
      * @return
      */
-    TSubscriber getSubscriberByOpenId(int openId, int menuId);
+    TSubscriber getSubscriberByUserId(int userId, int menuId);
 }

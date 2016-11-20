@@ -111,6 +111,7 @@ public class ViewController {
             subscriber.setFkMenuId(menuId);
             subscriber.setFkWxUserId(wxUser.getId());
             subscriber.setStatus("0");
+            subscriber.setLastClassTime(0);
             subscriberService.insert(subscriber);
         }
         ModelAndView modelAndView =new ModelAndView("subscriberReturn");
@@ -144,7 +145,7 @@ public class ViewController {
             modelAndView.addObject("menuPoint",menu.getPoint());
             return modelAndView;
         }else{
-            List<TArticle> articleList = articleService.getArticleList(8/*wxUser.getId()*/, menuId);
+            List<TArticle> articleList = articleService.getArticleList(wxUser.getId(), menuId);
             ModelAndView modelAndView = new ModelAndView("articleList");
             modelAndView.addObject("list",articleList);
             //获取订阅扣除积分
