@@ -42,7 +42,7 @@ public class ArticleServiceImpl implements ArticleService{
         example.createCriteria()
                 .andEqualTo("deleteState","0")
                 .andEqualTo("status","1")
-                .andEqualTo("type","0")
+                .andEqualTo("type","1")
                 .andEqualTo("fkMenuId",menuId)
                 .andLessThanOrEqualTo("classTime",tSubscriber.getLastClassTime());
         return this.tArticleMapper.selectByExample(example);

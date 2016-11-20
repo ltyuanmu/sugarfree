@@ -73,12 +73,12 @@ public class WxUserSubscribeServiceImpl implements WxUserSubscribeService{
 
     @Override
     public void unSubscribeWxUser(String openId) {
+        TWxUser wxUser = this.getWxUserByOpenId(openId);
         //删除订阅用户
         TWxUser user = new TWxUser();
         user.setOpenId(openId);
         this.tWxUserMapper.delete(user);
         //删除订阅内容
-        TWxUser wxUser = this.getWxUserByOpenId(openId);
         TSubscriber tSubscriber = new TSubscriber();
         tSubscriber.setFkWxUserId(wxUser.getId());
         this.tSubscriberMapper.delete(tSubscriber);
