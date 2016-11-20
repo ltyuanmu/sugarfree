@@ -78,8 +78,9 @@ public class WxUserSubscribeServiceImpl implements WxUserSubscribeService{
         user.setOpenId(openId);
         this.tWxUserMapper.delete(user);
         //删除订阅内容
+        TWxUser wxUser = this.getWxUserByOpenId(openId);
         TSubscriber tSubscriber = new TSubscriber();
-        tSubscriber.setFkWxUserId(user.getId());
+        tSubscriber.setFkWxUserId(wxUser.getId());
         this.tSubscriberMapper.delete(tSubscriber);
     }
 

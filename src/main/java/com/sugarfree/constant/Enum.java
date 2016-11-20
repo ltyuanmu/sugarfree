@@ -21,6 +21,7 @@ public class Enum {
         private String context;
 
         PointEvent(String key,String context){
+            this.key = key;
             this.context = context;
         }
 
