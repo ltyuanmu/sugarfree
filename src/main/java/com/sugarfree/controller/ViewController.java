@@ -130,7 +130,7 @@ public class ViewController {
     public ModelAndView getArticleList(@PathVariable int menuId,HttpServletRequest request) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser = getWxUser(request);
-        TSubscriber subscriber = subscriberService.getSubscriberByOpenId(wxUser.getId(), menuId);
+        TSubscriber subscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), menuId);
         if (null == subscriber)
         {
             TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
