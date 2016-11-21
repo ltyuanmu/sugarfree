@@ -11,12 +11,14 @@
 </head>
 <body>
 <div>
-    <div th:if="${ret} == 0">
+    <div class="qrCode" th:if="${ret} == 0">
        <p> 订阅失败，积分不够！</p>
     </div>
-    <div th:if="${ret} == 1">
-        <p>订阅成功</p>
-        <input class="op" type="button" th:onclick="|backList(${menuId});|"  value="返回文章列表"/>
+    <div class="qrCode" th:if="${ret} == 1">
+        <p >订阅成功!</p>
+    </div>
+    <div class="qrCode" th:if="${ret} == 2">
+        <p >您已订阅成功!</p>
     </div>
 </div>
 <script type="text/javascript">

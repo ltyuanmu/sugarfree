@@ -13,7 +13,7 @@
 <body>
     <div class="container columnDetail">
         <div class="content" th:utext="${menuAbstract.context}"></div>
-        <div class="subscribe tc">
+        <div class="subscribe tc"  th:if="${subscriber} == 1">
             <p th:text="|订阅烘焙入门专栏需消耗${menuPoint}个积分，你准备好了吗?|"></p>
             <p>点击【订阅】，明天开启烘焙之旅</p>
             <p class="op tc">

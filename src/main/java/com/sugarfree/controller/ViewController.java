@@ -98,6 +98,10 @@ public class ViewController {
         TWxUser wxUser = getWxUser(request);
         //获取订阅扣除积分
         TMenu menu = menuService.getMenuById(menuId);
+        TSubscriber tSubscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), menuId);
+        if(null != tSubscriber){
+            return new ModelAndView("subscriberReturn","ret","2");
+        }
         if (menu.getPoint() > wxUser.getPoint())
         {
             //需要积分大于用户已有积分提示积分不够
@@ -130,29 +134,21 @@ public class ViewController {
     public ModelAndView getArticleList(@PathVariable int menuId,HttpServletRequest request) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser = getWxUser(request);
+        ModelAndView modelAndView = new ModelAndView("menuAbstract");
         TSubscriber subscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), menuId);
-        if (null == subscriber)
-        {
-            TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
-            ModelAndView modelAndView = new ModelAndView("menuAbstract");
-            modelAndView.addObject("menuAbstract",menuAbstract);
-            //获得二维码图片
-            String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
-            wxUser.setQrUrl(url);
-            modelAndView.addObject("user",wxUser);
-            //获取订阅扣除积分
-            TMenu menu = menuService.getMenuById(menuId);
-            modelAndView.addObject("menuPoint",menu.getPoint());
-            return modelAndView;
-        }else{
-            List<TArticle> articleList = articleService.getArticleList(wxUser.getId(), menuId);
-            ModelAndView modelAndView = new ModelAndView("articleList");
-            modelAndView.addObject("list",articleList);
-            //获取订阅扣除积分
-            TMenu menu = menuService.getMenuById(menuId);
-            modelAndView.addObject("menu", menu.getName());
-            return modelAndView;
+        if(null == subscriber){
+            modelAndView.addObject("subscriber",1);
         }
+        TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
+        modelAndView.addObject("menuAbstract",menuAbstract);
+        //获得二维码图片
+        String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
+        wxUser.setQrUrl(url);
+        modelAndView.addObject("user",wxUser);
+        //获取订阅扣除积分
+        TMenu menu = menuService.getMenuById(menuId);
+        modelAndView.addObject("menuPoint",menu.getPoint());
+        return modelAndView;
     }
 
 
