@@ -13,6 +13,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.URLEditor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -26,6 +27,7 @@ import java.util.*;
  */
 @Service
 @Slf4j
+@Transactional
 public class MenuServiceImpl implements MenuService {
 
     @Autowired

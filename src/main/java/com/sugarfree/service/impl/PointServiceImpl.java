@@ -12,6 +12,7 @@ import com.sugarfree.service.WxUserSubscribeService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.Optional;
@@ -23,6 +24,7 @@ import java.util.Optional;
  * @date: 2016/11/17
  */
 @Service
+@Transactional
 public class PointServiceImpl implements PointService{
 
     @Autowired
@@ -79,7 +81,7 @@ public class PointServiceImpl implements PointService{
     }
 
     @Override
-    public void updatePoint(String openId, int point,String content) {
+    public void deletePoint(String openId, int point,String content) {
         //获得事件的积分
         int myPoint = this.getPointByOpenId(openId);
         //更新积分
@@ -94,6 +96,14 @@ public class PointServiceImpl implements PointService{
         tPointHistory.setScore(String.valueOf(-point));
         tPointHistory.setSource(content);
         tPointHistoryMapper.insertSelective(tPointHistory);
+    }
+
+    @Override
+    public String addPointForVoucher(String openId, String voucherCode) {
+        //查看是否有积分券
+        //查看积分劵是否已经被使用
+        //添加用户积分
+        return null;
     }
 
 }

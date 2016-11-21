@@ -108,7 +108,7 @@ public class ViewController {
             return new ModelAndView("subscriberReturn","ret","0");
         }else{
             //添加积分变更历史记录，扣除积分
-            pointService.updatePoint(wxUser.getOpenId(),menu.getPoint(), "订阅"+menu.getName()+"扣除积分");
+            pointService.deletePoint(wxUser.getOpenId(),menu.getPoint(), "订阅"+menu.getName()+"扣除积分");
             //添加订阅记录
             TSubscriber subscriber = new TSubscriber();
             subscriber.setCreateTime(new Date());

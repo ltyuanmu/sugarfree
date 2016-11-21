@@ -38,6 +38,14 @@ public interface PointService {
      * @param openId
      * @param point 扣除的积分
      */
-    void updatePoint(String openId,int point,String content);
+    void deletePoint(String openId,int point,String content);
+
+    /**
+     * 通过积分劵 添加积分
+     * @param openId 用户openId
+     * @param voucherCode 积分码
+     * @return 得到的信息
+     */
+    String addPointForVoucher(String openId,String voucherCode);
 
 }
