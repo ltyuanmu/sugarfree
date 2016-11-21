@@ -1,12 +1,8 @@
 package com.sugarfree.service.impl;
 
 import com.sugarfree.constant.Enum;
-import com.sugarfree.dao.mapper.TParaMapper;
-import com.sugarfree.dao.mapper.TPointHistoryMapper;
-import com.sugarfree.dao.mapper.TWxUserMapper;
-import com.sugarfree.dao.model.TPara;
-import com.sugarfree.dao.model.TPointHistory;
-import com.sugarfree.dao.model.TWxUser;
+import com.sugarfree.dao.mapper.*;
+import com.sugarfree.dao.model.*;
 import com.sugarfree.service.PointService;
 import com.sugarfree.service.WxUserSubscribeService;
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -30,12 +27,14 @@ public class PointServiceImpl implements PointService{
     @Autowired
     private TParaMapper tParaMapper;
     @Autowired
-    private TWxUserMapper tWxUserMapper;
-    @Autowired
     private TPointHistoryMapper tPointHistoryMapper;
+    @Autowired
+    private TCsolMapper tCsolMapper;
 
     @Autowired
     private WxUserSubscribeService wxUserSubscribeService;
+    @Autowired
+    private TGatewayMapper tGatewayMapper;
 
     @Override
     public int getPointByOpenId(String openId) {
@@ -101,9 +100,40 @@ public class PointServiceImpl implements PointService{
     @Override
     public String addPointForVoucher(String openId, String voucherCode) {
         //查看是否有积分券
+        TCsol tCsol = new TCsol();
+        tCsol.setCode(voucherCode);
+        TCsol csol = tCsolMapper.selectOne(tCsol);
+        if(csol ==null){
+            return "积分码不正确，无法兑换积分!";
+        }
         //查看积分劵是否已经被使用
-        //添加用户积分
-        return null;
+        if("1".equals(csol.getStatus())){
+            return "积分兑换失败，该积分码已经使用过!";
+        }
+        //获得用户信息
+        TWxUser wxUser = this.wxUserSubscribeService.getWxUserByOpenId(openId);
+        //更新积分
+        TWxUser modifyWxUser = new TWxUser();
+        Integer sumPoint=wxUser.getPoint()+csol.getScore();
+        modifyWxUser.setPoint(sumPoint);
+        this.wxUserSubscribeService.updateWxUserByOpenId(openId, modifyWxUser);
+        //修改积分兑换表
+        TCsol modifyCsol = new TCsol();
+        modifyCsol.setId(csol.getId());
+        modifyCsol.setStatus("0");
+        modifyCsol.setUpdateTime(new Date());
+        modifyCsol.setOpUser(wxUser.getNickname());
+        this.tCsolMapper.updateByPrimaryKeySelective(modifyCsol);
+        //添加积分历史记录
+        TPointHistory tPointHistory = new TPointHistory();
+        tPointHistory.setFkWxUserId(wxUser.getId());
+        tPointHistory.setRemarkTime(new Date());
+        tPointHistory.setScore(String.valueOf(csol.getScore()));
+        //获得渠道
+        TGateway tGateway = this.tGatewayMapper.selectByPrimaryKey(csol.getFkGatewayId());
+        tPointHistory.setSource("兑换的是".concat(tGateway.getName()).concat("的兑换劵"));
+        tPointHistoryMapper.insertSelective(tPointHistory);
+        return "积分兑换成功，当前积分为：" + sumPoint + "分!";
     }
 
 }

@@ -54,13 +54,17 @@ public class MsgHandler extends AbstractHandler {
             int point = pointService.getPointByOpenId(wxMessage.getFromUser());
             String message = "您的积分为:"+point+"!";
             return new TextBuilder().build(message,wxMessage,weixinService);
+        }else if(wxMessage.getContent().startsWith("DHJF_")){
+            String content = wxMessage.getContent();
+            String code = content.replaceFirst("DHJF_","");
+            String message = pointService.addPointForVoucher(wxMessage.getFromUser(), code);
+            return new TextBuilder().build(message,wxMessage,weixinService);
+        }else{
+            return null;
         }
-
         //TODO 组装回复消息
-        String content = "收到信息内容：" + JsonUtils.toJson(wxMessage);
-
-        return new TextBuilder().build(content, wxMessage, weixinService);
-
+        //String content = "收到信息内容：" + JsonUtils.toJson(wxMessage);
+        //return new TextBuilder().build(content, wxMessage, weixinService);
     }
 
 }
