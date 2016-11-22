@@ -1,28 +1,25 @@
 package com.sugarfree.controller;
 
-import com.sugarfree.constant.Enum;
 import com.sugarfree.dao.model.TArticle;
 import com.sugarfree.dao.model.TMenu;
 import com.sugarfree.dao.model.TSubscriber;
 import com.sugarfree.dao.model.TWxUser;
 import com.sugarfree.service.*;
+import com.sugarfree.utils.HttpRequestUtil;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @ClassName: 跳转的页面controller
@@ -64,10 +61,10 @@ public class ViewController {
 
     /**
      * 获取openId
-     * @param request
      * @return
      */
-    private TWxUser getWxUser(HttpServletRequest request){
+    private TWxUser getWxUser(){
+        HttpServletRequest request = HttpRequestUtil.getRequest();
         HttpSession session = request.getSession();
         String openId = (String) session.getAttribute("openId");
         if(StringUtils.isEmpty(openId)){
@@ -89,13 +86,12 @@ public class ViewController {
     /**
      * 订阅
      * @param menuId
-     * @param request
      * @return
      */
     @RequestMapping(method = RequestMethod.GET,value = "/subscribe/{menuId}")
-    public ModelAndView subscribe(@PathVariable int menuId, HttpServletRequest request){
+    public ModelAndView subscribe(@PathVariable int menuId){
         //获取用户信息
-        TWxUser wxUser = getWxUser(request);
+        TWxUser wxUser = getWxUser();
         //获取订阅扣除积分
         TMenu menu = menuService.getMenuById(menuId);
         TSubscriber tSubscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), menuId);
@@ -127,13 +123,12 @@ public class ViewController {
     /**
      * 获取订阅list
      * @param menuId
-     * @param request
      * @return
      */
     @RequestMapping(method = RequestMethod.GET,value = "/articleList/{menuId}")
-    public ModelAndView getArticleList(@PathVariable int menuId,HttpServletRequest request) throws WxErrorException {
+    public ModelAndView getArticleList(@PathVariable int menuId) throws WxErrorException {
         //获取用户信息
-        TWxUser wxUser = getWxUser(request);
+        TWxUser wxUser = getWxUser();
         ModelAndView modelAndView = new ModelAndView("menuAbstract");
         TSubscriber subscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), menuId);
         if(null == subscriber){
@@ -158,9 +153,9 @@ public class ViewController {
     *可以进行分享
     * */
     @RequestMapping(method = RequestMethod.GET,value = "/article/{id}")
-    public ModelAndView getArticle(@PathVariable int id,HttpServletRequest request){
+    public ModelAndView getArticle(@PathVariable int id){
         //获取用户信息
-        TWxUser wxUser = getWxUser(request);
+        TWxUser wxUser = getWxUser();
         ModelAndView modelAndView = new ModelAndView("article");
         //获得二维码图片
         String url = null;
