@@ -140,6 +140,7 @@ public class ViewController {
             modelAndView.addObject("subscriber",1);
         }
         TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
+        if(menuAbstract==null) return null;
         modelAndView.addObject("menuAbstract",menuAbstract);
         //获得二维码图片
         String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
@@ -149,9 +150,11 @@ public class ViewController {
         TMenu menu = menuService.getMenuById(menuId);
         modelAndView.addObject("menuPoint",menu.getPoint());
         //添加分享的连接和分享的所需要的参数
-        String shareUrl = this.shareProperties.getShareMenuAbstractUrl(menuAbstract.getId(), code);
-        log.info(shareUrl.concat("&state=").concat(state));
-        WxJsapiSignature signature = this.wxService.createJsapiSignature(shareUrl.concat("&state=").concat(state));
+        String shareUrl = this.shareProperties.getShareMenuAbstractUrl(menuId, code,null);
+        //签名需要的Url
+        String signatureUrl = this.shareProperties.getShareMenuAbstractUrl(menuId, code,state);
+        log.info("signatureUrl :{}",signatureUrl);
+        WxJsapiSignature signature = this.wxService.createJsapiSignature(signatureUrl);
         modelAndView.addObject("signature",signature);
         modelAndView.addObject("shareUrl",shareUrl);
         return modelAndView;

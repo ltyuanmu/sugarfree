@@ -49,9 +49,9 @@ public class ShareProperties {
      * @param openId 用户openId
      * @return url
      */
-    public String getShareArticleUrl(int articleId,String code){
+    public String getShareArticleUrl(int articleId,String code,String state){
         String url = this.serverUrl.concat(shareArticleUrl);
-        return url.replace("{id}",String.valueOf(articleId)).replace("{code}",code);
+        return url.replace("{id}",String.valueOf(articleId)).replace("{code}",code).replace("{state}",state);
     }
 
     /**
@@ -59,8 +59,8 @@ public class ShareProperties {
      * @param articleId 文章id
      * @return url
      */
-    public String getShareMenuAbstractUrl(int articleId,String code){
+    public String getShareMenuAbstractUrl(int articleId,String code,String state){
         String url = this.serverUrl.concat(shareMenuAbstractUrl);
-        return url.replace("{id}",String.valueOf(articleId)).replace("{code}",code);
+        return url.replace("{id}",String.valueOf(articleId)).replace("{code}",code).replace("{state}",state);
     }
 }
