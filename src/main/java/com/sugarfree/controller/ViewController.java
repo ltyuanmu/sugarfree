@@ -1,5 +1,6 @@
 package com.sugarfree.controller;
 
+import com.sugarfree.configuration.ShareProperties;
 import com.sugarfree.dao.model.TArticle;
 import com.sugarfree.dao.model.TMenu;
 import com.sugarfree.dao.model.TSubscriber;
@@ -7,6 +8,7 @@ import com.sugarfree.dao.model.TWxUser;
 import com.sugarfree.service.*;
 import com.sugarfree.utils.HttpRequestUtil;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
@@ -48,6 +50,9 @@ public class ViewController {
 
     @Autowired
     private SubscriberService subscriberService;
+
+    @Autowired
+    private ShareProperties shareProperties;
 
 
     /*菜单文章的详细介绍
@@ -126,12 +131,12 @@ public class ViewController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET,value = "/articleList/{menuId}")
-    public ModelAndView getArticleList(@PathVariable int menuId) throws WxErrorException {
+    public ModelAndView getArticleList(@PathVariable int menuId,String state) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser = getWxUser();
         ModelAndView modelAndView = new ModelAndView("menuAbstract");
         TSubscriber subscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), menuId);
-        if(null == subscriber){
+        if(null == subscriber&&"1".equals(state)){
             modelAndView.addObject("subscriber",1);
         }
         TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
@@ -143,6 +148,11 @@ public class ViewController {
         //获取订阅扣除积分
         TMenu menu = menuService.getMenuById(menuId);
         modelAndView.addObject("menuPoint",menu.getPoint());
+        //添加分享的连接和分享的所需要的参数
+        String shareUrl = this.shareProperties.getShareMenuAbstractUrl(menuAbstract.getId(), wxUser.getOpenId());
+        WxJsapiSignature signature = this.wxService.createJsapiSignature(shareUrl);
+        modelAndView.addObject("signature",signature);
+        modelAndView.addObject("shareUrl",shareUrl);
         return modelAndView;
     }
 

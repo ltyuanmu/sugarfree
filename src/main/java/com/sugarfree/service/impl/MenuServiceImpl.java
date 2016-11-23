@@ -96,7 +96,7 @@ public class MenuServiceImpl implements MenuService {
                 return m1.getId()-m2.getId();
             });
             List<WxMenuButton> subButtons = new ArrayList();
-            String templateUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=_APPID_&redirect_uri=_MENUURL_&response_type=code&scope=snsapi_base#wechat_redirect";
+            String templateUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=_APPID_&redirect_uri=_MENUURL_&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
             templateUrl = templateUrl.replaceAll("_APPID_",wechatMpProperties.getAppId());
             for(TMenu subMenu :subMenus){
                 WxMenuButton subButton  = new WxMenuButton();
