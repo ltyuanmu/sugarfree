@@ -140,7 +140,7 @@ public class ViewController {
             modelAndView.addObject("subscriber",1);
         }
         TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
-        if(menuAbstract==null) return null;
+        //if(menuAbstract==null) return null;
         modelAndView.addObject("menuAbstract",menuAbstract);
         //获得二维码图片
         String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
