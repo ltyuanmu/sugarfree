@@ -150,6 +150,7 @@ public class ViewController {
         modelAndView.addObject("menuPoint",menu.getPoint());
         //添加分享的连接和分享的所需要的参数
         String shareUrl = this.shareProperties.getShareMenuAbstractUrl(menuAbstract.getId(), code);
+        log.info(shareUrl.concat("&state=").concat(state));
         WxJsapiSignature signature = this.wxService.createJsapiSignature(shareUrl.concat("&state=").concat(state));
         modelAndView.addObject("signature",signature);
         modelAndView.addObject("shareUrl",shareUrl);
