@@ -1,6 +1,7 @@
 package com.sugarfree.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * @ClassName: ${}
@@ -8,6 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author: LT
  * @date: 2016/11/22
  */
+@Component
 @ConfigurationProperties(prefix = "share")
 public class ShareProperties {
     /**服务器server*/
