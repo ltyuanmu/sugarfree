@@ -49,19 +49,18 @@ public class ShareProperties {
      * @param openId 用户openId
      * @return url
      */
-    public String getShareArticleUrl(int articleId,String openId){
+    public String getShareArticleUrl(int articleId,String code){
         String url = this.serverUrl.concat(shareArticleUrl);
-        return url.replace("{id}",String.valueOf(articleId)).replace("{openId}",openId);
+        return url.replace("{id}",String.valueOf(articleId)).replace("{code}",code);
     }
 
     /**
      * 获得分享文章详细
      * @param articleId 文章id
-     * @param openId 用户openId
      * @return url
      */
-    public String getShareMenuAbstractUrl(int articleId,String openId){
+    public String getShareMenuAbstractUrl(int articleId,String code){
         String url = this.serverUrl.concat(shareMenuAbstractUrl);
-        return url.replace("{id}",String.valueOf(articleId)).replace("{openId}",openId);
+        return url.replace("{id}",String.valueOf(articleId)).replace("{code}",code);
     }
 }
