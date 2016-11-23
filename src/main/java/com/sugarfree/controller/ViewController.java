@@ -160,7 +160,7 @@ public class ViewController {
         //签名需要的Url
         String signatureUrl = this.shareProperties.getShareMenuAbstractUrl(menuId, code,state);
         log.info("6");
-        log.info("signatureUrl :{}",signatureUrl);
+        log.info(signatureUrl);
         WxJsapiSignature signature = this.wxService.createJsapiSignature(signatureUrl);
         modelAndView.addObject("signature",signature);
         modelAndView.addObject("shareUrl",shareUrl);
