@@ -34,9 +34,16 @@ public class WebLogAspect {
         HttpServletRequest request = attributes.getRequest();
 
         // 记录下请求内容
-        log.info("request url is :{}",request.getRequestURI());
-        log.info("request param is :{}", new Gson().toJson(request.getParameterMap()));
+        //log.info("request url is :{}",request.getRequestURI());
+       // log.info("request param is :{}", new Gson().toJson(request.getParameterMap()));
 
+        String   url  = request.getScheme()+"://"; //请求协议 http 或 https
+        url+=request.getHeader("host");  // 请求服务器
+        url+=request.getRequestURI();     // 工程名
+        if(request.getQueryString()!=null) //判断请求参数是否为空
+            url+="?"+request.getQueryString();   // 参数
+
+        log.info("request url is :{}",url);
     }
 
     @AfterReturning(returning = "ret", pointcut = "webLog()")
