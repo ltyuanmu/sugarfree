@@ -133,24 +133,30 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.GET,value = "/articleList/{menuId}")
     public ModelAndView getArticleList(@PathVariable int menuId,String code,String state) throws WxErrorException {
         //获取用户信息
+        log.info("1");
         TWxUser wxUser = getWxUser();
         ModelAndView modelAndView = new ModelAndView("menuAbstract");
         TSubscriber subscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), menuId);
         if(null == subscriber&&"1".equals(state)){
             modelAndView.addObject("subscriber",1);
         }
+        log.info("2");
         TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
         //if(menuAbstract==null) return null;
+        log.info("3");
         modelAndView.addObject("menuAbstract",menuAbstract);
         //获得二维码图片
         String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
         wxUser.setQrUrl(url);
         modelAndView.addObject("user",wxUser);
+        log.info("4");
         //获取订阅扣除积分
         TMenu menu = menuService.getMenuById(menuId);
         modelAndView.addObject("menuPoint",menu.getPoint());
+        log.info("5");
         //添加分享的连接和分享的所需要的参数
         String shareUrl = this.shareProperties.getShareMenuAbstractUrl(menuId, code,null);
+        log.info("5");
         //签名需要的Url
         String signatureUrl = this.shareProperties.getShareMenuAbstractUrl(menuId, code,state);
         log.info("signatureUrl :{}",signatureUrl);
