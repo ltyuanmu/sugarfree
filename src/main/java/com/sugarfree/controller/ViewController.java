@@ -1,10 +1,9 @@
 package com.sugarfree.controller;
 
 import com.sugarfree.configuration.ShareProperties;
-import com.sugarfree.dao.model.TArticle;
-import com.sugarfree.dao.model.TMenu;
-import com.sugarfree.dao.model.TSubscriber;
-import com.sugarfree.dao.model.TWxUser;
+import com.sugarfree.constant.*;
+import com.sugarfree.constant.Enum;
+import com.sugarfree.dao.model.*;
 import com.sugarfree.service.*;
 import com.sugarfree.utils.HttpRequestUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +46,9 @@ public class ViewController {
 
     @Autowired
     private WxMpService wxService;
+
+    @Autowired
+    private PointHistoryService pointHistoryService;
 
     @Autowired
     private SubscriberService subscriberService;
@@ -125,6 +127,20 @@ public class ViewController {
         return modelAndView;
     }
 
+    @RequestMapping(method = RequestMethod.GET,value = "/share/article/success")
+    public void share()
+    {
+        //获取用户信息
+        TWxUser wxUser = getWxUser();
+        TPointHistory query = new TPointHistory();
+        query.setFkWxUserId(wxUser.getId());
+        query.setSource(Enum.PointEvent.SHARE.getContext());
+        TPointHistory history = pointHistoryService.getHistory(query);
+        if(null == history) {
+            //添加积分变更历史记录，扣除积分
+            pointService.updatePoint(wxUser.getOpenId(), Enum.PointEvent.SHARE, "");
+        }
+    }
     /**
      * 获取订阅list
      * @param menuId
@@ -171,7 +187,7 @@ public class ViewController {
     *可以进行分享
     * */
     @RequestMapping(method = RequestMethod.GET,value = "/article/{id}")
-    public ModelAndView getArticle(@PathVariable int id){
+    public ModelAndView getArticle(@PathVariable int menuId,String code,String state) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser = getWxUser();
         ModelAndView modelAndView = new ModelAndView("article");
@@ -183,9 +199,18 @@ public class ViewController {
             e.printStackTrace();
         }
         wxUser.setQrUrl(url);
-        modelAndView.addObject("user",wxUser);
-        TArticle article = articleService.getArticleById(id);
+        modelAndView.addObject("user", wxUser);
+        TArticle article = articleService.getArticleById(menuId);
         modelAndView.addObject("article", article);
+
+        //添加分享的连接和分享的所需要的参数
+        String shareUrl = this.shareProperties.getShareMenuAbstractUrl(menuId, code, wxUser.getOpenId());
+
+        //签名需要的Url
+        String signatureUrl = this.shareProperties.getShareMenuAbstractUrl(menuId, code,state);
+        WxJsapiSignature signature = this.wxService.createJsapiSignature(signatureUrl);
+        modelAndView.addObject("signature",signature);
+
         return modelAndView;
     }
 
