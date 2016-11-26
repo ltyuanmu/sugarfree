@@ -29,7 +29,7 @@ public class ButtonController {
     private SubscriberService subscriberService;
 
     @PostMapping(value = "/send/article/{articleId}/user/{userId}")
-    public ResponseEntity sendTemplateMessage(@PathVariable Integer articleId,Integer userId) throws WxErrorException {
+    public ResponseEntity sendTemplateMessage(@PathVariable Integer articleId,@PathVariable Integer userId) throws WxErrorException {
         this.subscriberService.sendTempleMessage(articleId,userId);
         return ResponseEntity.ok().build();
     }
