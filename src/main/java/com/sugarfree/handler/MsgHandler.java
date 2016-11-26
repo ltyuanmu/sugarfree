@@ -50,11 +50,15 @@ public class MsgHandler extends AbstractHandler {
         } catch (WxErrorException e) {
             e.printStackTrace();
         }
+        if(StringUtils.isEmpty(wxMessage.getContent())){
+            return null;
+        }
+
         if("积分".equals(wxMessage.getContent())){
             int point = pointService.getPointByOpenId(wxMessage.getFromUser());
             String message = "您的积分为:"+point+"!";
             return new TextBuilder().build(message,wxMessage,weixinService);
-        }else if(wxMessage.getContent().startsWith("DHJF_")){
+        }else if(StringUtils.isNotEmpty(wxMessage.getContent())&&wxMessage.getContent().startsWith("DHJF_")){
             String content = wxMessage.getContent();
             String code = content.replaceFirst("DHJF_","");
             String message = pointService.addPointForVoucher(wxMessage.getFromUser(), code);

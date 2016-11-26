@@ -26,10 +26,9 @@ public interface ArticleService {
      * @return
      */
     TArticle getArticleById(Integer id);
-    //点击订阅按钮 订阅文章内容
 
-    //分享给朋友和朋友圈 该文章
-
-    //通过用户id获得订阅文章内容的列表
-
+    /**
+     * 通过菜单id和课次获得文章信息
+     */
+    TArticle getArticleByEnumIdClassTime(Integer enumId,Integer classTime);
 }

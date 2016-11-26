@@ -1,5 +1,6 @@
 package com.sugarfree.service.impl;
 
+import com.google.common.collect.Lists;
 import com.sugarfree.dao.mapper.TArticleMapper;
 import com.sugarfree.dao.model.TArticle;
 import com.sugarfree.dao.model.TSubscriber;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName: ${}
@@ -53,5 +55,16 @@ public class ArticleServiceImpl implements ArticleService{
     @Override
     public TArticle getArticleById(Integer id) {
         return this.tArticleMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public TArticle getArticleByEnumIdClassTime(Integer enumId, Integer classTime) {
+        TArticle article = new TArticle();
+        article.setStatus("1");
+        article.setDeleteState("0");
+        article.setClassTime(classTime);
+        article.setFkMenuId(enumId);
+        List<TArticle> list = Optional.ofNullable(this.tArticleMapper.select(article)).orElse(Lists.newArrayList());
+        return list.stream().findFirst().orElse(null);
     }
 }

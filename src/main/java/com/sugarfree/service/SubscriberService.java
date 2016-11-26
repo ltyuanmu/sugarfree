@@ -1,6 +1,8 @@
 package com.sugarfree.service;
 
+import com.sugarfree.dao.model.TMenu;
 import com.sugarfree.dao.model.TSubscriber;
+import com.sugarfree.dao.model.TWxUser;
 import me.chanjar.weixin.common.exception.WxErrorException;
 
 import java.util.List;
@@ -28,5 +30,14 @@ public interface SubscriberService {
      * @param articleId
      * @param userId
      */
-    void sendTempleMessage(Integer articleId,Integer userId)throws WxErrorException;
+    boolean sendTempleMessage(Integer articleId,Integer userId)throws WxErrorException;
+
+    /**
+     * 订阅文章
+     * @param wxUser
+     * @param menu
+     * @return 0:积分不够 1.订阅成功 2.已订阅
+     * @throws WxErrorException
+     */
+    String subscriberArticle(TWxUser wxUser,TMenu menu)throws WxErrorException;
 }

@@ -90,6 +90,10 @@ public class ViewController {
         return wxUserService.getWxUserByOpenId(openId);
     }
 
+    /**
+     * 获得本次请求的url
+     * @return
+     */
     private String getRequestUrl(){
         HttpServletRequest request = HttpRequestUtil.getRequest();
         String url  = this.shareProperties.getServerUrl();  // 请求服务器
@@ -107,35 +111,23 @@ public class ViewController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET,value = "/subscribe/{menuId}")
-    public ModelAndView subscribe(@PathVariable int menuId){
+    public ModelAndView subscribe(@PathVariable int menuId) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser = getWxUser();
         //获取订阅扣除积分
         TMenu menu = menuService.getMenuById(menuId);
-        TSubscriber tSubscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), menuId);
-        if(null != tSubscriber){
-            return new ModelAndView("subscriberReturn","ret","2");
+        String state = this.subscriberService.subscriberArticle(wxUser, menu);
+        ModelAndView mv = new ModelAndView("subscriberReturn");
+        if("0".equals(state)){
+            mv.addObject("ret","0");
+        }else if("1".equals(state)){
+            mv.addObject("ret","1");
+            mv.addObject("menuId",menuId);
+        }else if("2".equals(state)){
+            mv.addObject("ret","2");
         }
-        if (menu.getPoint() > wxUser.getPoint())
-        {
-            //需要积分大于用户已有积分提示积分不够
-            return new ModelAndView("subscriberReturn","ret","0");
-        }else{
-            //添加积分变更历史记录，扣除积分
-            pointService.deletePoint(wxUser.getOpenId(),menu.getPoint(), "订阅"+menu.getName()+"扣除积分");
-            //添加订阅记录
-            TSubscriber subscriber = new TSubscriber();
-            subscriber.setCreateTime(new Date());
-            subscriber.setFkMenuId(menuId);
-            subscriber.setFkWxUserId(wxUser.getId());
-            subscriber.setStatus("0");
-            subscriber.setLastClassTime(0);
-            subscriberService.insert(subscriber);
-        }
-        ModelAndView modelAndView =new ModelAndView("subscriberReturn");
-        modelAndView.addObject("ret","1");
-        modelAndView.addObject("menuId",menuId);
-        return modelAndView;
+        return mv;
+
     }
 
     @RequestMapping(method = RequestMethod.GET,value = "/share/article/success")
@@ -172,7 +164,9 @@ public class ViewController {
             modelAndView.addObject("subscriber",1);
         }
         TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
-        //if(menuAbstract==null) return null;
+        if(menuAbstract==null){
+            throw new RuntimeException("文章专栏详情不存在!!");
+        }
         modelAndView.addObject("menuAbstract",menuAbstract);
         //获得二维码图片
         String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());

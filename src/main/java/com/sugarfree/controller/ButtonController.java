@@ -35,8 +35,13 @@ public class ButtonController {
             log.error("非法调用");
             return ResponseEntity.status(400).build();
         }
-        this.subscriberService.sendTempleMessage(articleId,userId);
-        log.info("send success");
-        return ResponseEntity.ok().build();
+        boolean flag = this.subscriberService.sendTempleMessage(articleId, userId);
+        if(flag){
+            log.info("send success");
+            return ResponseEntity.ok().build();
+        }else{
+            log.info("send fail");
+            return ResponseEntity.status(500).build();
+        }
     }
 }
