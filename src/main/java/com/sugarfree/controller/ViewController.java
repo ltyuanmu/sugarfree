@@ -107,9 +107,14 @@ public class ViewController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET,value = "/subscribe/{menuId}")
-    public ModelAndView subscribe(@PathVariable int menuId){
+    public ModelAndView subscribe(@PathVariable int menuId,String state){
         //获取用户信息
-        TWxUser wxUser = getWxUser();
+        TWxUser wxUser;
+        if("1".equals(state)){
+            wxUser = getWxUser();
+        }else{
+            wxUser = this.wxUserService.getWxUserByOpenId(state);
+        }
         //获取订阅扣除积分
         TMenu menu = menuService.getMenuById(menuId);
         TSubscriber tSubscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), menuId);
