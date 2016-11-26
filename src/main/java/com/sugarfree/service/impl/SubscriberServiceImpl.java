@@ -64,7 +64,7 @@ public class SubscriberServiceImpl implements SubscriberService{
             log.error("推送用户:{}为空",userId);
             return;
         }
-        String url = this.shareProperties.getShareArticleUrl(article.getId(), null, tWxUser.getOpenId());
+        String url = this.shareProperties.getShareArticleUrl(article.getId(), "", tWxUser.getOpenId());
         List<WxMpTemplateData> list =  new ArrayList<>();
         WxMpTemplateData firrst = new WxMpTemplateData("first",article.getTitle(),"#D2691E");
         WxMpTemplateData keywod1 = new WxMpTemplateData("keyword1","第"+article.getClassTime()+"课","#D2691E");
