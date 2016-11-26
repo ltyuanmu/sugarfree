@@ -8,6 +8,7 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,9 +29,10 @@ public class ButtonController {
     @Autowired
     private SubscriberService subscriberService;
 
-    @PostMapping(value = "/send/article/{articleId}/user/{userId}")
+    @PostMapping(value = "/send/article/{articleId}/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity sendTemplateMessage(@PathVariable Integer articleId,@PathVariable Integer userId) throws WxErrorException {
         this.subscriberService.sendTempleMessage(articleId,userId);
+        log.info("send success");
         return ResponseEntity.ok().build();
     }
 }
