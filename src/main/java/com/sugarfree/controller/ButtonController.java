@@ -29,8 +29,12 @@ public class ButtonController {
     @Autowired
     private SubscriberService subscriberService;
 
-    @PostMapping(value = "/send/article/{articleId}/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity sendTemplateMessage(@PathVariable Integer articleId,@PathVariable Integer userId) throws WxErrorException {
+    @PostMapping(value = "/send/user/{userId}/article/{articleId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity sendTemplateMessage(@PathVariable Integer articleId,@PathVariable Integer userId,String uuid) throws WxErrorException {
+        if(!"7ef91c4b34ab4cfebe5cb806f1ae8648".equals(uuid)){
+            log.error("非法调用");
+            return ResponseEntity.status(400).build();
+        }
         this.subscriberService.sendTempleMessage(articleId,userId);
         log.info("send success");
         return ResponseEntity.ok().build();

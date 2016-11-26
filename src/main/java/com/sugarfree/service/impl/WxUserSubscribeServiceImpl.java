@@ -89,7 +89,7 @@ public class WxUserSubscribeServiceImpl implements WxUserSubscribeService{
     @Override
     public void updateWxUserByOpenId(String openId, TWxUser tWxUser) {
         Example example = new Example(TWxUser.class);
-        example.createCriteria().andEqualTo("openId",openId);
+        example.createCriteria().andEqualTo("openId",openId).andEqualTo("deleteState","0");
         this.tWxUserMapper.updateByExampleSelective(tWxUser,example);
     }
 
@@ -97,6 +97,7 @@ public class WxUserSubscribeServiceImpl implements WxUserSubscribeService{
     public TWxUser getWxUserByOpenId(String openId) {
         TWxUser tWxUser = new TWxUser();
         tWxUser.setOpenId(openId);
+        tWxUser.setDeleteState("0");
         Optional<TWxUser> optional = Optional.ofNullable(this.tWxUserMapper.selectOne(tWxUser));
         return optional.orElse(null);
     }
