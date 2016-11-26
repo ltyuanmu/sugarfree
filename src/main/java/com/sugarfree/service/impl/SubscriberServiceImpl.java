@@ -66,13 +66,13 @@ public class SubscriberServiceImpl implements SubscriberService{
         }
         String url = this.shareProperties.getShareArticleUrl(article.getId(), "", tWxUser.getOpenId());
         List<WxMpTemplateData> list =  new ArrayList<>();
-        WxMpTemplateData firrst = new WxMpTemplateData("first",article.getTitle(),"#D2691E");
-        WxMpTemplateData keywod1 = new WxMpTemplateData("keyword1","第"+article.getClassTime()+"课","#D2691E");
-        WxMpTemplateData keywod2 = new WxMpTemplateData("keyword2",tWxUser.getNickname(),"#D2691E");
-        WxMpTemplateData remark = new WxMpTemplateData("first","\n点击阅读好吃到飞起来的烘焙内容","#D2691E");
-        list.add(firrst);
-        list.add(keywod1);
-        list.add(keywod2);
+        WxMpTemplateData first = new WxMpTemplateData("first",article.getTitle(),"#D2691E");
+        WxMpTemplateData keyword1 = new WxMpTemplateData("keyword1",tWxUser.getNickname(),"#D2691E");
+        WxMpTemplateData keyword2 = new WxMpTemplateData("keyword2","第"+article.getClassTime()+"课","#D2691E");
+        WxMpTemplateData remark = new WxMpTemplateData("remark","\n点击阅读好吃到飞起来的烘焙内容","#D2691E");
+        list.add(first);
+        list.add(keyword1);
+        list.add(keyword2);
         list.add(remark);
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
                 .templateId("_FTxMyVjVDgHJlJO6RK1fZuW3EgNYr8q8KpH5BHC4AQ")

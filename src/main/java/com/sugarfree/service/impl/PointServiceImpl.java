@@ -120,7 +120,7 @@ public class PointServiceImpl implements PointService{
         //修改积分兑换表
         TCsol modifyCsol = new TCsol();
         modifyCsol.setId(csol.getId());
-        modifyCsol.setStatus("0");
+        modifyCsol.setStatus("1");
         modifyCsol.setUpdateTime(new Date());
         modifyCsol.setOpUser(wxUser.getNickname());
         this.tCsolMapper.updateByPrimaryKeySelective(modifyCsol);
