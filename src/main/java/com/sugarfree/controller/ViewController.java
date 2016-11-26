@@ -107,14 +107,9 @@ public class ViewController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET,value = "/subscribe/{menuId}")
-    public ModelAndView subscribe(@PathVariable int menuId,String state){
+    public ModelAndView subscribe(@PathVariable int menuId){
         //获取用户信息
-        TWxUser wxUser;
-        if("1".equals(state)){
-            wxUser = getWxUser();
-        }else{
-            wxUser = this.wxUserService.getWxUserByOpenId(state);
-        }
+        TWxUser wxUser = getWxUser();
         //获取订阅扣除积分
         TMenu menu = menuService.getMenuById(menuId);
         TSubscriber tSubscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), menuId);
@@ -205,7 +200,12 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.GET,value = "/article/{id}")
     public ModelAndView getArticle(@PathVariable int id,String code,String state) throws WxErrorException {
         //获取用户信息
-        TWxUser wxUser = getWxUser();
+        TWxUser wxUser;
+        if("1".equals(state)){
+            wxUser = getWxUser();
+        }else{
+            wxUser = this.wxUserService.getWxUserByOpenId(state);
+        }
         ModelAndView modelAndView = new ModelAndView("article");
         //获得二维码图片
         String url = null;
