@@ -90,6 +90,17 @@ public class ViewController {
         return wxUserService.getWxUserByOpenId(openId);
     }
 
+    private String getRequestUrl(){
+        HttpServletRequest request = HttpRequestUtil.getRequest();
+        String url  = this.shareProperties.getServerUrl();  // 请求服务器
+        url+=request.getRequestURI();     // 工程名
+        if(request.getQueryString()!=null) //判断请求参数是否为空
+            url+="?"+request.getQueryString();   // 参数
+        log.info("getRequestUrl :{}",url);
+        return url;
+    }
+
+
     /**
      * 订阅
      * @param menuId
@@ -173,7 +184,7 @@ public class ViewController {
         //添加分享的连接和分享的所需要的参数
         String shareUrl = this.shareProperties.getShareMenuAbstractUrl(menuId, code,wxUser.getOpenId());
         //签名需要的Url
-        String signatureUrl = this.shareProperties.getShareMenuAbstractUrl(menuId, code,state);
+        String signatureUrl = getRequestUrl();
         WxJsapiSignature signature = this.wxService.createJsapiSignature(signatureUrl);
         modelAndView.addObject("signature",signature);
         modelAndView.addObject("shareUrl",shareUrl);
@@ -187,7 +198,7 @@ public class ViewController {
     *可以进行分享
     * */
     @RequestMapping(method = RequestMethod.GET,value = "/article/{id}")
-    public ModelAndView getArticle(@PathVariable int menuId,String code,String state) throws WxErrorException {
+    public ModelAndView getArticle(@PathVariable int id,String code,String state) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser = getWxUser();
         ModelAndView modelAndView = new ModelAndView("article");
@@ -196,21 +207,21 @@ public class ViewController {
         try {
             url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
         } catch (WxErrorException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(),e);
         }
         wxUser.setQrUrl(url);
         modelAndView.addObject("user", wxUser);
-        TArticle article = articleService.getArticleById(menuId);
+        TArticle article = articleService.getArticleById(id);
         modelAndView.addObject("article", article);
 
         //添加分享的连接和分享的所需要的参数
-        String shareUrl = this.shareProperties.getShareMenuAbstractUrl(menuId, code, wxUser.getOpenId());
+        String shareUrl = this.shareProperties.getShareArticleUrl(id, code, wxUser.getOpenId());
 
         //签名需要的Url
-        String signatureUrl = this.shareProperties.getShareMenuAbstractUrl(menuId, code,state);
+        String signatureUrl = getRequestUrl();
         WxJsapiSignature signature = this.wxService.createJsapiSignature(signatureUrl);
         modelAndView.addObject("signature",signature);
-
+        modelAndView.addObject("shareUrl",shareUrl);
         return modelAndView;
     }
 

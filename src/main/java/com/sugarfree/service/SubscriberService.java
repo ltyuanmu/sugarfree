@@ -1,6 +1,7 @@
 package com.sugarfree.service;
 
 import com.sugarfree.dao.model.TSubscriber;
+import me.chanjar.weixin.common.exception.WxErrorException;
 
 import java.util.List;
 
@@ -21,4 +22,11 @@ public interface SubscriberService {
      * @return
      */
     TSubscriber getSubscriberByUserId(int userId, int menuId);
+
+    /**
+     * 发送模板消息
+     * @param articleId
+     * @param userId
+     */
+    void sendTempleMessage(Integer articleId,Integer userId)throws WxErrorException;
 }
