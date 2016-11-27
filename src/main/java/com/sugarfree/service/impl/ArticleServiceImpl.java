@@ -44,7 +44,6 @@ public class ArticleServiceImpl implements ArticleService{
         TSubscriber tSubscriber = subscriberService.getSubscriberByUserId(userId, menuId);
         Example example = new Example(TArticle.class);
         example.createCriteria()
-                .andEqualTo("deleteState","0")
                 .andEqualTo("status","1")
                 .andEqualTo("type","1")
                 .andEqualTo("fkMenuId",menuId)

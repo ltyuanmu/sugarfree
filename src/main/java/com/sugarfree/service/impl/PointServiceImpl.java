@@ -46,6 +46,7 @@ public class PointServiceImpl implements PointService{
     public int getPointByEvent(Enum.PointEvent pointEvent) {
         TPara tPara = new TPara();
         tPara.setParaName(pointEvent.getKey());
+        tPara.setDeleteState("0");
         TPara tPara1 = tParaMapper.selectOne(tPara);
         Optional<TPara> optional = Optional.ofNullable(tPara1);
         return optional.map(t -> { return Integer.parseInt(t.getParaValue()); }).orElse(0);
@@ -121,6 +122,8 @@ public class PointServiceImpl implements PointService{
         TCsol modifyCsol = new TCsol();
         modifyCsol.setId(csol.getId());
         modifyCsol.setStatus("1");
+        modifyCsol.setFkWxUserId(wxUser.getId());
+        modifyCsol.setDeleteState("0");
         modifyCsol.setUpdateTime(new Date());
         modifyCsol.setOpUser(wxUser.getNickname());
         this.tCsolMapper.updateByPrimaryKeySelective(modifyCsol);
