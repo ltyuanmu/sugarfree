@@ -24,12 +24,12 @@
             </div>
 
         </div>
-        <div class="prCode">
-            <p th:text="|我是 ${user.nickname}，邀请你和我一起关注这个好吃的公众号(๑´ڡ`๑)。通过下方的二维码，你我可各获得一个积分 。|"></p>
-            <p class="tc">
-                <img alt="" th:src="${user.qrUrl}"  />
-            </p>
-        </div>
+    </div>
+    <div class="container prCode">
+        <p th:text="|我是 ${user.nickname}，邀请你和我一起关注这个好吃的公众号(๑´ڡ`๑)。通过下方的二维码，你我可各获得一个积分 。|"></p>
+        <p class="tc">
+            <img alt="" th:src="${user.qrUrl}"  />
+        </p>
     </div>
 
     <script type="text/javascript" th:src="@{https://res.wx.qq.com/open/js/jweixin-1.0.0.js}"></script>
