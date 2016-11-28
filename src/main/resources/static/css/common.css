@@ -13,6 +13,11 @@ h1,h2,h3,h4,h5,h6{
 	font-size: 0.28rem;
 }
 
+.content{
+	line-height: 0.38rem;
+	padding: 0 0.32rem;
+}
+
 .contentWrap{
 	margin-top: 0.32rem;
 }
@@ -36,9 +41,19 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .qrCode p
+  {
+	  color: #707070;
+	  line-height:0.22rem;
+	  margin-bottom: 0.18rem;
+	  font-size: 0.7rem;
+  }
+.prCode p
 {
 	color: #707070;
-	line-height:0.22rem;
-	margin-bottom: 0.18rem;
-	font-size: 0.7rem;
+	line-height:0.38rem;
+	margin-bottom: 0.28rem;
+	padding: 0 0.32rem;
+}
+.prCode p img{
+	width: 4.8rem;
 }

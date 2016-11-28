@@ -8,10 +8,9 @@
     <script type="text/javascript" th:src="@{/js/device-adapter.js}"></script>
     <link  type="text/css" rel="stylesheet" th:href="@{/css/CssReset.min.css}"/>
     <link  type="text/css" rel="stylesheet" th:href="@{/css/common.css}"/>
-    <link  type="text/css" rel="stylesheet" th:href="@{/css/columnDetail.css}"/>
 </head>
 <body>
-    <div class="container columnDetail">
+    <div class="container">
         <div class="content" th:utext="${menuAbstract.context}"></div>
         <div class="subscribe tc"  th:if="${subscriber} == 1">
             <p th:text="|订阅烘焙入门专栏需消耗${menuPoint}个积分，你准备好了吗?|"></p>
@@ -20,7 +19,7 @@
                 <input type="button" value="【订阅】" onclick="subscribe();" />
             </p>
         </div>
-      <div>
+      <div class="prCode">
             <p th:text="|我是 ${user.nickname}，邀请你和我一起关注这个好吃的公众号(๑´ڡ`๑)。通过下方的二维码，你我可各获得一个积分 。|"></p>
             <p class="tc">
                 <img alt="" th:src="${user.qrUrl}"  />
