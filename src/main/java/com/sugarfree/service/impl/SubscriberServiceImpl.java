@@ -110,7 +110,8 @@ public class SubscriberServiceImpl implements SubscriberService{
             subscriber.setLastClassTime(0);
             this.insert(subscriber);
             //判断是否为早上8点和晚上8点 如果是的话发送 否则不进行发送
-            Calendar calendar = Calendar.getInstance();
+            //目前订阅不需要及时推送
+            /*Calendar calendar = Calendar.getInstance();
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             if(hour>=8&&hour<20){
                 //进行推送消息 并且修改数据
@@ -139,7 +140,7 @@ public class SubscriberServiceImpl implements SubscriberService{
                     }
 
                 }
-            }
+            }*/
         }
         return "1";
     }
