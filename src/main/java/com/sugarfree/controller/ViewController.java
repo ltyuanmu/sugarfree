@@ -152,7 +152,7 @@ public class ViewController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET,value = "/articleList/{menuId}")
-    public ModelAndView getArticleList(@PathVariable int menuId,String code,String state) throws WxErrorException {
+    public ModelAndView getArticleList(@PathVariable int menuId,String state) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser;
         if(!"1".equals(state)&&StringUtils.isNotEmpty(state)){
@@ -194,7 +194,7 @@ public class ViewController {
         TMenu menu = menuService.getMenuById(menuId);
         modelAndView.addObject("menuPoint",menu.getPoint());
         //添加分享的连接和分享的所需要的参数
-        String shareUrl = this.shareProperties.getShareMenuAbstractUrl(menuId, code,wxUser.getOpenId());
+        String shareUrl = this.shareProperties.getShareMenuAbstractUrl(menuId,wxUser.getOpenId());
         //签名需要的Url
         String signatureUrl = getRequestUrl();
         WxJsapiSignature signature = this.wxService.createJsapiSignature(signatureUrl);
@@ -210,7 +210,7 @@ public class ViewController {
     *可以进行分享
     * */
     @RequestMapping(method = RequestMethod.GET,value = "/article/{id}")
-    public ModelAndView getArticle(@PathVariable int id,String code,String state) throws WxErrorException {
+    public ModelAndView getArticle(@PathVariable int id,String state) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser;
         if(!"1".equals(state)&&StringUtils.isNotEmpty(state)){
@@ -235,7 +235,7 @@ public class ViewController {
         modelAndView.addObject("article", article);
 
         //添加分享的连接和分享的所需要的参数
-        String shareUrl = this.shareProperties.getShareArticleUrl(id, code, wxUser.getOpenId());
+        String shareUrl = this.shareProperties.getShareArticleUrl(id, wxUser.getOpenId());
 
         //签名需要的Url
         String signatureUrl = getRequestUrl();
