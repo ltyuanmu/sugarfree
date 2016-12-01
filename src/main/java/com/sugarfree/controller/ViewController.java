@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName: 跳转的页面controller
@@ -155,15 +156,23 @@ public class ViewController {
         TWxUser wxUser;
         if("1".equals(state)){
             wxUser = getWxUser();
-        }else{
+        }else if(StringUtils.isNotEmpty(state)){
             wxUser = this.wxUserService.getWxUserByOpenId(state);
+        }else{
+            throw new RuntimeException("调用失败");
         }
         ModelAndView modelAndView = new ModelAndView("menuAbstract");
         TSubscriber subscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), menuId);
         if(null == subscriber&&"1".equals(state)){
             modelAndView.addObject("subscriber",1);
         }
-        TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
+        List<TArticle> articleList = this.articleService.getArticleList(wxUser.getId(), menuId);
+        ModelAndView view = new ModelAndView("articleList");
+        view.addObject("menu","文章列表");
+        view.addObject("article",articleList);
+        return view;
+
+        /*TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
         if(menuAbstract==null){
             throw new RuntimeException("文章专栏详情不存在!!");
         }
@@ -182,7 +191,7 @@ public class ViewController {
         WxJsapiSignature signature = this.wxService.createJsapiSignature(signatureUrl);
         modelAndView.addObject("signature",signature);
         modelAndView.addObject("shareUrl",shareUrl);
-        return modelAndView;
+        return modelAndView;*/
     }
 
 

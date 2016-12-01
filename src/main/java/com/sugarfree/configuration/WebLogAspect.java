@@ -43,7 +43,7 @@ public class WebLogAspect {
         if(request.getQueryString()!=null) //判断请求参数是否为空
             url+="?"+request.getQueryString();   // 参数
 
-        log.info("request url is :{}",url);
+        log.info("request url is :{},ServletPath:{}",url,request.getServletPath());
     }
 
     @AfterReturning(returning = "ret", pointcut = "webLog()")

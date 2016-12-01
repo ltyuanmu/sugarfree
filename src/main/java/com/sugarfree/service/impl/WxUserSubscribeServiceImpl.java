@@ -15,6 +15,7 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +98,9 @@ public class WxUserSubscribeServiceImpl implements WxUserSubscribeService{
 
     @Override
     public TWxUser getWxUserByOpenId(String openId) {
+        if(StringUtils.isEmpty(openId)){
+            return null;
+        }
         TWxUser tWxUser = new TWxUser();
         tWxUser.setOpenId(openId);
         tWxUser.setDeleteState("0");

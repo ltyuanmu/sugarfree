@@ -10,6 +10,7 @@ import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpMenuService;
 import me.chanjar.weixin.mp.api.WxMpService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.URLEditor;
 import org.springframework.stereotype.Service;
@@ -104,11 +105,14 @@ public class MenuServiceImpl implements MenuService {
                 String type = subMenu.getType();
                 switch (type){
                     case "1":
-                    case "2":
                         subButton.setType("view");
                         String url = URLEncoder.encode(subMenu.getUrl(), "UTF-8");
                         url = templateUrl.replaceAll("_MENUURL_", url);
                         subButton.setUrl(url);
+                        break;
+                    case "2":
+                        subButton.setType("view");
+                        subButton.setUrl(subMenu.getUrl());
                         break;
                     case "3":
                         subButton.setType("click");
@@ -117,7 +121,10 @@ public class MenuServiceImpl implements MenuService {
                     default:
                         break;
                 }
-                subButtons.add(subButton);
+                //没有type 目前不允许 添加入子菜单
+                if(StringUtils.isNotEmpty(type)){
+                    subButtons.add(subButton);
+                }
             }
             button.setSubButtons(subButtons);
             buttons.add(button);
