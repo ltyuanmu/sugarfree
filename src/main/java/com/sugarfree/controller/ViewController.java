@@ -177,7 +177,7 @@ public class ViewController {
         }).collect(Collectors.toList());
         ModelAndView view = new ModelAndView("articleList");
         view.addObject("menu","文章列表");
-        view.addObject("article",list);
+        view.addObject("list",list);
         return view;
 
         /*TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
