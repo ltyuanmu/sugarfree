@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName: 跳转的页面controller
@@ -167,9 +168,16 @@ public class ViewController {
             modelAndView.addObject("subscriber",1);
         }
         List<TArticle> articleList = this.articleService.getArticleList(wxUser.getId(), menuId);
+        List<TArticle> list = articleList.stream().map(t -> {
+            TArticle article = new TArticle();
+            article.setId(t.getId());
+            article.setClassTime(t.getClassTime());
+            article.setTitle(t.getTitle());
+            return article;
+        }).collect(Collectors.toList());
         ModelAndView view = new ModelAndView("articleList");
         view.addObject("menu","文章列表");
-        view.addObject("article",articleList);
+        view.addObject("article",list);
         return view;
 
         /*TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
