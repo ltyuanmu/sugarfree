@@ -155,12 +155,13 @@ public class ViewController {
     public ModelAndView getArticleList(@PathVariable int menuId,String code,String state) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser;
-        if("1".equals(state)){
-            wxUser = getWxUser();
-        }else if(StringUtils.isNotEmpty(state)){
+        if(!"1".equals(state)&&StringUtils.isNotEmpty(state)){
             wxUser = this.wxUserService.getWxUserByOpenId(state);
         }else{
-            throw new RuntimeException("调用失败");
+            wxUser = getWxUser();
+        }
+        if(wxUser==null){
+            throw new RuntimeException("调用失败!");
         }
         ModelAndView modelAndView = new ModelAndView("menuAbstract");
         TSubscriber subscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), menuId);
@@ -212,10 +213,13 @@ public class ViewController {
     public ModelAndView getArticle(@PathVariable int id,String code,String state) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser;
-        if("1".equals(state)){
-            wxUser = getWxUser();
-        }else{
+        if(!"1".equals(state)&&StringUtils.isNotEmpty(state)){
             wxUser = this.wxUserService.getWxUserByOpenId(state);
+        }else{
+            wxUser = getWxUser();
+        }
+        if(wxUser==null){
+            throw new RuntimeException("调用失败!");
         }
         ModelAndView modelAndView = new ModelAndView("article");
         //获得二维码图片
