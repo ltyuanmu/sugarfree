@@ -223,6 +223,7 @@ public class ViewController {
         String shareUrl = this.shareProperties.getShareMenuAbstractUrl(menuId,wxUser.getOpenId());
         //签名需要的Url
         String signatureUrl = getRequestUrl();
+        log.info("signatureUrl:{}",signatureUrl);
         WxJsapiSignature signature = this.wxService.createJsapiSignature(signatureUrl);
         modelAndView.addObject("signature",signature);
         modelAndView.addObject("shareUrl",shareUrl);
@@ -276,9 +277,9 @@ public class ViewController {
 
         //添加分享的连接和分享的所需要的参数
         String shareUrl = this.shareProperties.getShareArticleUrl(id, wxUser.getOpenId());
-
         //签名需要的Url
         String signatureUrl = getRequestUrl();
+        log.info("signatureUrl:{}",signatureUrl);
         WxJsapiSignature signature = this.wxService.createJsapiSignature(signatureUrl);
         modelAndView.addObject("signature",signature);
         modelAndView.addObject("shareUrl",shareUrl);
