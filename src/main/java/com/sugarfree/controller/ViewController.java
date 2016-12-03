@@ -259,4 +259,10 @@ public class ViewController {
     /*
     * 获得积分规则介绍
     * */
+
+    @RequestMapping(method = RequestMethod.GET,value = "/point")
+    public ModelAndView getPointDetail(){
+        //目前是个静态界面
+        return new ModelAndView("point");
+    }
 }
