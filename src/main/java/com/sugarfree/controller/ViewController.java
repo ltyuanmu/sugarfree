@@ -168,7 +168,7 @@ public class ViewController {
         if(null == subscriber&&"1".equals(state)){
             modelAndView.addObject("subscriber",1);
         }
-        List<TArticle> articleList = this.articleService.getArticleList(wxUser.getId(), menuId);
+        /*List<TArticle> articleList = this.articleService.getArticleList(wxUser.getId(), menuId);
         List<TArticle> list = articleList.stream().map(t -> {
             TArticle article = new TArticle();
             article.setId(t.getId());
@@ -179,9 +179,9 @@ public class ViewController {
         ModelAndView view = new ModelAndView("articleList");
         view.addObject("menu","文章列表");
         view.addObject("list",list);
-        return view;
+        return view;*/
 
-        /*TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
+        TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
         if(menuAbstract==null){
             throw new RuntimeException("文章专栏详情不存在!!");
         }
@@ -200,7 +200,7 @@ public class ViewController {
         WxJsapiSignature signature = this.wxService.createJsapiSignature(signatureUrl);
         modelAndView.addObject("signature",signature);
         modelAndView.addObject("shareUrl",shareUrl);
-        return modelAndView;*/
+        return modelAndView;
     }
 
 
