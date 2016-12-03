@@ -20,7 +20,7 @@
     <p class="integral" style=""><span th:text="${point}" ></span>个积分</p>
     <img th:src="@{/img/quxiaodingyue.png}"  class="cancle" />
     <p class="name">「我是<span th:text="${user.nickname}" ></span>」</p>
-    <img th:src="${user.qrUrl}" style="border: 10px solid #fff;;" class="erweima"/>
+    <img th:src="${user.qrUrl}" class="erweima"/>
 </div>
 
 <script type="text/javascript" th:src="@{https://res.wx.qq.com/open/js/jweixin-1.0.0.js}"></script>
