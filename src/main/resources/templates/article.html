@@ -18,7 +18,7 @@
 </div>
 <div class="bottom" style="">
     <p class="integral" style=""><span th:text="${point}" ></span>个积分</p>
-    <img th:src="${/img/quxiaodingyue.png}"  class="cancle" />
+    <img th:src="@{/img/quxiaodingyue.png}"  class="cancle" />
     <p class="name">「我是<span th:text="${user.nickname}" ></span>」</p>
     <img th:src="${user.qrUrl}" style="border: 10px solid #fff;;" class="erweima"/>
 </div>
