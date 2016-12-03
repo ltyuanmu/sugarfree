@@ -19,7 +19,7 @@ div.bottom{
     background: url('/img/wenzhangzhuanfa .png') no-repeat center;
     margin: 0.32rem auto;
     background-size:contain;
-    width: 530px;
+    height: 530px;
 }
 p.integral{
     font-size:2em;text-align: center;padding-top:45px;color: #000;letter-spacing: 3px;
