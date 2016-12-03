@@ -144,4 +144,15 @@ public class SubscriberServiceImpl implements SubscriberService{
         }
         return "1";
     }
+
+    @Override
+    public String unSubscriberArticle(TWxUser wxUser, TMenu menu) throws WxErrorException {
+        TSubscriber tSubscriber = this.getSubscriberByUserId(wxUser.getId(), menu.getId());
+        //取消订阅 删除订阅
+        TSubscriber unSubscriber = new TSubscriber();
+        unSubscriber.setId(tSubscriber.getId());
+        unSubscriber.setStatus("1");
+        this.subscriberMapper.updateByPrimaryKeySelective(unSubscriber);
+        return "1";
+    }
 }

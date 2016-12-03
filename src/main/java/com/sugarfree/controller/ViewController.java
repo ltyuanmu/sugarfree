@@ -13,6 +13,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -112,25 +113,44 @@ public class ViewController {
      * @param menuId
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET,value = "/subscribe/{menuId}")
-    public ModelAndView subscribe(@PathVariable int menuId) throws WxErrorException {
+    @RequestMapping(method = RequestMethod.GET,value = "/subscribe/{menuId}",produces = "text/plain;charset=utf-8")
+    public ResponseEntity subscribe(@PathVariable int menuId) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser = getWxUser();
         //获取订阅扣除积分
         TMenu menu = menuService.getMenuById(menuId);
         String state = this.subscriberService.subscriberArticle(wxUser, menu);
-        ModelAndView mv = new ModelAndView("subscriberReturn");
-        if("0".equals(state)){
-            mv.addObject("ret","0");
-        }else if("1".equals(state)){
-            mv.addObject("ret","1");
-            mv.addObject("menuId",menuId);
+        if("1".equals(state)){
+            return ResponseEntity.ok().body("ok");
         }else if("2".equals(state)){
-            mv.addObject("ret","2");
+            return ResponseEntity.ok().body("ok");
+        }/*else if("0".equals(state)){
+            return ResponseEntity.ok().body("err");
+        }*/else{
+            return ResponseEntity.ok().body("err");
         }
-        return mv;
-
     }
+
+    /**
+     * 取消订阅
+     * @param menuId
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET,value = "/unSubscribe/{menuId}",produces = "text/plain;charset=utf-8")
+    public ResponseEntity unSubscribe(@PathVariable int menuId) throws WxErrorException {
+        //获取用户信息
+        TWxUser wxUser = getWxUser();
+        //获取订阅lanmu
+        TMenu menu = menuService.getMenuById(menuId);
+        //取消订阅
+        String state = this.subscriberService.unSubscriberArticle(wxUser, menu);
+        if("1".equals(state)){
+            return ResponseEntity.ok().body("ok");
+        }else{
+            return ResponseEntity.ok().body("err");
+        }
+    }
+
 
     @RequestMapping(method = RequestMethod.GET,value = "/share/article/success")
     public void share()
@@ -165,8 +185,14 @@ public class ViewController {
         }
         ModelAndView modelAndView = new ModelAndView("menuAbstract");
         TSubscriber subscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), menuId);
-        if(null == subscriber&&"1".equals(state)){
+        if(null == subscriber){
             modelAndView.addObject("subscriber",1);
+        }else{
+            modelAndView.addObject("subscriber",0);
+        }
+        //目前如果是分享给别人 则不出现订阅按钮
+        if(!"1".equals(state)){
+            modelAndView.addObject("subscriber",2);
         }
         /*List<TArticle> articleList = this.articleService.getArticleList(wxUser.getId(), menuId);
         List<TArticle> list = articleList.stream().map(t -> {

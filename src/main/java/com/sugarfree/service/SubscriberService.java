@@ -40,4 +40,13 @@ public interface SubscriberService {
      * @throws WxErrorException
      */
     String subscriberArticle(TWxUser wxUser,TMenu menu)throws WxErrorException;
+
+    /**
+     * 订阅文章
+     * @param wxUser
+     * @param menu
+     * @return 0:取消订阅失败 1.取消订阅成功
+     * @throws WxErrorException
+     */
+    String unSubscriberArticle(TWxUser wxUser,TMenu menu)throws WxErrorException;
 }

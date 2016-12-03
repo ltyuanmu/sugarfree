@@ -36,7 +36,6 @@ div.bottom{
     background: url('/img/wenzhangzhuanfa.png');width:375px;height: 588px;
     margin: 10px auto;
 }
-p{line-height: 1.8em}
 p.integral{
     font-size:2em;text-align: center;padding-top:45px;color: #000;letter-spacing: 3px;
 }
@@ -44,7 +43,7 @@ p.integral{
     width: 120px;
     margin: 0 auto;
     display: block;
-    margin-top: 55px;
+    margin-top: 70px;
 }
 p.name{
     font-family: PingFangSC-Medium;
@@ -64,10 +63,9 @@ p.name span{
 img.erweima{
     margin: 0 auto;
     display: block;
-    margin-top: 150px;
-}
-body{
-    width: 375px;
+    margin-top: 140px;
+    width: 120px ;
+    height:120px;
 }
 .clear{
     clear: both;
@@ -76,4 +74,52 @@ body{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+.PointSubscribe{
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+.PointSubscribe img{
+    display: block;
+    width: 230px;
+    margin:50px auto 45px;
+}
+.PointSubscribe p{
+    width: 230px;
+    margin: 0 auto;
+    text-align: center;
+    color: #3e0909;
+    font-size: 1.5em;
+    line-height: 1.5em;
+}
+.PointSubscribe a{
+    width: 115px;
+    height:45px;
+    line-height: 45px;
+    text-align: center;
+    display: block;
+    margin:55px auto 0;
+    background: #fae45f;
+    color: #3e0909;
+    cursor: pointer;
+    font-size: 1.4em;
+}
+.shadow{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    background: rgba(0,0,0,0.7);
+    display: none;
+}
+.shadow .success img,.shadow .fail img{
+    width: 210px;
+    height:200px;
+    display: block;
+    margin:105px auto 0;
+}
+body{
+    max-width: 400px;
 }
