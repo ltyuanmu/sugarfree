@@ -233,6 +233,9 @@ public class ViewController {
         modelAndView.addObject("user", wxUser);
         TArticle article = articleService.getArticleById(id);
         modelAndView.addObject("article", article);
+        //获得订阅积分
+        TMenu menu = menuService.getMenuById(article.getFkMenuId());
+        modelAndView.addObject("point",menu.getPoint());
 
         //添加分享的连接和分享的所需要的参数
         String shareUrl = this.shareProperties.getShareArticleUrl(id, wxUser.getOpenId());

@@ -45,7 +45,7 @@ public class SubscribeHandler extends AbstractHandler {
 
         // 获取微信用户基本信息
         WxMpUser userWxInfo = weixinService.getUserService()
-            .userInfo(wxMessage.getFromUser(), null);
+            .userInfo(wxMessage.getFromUser());
 
         if (userWxInfo != null) {
             // 可以添加关注用户到本地
@@ -63,13 +63,22 @@ public class SubscribeHandler extends AbstractHandler {
             }
             pointService.updatePoint(userWxInfo.getOpenId(), Enum.PointEvent.SUBSCRIBE,recommendId);
             //发送消息
-            StringBuilder contentSB = new StringBuilder("");
-            contentSB.append("这是你的专属二维码。欢迎把这个二维码分享给你的朋友，朋友扫码关注后，你")
-                    .append("们可以各得到一个积分。积分可用于订阅烘焙课程。").append("\n")
-                    .append("希望你在香甜世界里学得开心~");
+            StringBuilder contentSB = new StringBuilder(userWxInfo.getNickname());
+            contentSB.append(",你来啦~是闻着黄油的香味找到这儿的吗？").append("\n")
+                    .append("这里是一间创造美好食物的厨房，也是体验、分享生活的好地方。")
+                    .append("你可以发现来自世界各地的烘焙美食，探索和食物之间的美味关系。")
+                    .append("如果你恰好喜欢烘焙，这里也有成套的烘焙秘方，你更是来对了地方！").append("\n")
+                    .append("来了，就好好享受这趟烘焙之旅吧。");
             WxMpKefuMessage keFuMessage=WxMpKefuMessage.TEXT().content(contentSB.toString()).toUser(userWxInfo.getOpenId()).build();
             weixinService.getKefuService().sendKefuMessage(keFuMessage);
-            return new ImageBuilder().build(uploadResult.getMediaId(),wxMessage,weixinService);
+            //发送二维码消息
+            WxMpKefuMessage keFuOmageMessage=WxMpKefuMessage.IMAGE().mediaId(uploadResult.getMediaId()).toUser(userWxInfo.getOpenId()).build();
+            weixinService.getKefuService().sendKefuMessage(keFuOmageMessage);
+            //发送最后的消息
+            StringBuilder sb = new StringBuilder();
+            sb.append("这是你的专属二维码。欢迎把这个二维码分享给你的朋友，朋友扫码关注后，你们可以各得到一个积分。积分可用于订阅烘焙课程。")
+                    .append("\n").append("希望你在香甜世界里学得开心~");
+            return new TextBuilder().build(sb.toString(),wxMessage,weixinService);
         }
 
         WxMpXmlOutMessage responseResult = null;
