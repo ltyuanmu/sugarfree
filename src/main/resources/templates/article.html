@@ -68,7 +68,7 @@
         });
         wx.onMenuShareTimeline({
             title: [[${article.title}]], // 分享标题
-            desc: [[${menuAbstract.title}]], // 分享描述
+            desc: [[${article.title}]], // 分享描述
             link: [[${shareUrl}]], // 分享链接
             imgUrl: [[${article.icon}]],
             //imgUrl: 'http://img3.duitang.com/uploads/item/201405/21/20140521140027_Nd2s4.jpeg',  // 分享图标
@@ -134,8 +134,7 @@
         })
     })
     $(document).on("click",".shadow",function () {
-        $(".shadow").hide();
-        document.body.style.overflow='initial';
+        window.location.reload();
     })
     $(document).on("click",".PointSubscribe a",function () {
         $.ajax({
@@ -156,7 +155,7 @@
                         $(".shadow .fail").show();
                         $(".article").show()
                     }
-                    document.body.style.overflow='hidden';
+                    $("html,body").css({"overflow":"hidden","height":"100%"})
                 }
             }
         });

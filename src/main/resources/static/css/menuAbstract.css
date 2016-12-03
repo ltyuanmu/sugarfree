@@ -127,7 +127,7 @@ img.erweima{
 }
 body{
     max-width: 400px;
-    margin:0;
+    margin:0 auto;
 }
 .menuAbstract{
     margin: 10px 13px;

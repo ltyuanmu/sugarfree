@@ -152,8 +152,7 @@
         })
     })
     $(document).on("click",".shadow",function () {
-        $(".shadow").hide();
-        document.body.style.overflow='initial';
+        window.location.reload();
     })
 
     $(document).on("click",".PointSubscribe a",function () {
@@ -175,7 +174,7 @@
                         $(".shadow .fail").show();
                         $(".menuAbstract").show()
                     }
-                    document.body.style.overflow='hidden';
+                    $("html,body").css({"overflow":"hidden","height":"100%"})
                 }
             }
         });
