@@ -26,15 +26,18 @@ div.top{
     margin: 0 auto;
 }
 div.content{
-     margin:0.32rem 0;
+    margin:0.32rem 0;
+    background: #fff;
  }
 div.content img{
     width:initial !important;
     max-width: 100%;
 }
 div.bottom{
-    background: url('/img/wenzhangzhuanfa.png');width:375px;height: 588px;
-    margin: 10px auto;
+    background: url('/img/wenzhangzhuanfa.png') no-repeat center;
+    margin: 0.32rem auto;
+    background-size:contain;
+    height: 530px;
 }
 p.integral{
     font-size:2em;text-align: center;padding-top:45px;color: #000;letter-spacing: 3px;
@@ -52,8 +55,6 @@ p.name{
     text-align: center;
     color: #000;
     font-weight: bold;
-}
-p.name span{
 }
 p.name span{
     display: inline-block;
