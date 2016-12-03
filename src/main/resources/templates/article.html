@@ -50,7 +50,7 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     wx.config({
-        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: [[${signature.appid}]], // 必填，公众号的唯一标识
         timestamp:[[${signature.timestamp}]],   // 必填，生成签名的时间戳
         nonceStr: [[${signature.noncestr}]], // 必填，生成签名的随机串
@@ -68,6 +68,7 @@
         });
         wx.onMenuShareTimeline({
             title: [[${article.title}]], // 分享标题
+            desc: [[${menuAbstract.title}]], // 分享描述
             link: [[${shareUrl}]], // 分享链接
             imgUrl: [[${article.icon}]],
             //imgUrl: 'http://img3.duitang.com/uploads/item/201405/21/20140521140027_Nd2s4.jpeg',  // 分享图标
