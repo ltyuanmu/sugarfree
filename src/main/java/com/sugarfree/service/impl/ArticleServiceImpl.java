@@ -48,7 +48,7 @@ public class ArticleServiceImpl implements ArticleService{
                 .andEqualTo("type","1")
                 .andEqualTo("fkMenuId",menuId);
                // .andLessThanOrEqualTo("classTime",tSubscriber.getLastClassTime());
-        example.orderBy("classTime").asc();
+        example.orderBy("classTime").desc();
         return this.tArticleMapper.selectByExample(example);
     }
 

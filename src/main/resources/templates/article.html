@@ -9,20 +9,42 @@
     <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 </head>
 <body>
-<div class="top">
-    <h2 th:text="${article.title}" ></h2>
-    <h3 th:text="'第'+${article.classTime}+'课'"></h3>
-    <p th:text="${article.abstarct}" ></p>
+<div class="article">
+    <div class="top">
+        <h2 th:text="${article.title}" ></h2>
+        <h3 th:text="'第'+${article.classTime}+'课'"></h3>
+        <p th:text="${article.abstarct}" ></p>
+    </div>
+    <div class="content" th:utext="${article.context}">
+    </div>
+    <div class="bottom" style="">
+        <p class="integral" style=""><span th:text="${point}" ></span>个积分</p>
+        <div class="DyBox">
+            <img th:if="${subscriber} == 1" src="/img/dianjidingyue.png" class="cancle DyBtn" />
+            <img th:if="${subscriber} == 0" src="/img/quxiaodingyue.png" class="cancle UnDyBtn" />
+        </div>
+        <p class="name">
+            <span>「我是</span><span class="overtext" th:text="${user.nickname}"></span><span>」</span>
+        </p>
+        <img th:src="${user.qrUrl}" class="erweima"/>
+    </div>
 </div>
-<div class="content" th:utext="${article.context}">
+<div class="shadow">
+    <div class="success">
+        <img src="/img/dingyuechenggong.png" />
+    </div>
+    <div class="fail">
+        <img src="/img/jifenbuzu.png" />
+    </div>
 </div>
-<div class="bottom" style="">
-    <p class="integral" style=""><span th:text="${point}" ></span>个积分</p>
-    <img th:src="@{/img/quxiaodingyue.png}"  class="cancle" />
-    <p class="name">「我是<span th:text="${user.nickname}" ></span>」</p>
-    <img th:src="${user.qrUrl}" class="erweima"/>
+<div class="PointSubscribe ">
+    <img src="/img/jifenicon.png" />
+    <p>
+        订阅专栏将消耗<span th:text="${menuPoint}"></span>个积分<br />
+        确定订阅么？
+    </p>
+    <a>我要订阅</a>
 </div>
-
 <script type="text/javascript" th:src="@{https://res.wx.qq.com/open/js/jweixin-1.0.0.js}"></script>
 <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 <script th:inline="javascript">
@@ -45,6 +67,7 @@
         });
         wx.onMenuShareTimeline({
             title: [[${article.title}]], // 分享标题
+            desc: [[${article.title}]],
             link: [[${shareUrl}]], // 分享链接
             imgUrl: [[${article.icon}]],
             //imgUrl: 'http://img3.duitang.com/uploads/item/201405/21/20140521140027_Nd2s4.jpeg',  // 分享图标
@@ -95,6 +118,48 @@
         alert("失败");
     });
 
+
+    $(document).on("click","img.DyBtn",function () {
+        $(".PointSubscribe").show();
+        $(".article").hide()
+    })
+    $(document).on("click","img.UnDyBtn",function () {
+        $.ajax({
+            url: "/unSubscribe/" + [[${article.fkMenuId}]],
+            type: "GET",
+            success: function (data) {
+                window.location.reload();
+            }
+        })
+    })
+    $(document).on("click",".shadow",function () {
+        $(".shadow").hide();
+        document.body.style.overflow='initial';
+    })
+    $(document).on("click",".PointSubscribe a",function () {
+        $.ajax({
+            url: "/subscribe/"+[[${article.fkMenuId}]],
+            type: "GET",
+            success: function (data) {
+                if (data != null && data != "") {
+                    if (data == "ok") {
+                        $(".PointSubscribe").hide();
+                        $(".shadow").show();
+                        $(".shadow .success").show();
+                        $(".shadow .fail").hide();
+                        $(".article").show()
+                    } else {
+                        $(".PointSubscribe").hide();
+                        $(".shadow").show();
+                        $(".shadow .success").hide();
+                        $(".shadow .fail").show();
+                        $(".article").show()
+                    }
+                    document.body.style.overflow='hidden';
+                }
+            }
+        });
+    });
 
 </script>
 </body>

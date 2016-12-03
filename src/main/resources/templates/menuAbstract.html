@@ -19,26 +19,28 @@
     <div class="content" th:utext="${menuAbstract.context}"></div>
     <div class="bottom">
         <p class="integral" style=""><span th:text="${menuPoint}"></span>个积分</p>
-        <img th:if="${subscriber} == 1" src="/img/dianjidingyue.png" class="cancle DyBtn" />
-        <img th:if="${subscriber} == 0" src="/img/quxiaodingyue.png" class="cancle UnDyBtn" />
+        <div class="DyBox">
+            <img th:if="${subscriber} == 1" src="/img/dianjidingyue.png" class="cancle DyBtn" />
+            <img th:if="${subscriber} == 0" src="/img/quxiaodingyue.png" class="cancle UnDyBtn" />
+        </div>
         <p class="name">
             <span>「我是</span><span class="overtext" th:text="${user.nickname}"></span><span>」</span>
         </p>
-        <img th:src="${user.qrUrl}" style="border: 10px solid #fff;;" class="erweima"/>
+        <img th:src="${user.qrUrl}" class="erweima"/>
     </div>
 </div>
 <div class="shadow">
     <div class="success">
-        <img src="/img/jifenbuzu.png" />
+        <img src="/img/dingyuechenggong.png" />
     </div>
     <div class="fail">
-        <img src="/img/dingyuechenggong.png" />
+        <img src="/img/jifenbuzu.png" />
     </div>
 </div>
 <div class="PointSubscribe ">
     <img src="/img/jifenicon.png" />
     <p>
-        订阅专栏将消耗4个积分<br />
+        订阅专栏将消耗<span th:text="${menuPoint}"></span>个积分<br />
         确定订阅么？
     </p>
     <a>我要订阅</a>
@@ -67,6 +69,7 @@
         });
         wx.onMenuShareTimeline({
             title: [[${menuAbstract.title}]], // 分享标题
+            desc: [[${menuAbstract.title}]],
             link: [[${shareUrl}]], // 分享链接
             imgUrl: [[${menuAbstract.icon}]],
             //imgUrl: 'http://img3.duitang.com/uploads/item/201405/21/20140521140027_Nd2s4.jpeg',  // 分享图标
@@ -137,7 +140,7 @@
     }
     $(document).on("click","img.DyBtn",function () {
         $(".PointSubscribe").show();
-        $(".menuAbstract").hide()
+        $(".menuAbstract").hide();
     })
     $(document).on("click","img.UnDyBtn",function () {
         $.ajax({
@@ -148,6 +151,11 @@
             }
         })
     })
+    $(document).on("click",".shadow",function () {
+        $(".shadow").hide();
+        document.body.style.overflow='initial';
+    })
+
     $(document).on("click",".PointSubscribe a",function () {
         $.ajax({
             url: "/subscribe/"+[[${menuAbstract.fkMenuId}]],
@@ -167,6 +175,7 @@
                         $(".shadow .fail").show();
                         $(".menuAbstract").show()
                     }
+                    document.body.style.overflow='hidden';
                 }
             }
         });

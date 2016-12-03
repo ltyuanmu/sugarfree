@@ -42,11 +42,14 @@ div.bottom{
 p.integral{
     font-size:2em;text-align: center;padding-top:45px;color: #000;letter-spacing: 3px;
 }
+.DyBox{
+    margin-top: 70px;
+    height:27px;
+}
 .cancle{
     width: 120px;
     margin: 0 auto;
     display: block;
-    margin-top: 70px;
 }
 p.name{
     font-family: PingFangSC-Medium;
@@ -60,6 +63,8 @@ p.name span{
     display: inline-block;
     max-width: 100px;
     overflow: hidden;
+    height:1.2em;
+    line-height: 1.2em;
 }
 img.erweima{
     margin: 0 auto;
@@ -123,4 +128,8 @@ img.erweima{
 }
 body{
     max-width: 400px;
+    margin:0;
+}
+.menuAbstract{
+    margin: 10px 13px;
 }

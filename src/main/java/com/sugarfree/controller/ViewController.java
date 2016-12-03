@@ -152,7 +152,7 @@ public class ViewController {
     }
 
 
-    @RequestMapping(method = RequestMethod.GET,value = "/share/article/success")
+    /*@RequestMapping(method = RequestMethod.GET,value = "/share/article/success")
     public void share()
     {
         //获取用户信息
@@ -165,14 +165,14 @@ public class ViewController {
             //添加积分变更历史记录，扣除积分
             pointService.updatePoint(wxUser.getOpenId(), Enum.PointEvent.SHARE, "");
         }
-    }
+    }*/
     /**
-     * 获取订阅list
+     * 获取订阅专栏
      * @param menuId
      * @return
      */
     @RequestMapping(method = RequestMethod.GET,value = "/articleList/{menuId}")
-    public ModelAndView getArticleList(@PathVariable int menuId,String state) throws WxErrorException {
+    public ModelAndView getMenuAbstract(@PathVariable int menuId,String state) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser;
         if(!"1".equals(state)&&StringUtils.isNotEmpty(state)){
@@ -259,6 +259,17 @@ public class ViewController {
         modelAndView.addObject("user", wxUser);
         TArticle article = articleService.getArticleById(id);
         modelAndView.addObject("article", article);
+        //订阅按钮判断
+        TSubscriber subscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), article.getFkMenuId());
+        if(null == subscriber){
+            modelAndView.addObject("subscriber",1);
+        }else{
+            modelAndView.addObject("subscriber",0);
+        }
+        //目前如果是分享给别人 则不出现订阅按钮
+        if(!"1".equals(state)){
+            modelAndView.addObject("subscriber",2);
+        }
         //获得订阅积分
         TMenu menu = menuService.getMenuById(article.getFkMenuId());
         modelAndView.addObject("point",menu.getPoint());
@@ -280,8 +291,63 @@ public class ViewController {
     * 通过菜单id获得文章的列表
     * 点击可以进入文章详情
     * */
+    @RequestMapping(method = RequestMethod.GET,value = "/article/list/{menuId}")
+    public ModelAndView getArticleList(@PathVariable int menuId,String state) throws WxErrorException {
+        //获取用户信息
+        TWxUser wxUser;
+        if(!"1".equals(state)&&StringUtils.isNotEmpty(state)){
+            wxUser = this.wxUserService.getWxUserByOpenId(state);
+        }else{
+            wxUser = getWxUser();
+        }
+        if(wxUser==null){
+            throw new RuntimeException("调用失败!");
+        }
+        ModelAndView modelAndView = new ModelAndView("menuAbstract");
+        TSubscriber subscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), menuId);
+        if(null == subscriber){
+            modelAndView.addObject("subscriber",1);
+        }else{
+            modelAndView.addObject("subscriber",0);
+        }
+        //目前如果是分享给别人 则不出现订阅按钮
+        if(!"1".equals(state)){
+            modelAndView.addObject("subscriber",2);
+        }
+        List<TArticle> articleList = this.articleService.getArticleList(wxUser.getId(), menuId);
+        List<TArticle> list = articleList.stream().map(t -> {
+            TArticle article = new TArticle();
+            article.setId(t.getId());
+            article.setClassTime(t.getClassTime());
+            article.setTitle(t.getTitle());
+            return article;
+        }).collect(Collectors.toList());
+        ModelAndView view = new ModelAndView("articleList");
+        view.addObject("menu","文章列表");
+        view.addObject("list",list);
+        return view;
 
-
+        /*TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
+        if(menuAbstract==null){
+            throw new RuntimeException("文章专栏详情不存在!!");
+        }
+        modelAndView.addObject("menuAbstract",menuAbstract);
+        //获得二维码图片
+        String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
+        wxUser.setQrUrl(url);
+        modelAndView.addObject("user",wxUser);
+        //获取订阅扣除积分
+        TMenu menu = menuService.getMenuById(menuId);
+        modelAndView.addObject("menuPoint",menu.getPoint());
+        //添加分享的连接和分享的所需要的参数
+        String shareUrl = this.shareProperties.getShareMenuAbstractUrl(menuId,wxUser.getOpenId());
+        //签名需要的Url
+        String signatureUrl = getRequestUrl();
+        WxJsapiSignature signature = this.wxService.createJsapiSignature(signatureUrl);
+        modelAndView.addObject("signature",signature);
+        modelAndView.addObject("shareUrl",shareUrl);
+        return modelAndView;*/
+    }
     /*
     * 获得积分规则介绍
     * */
