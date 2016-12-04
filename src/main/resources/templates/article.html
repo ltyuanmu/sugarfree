@@ -132,9 +132,9 @@
                 if (data != null && data != "") {
                     var content="";
                     if (data == "ok") {
-                        content = '<a class=" UnDyBtn"><img th:if="${subscriber} == 0" src="/img/quxiaodingyue.png" class="cancle " /></a>';
+                        content = '<a class=" UnDyBtn"><img src="/img/quxiaodingyue.png" class="cancle " /></a>';
                     }else {
-                        content = '<a class=" DyBtn"><img th:if="${subscriber} == 1" src="/img/dianjidingyue.png" class="cancle" /></a>';
+                        content = '<a class=" DyBtn"><img src="/img/dianjidingyue.png" class="cancle" /></a>';
                     }
                     $(".bottom .DyBox").html(content);
                 }
@@ -158,14 +158,14 @@
                         $(".shadow .success").show();
                         $(".shadow .fail").hide();
                         $(".article").show();
-                        content = '<a class=" UnDyBtn"><img th:if="${subscriber} == 0" src="/img/quxiaodingyue.png" class="cancle " /></a>';
+                        content = '<a class=" UnDyBtn"><img src="/img/quxiaodingyue.png" class="cancle " /></a>';
                     } else {
                         $(".PointSubscribe").hide();
                         $(".shadow").css("display","block");
                         $(".shadow .success").hide();
                         $(".shadow .fail").show();
                         $(".article").show()
-                        content = '<a class=" DyBtn"><img th:if="${subscriber} == 1" src="/img/dianjidingyue.png" class="cancle" /></a>';
+                        content = '<a class=" DyBtn"><img src="/img/dianjidingyue.png" class="cancle" /></a>';
                     }
                     $(".bottom .DyBox").html(content);
                     $("html,body").css({"overflow":"hidden","height":"100%"})
