@@ -93,6 +93,15 @@ public class ViewController {
         return wxUserService.getWxUserByOpenId(openId);
     }
 
+    private void setUserSession(TWxUser tWxUser){
+        HttpServletRequest request = HttpRequestUtil.getRequest();
+        HttpSession session = request.getSession();
+        String openId = (String) session.getAttribute("openId");
+        if(StringUtils.isEmpty(openId)){
+            session.setAttribute("openId",tWxUser.getOpenId());
+        }
+    }
+
     /**
      * 获得本次请求的url
      * @return
@@ -271,7 +280,10 @@ public class ViewController {
         //isSelf 0代表 别人 1 代表自己
         if(!"1".equals(state)&&!"1".equals(isSelf)){
             modelAndView.addObject("subscriber",2);
+        }else if(!"1".equals(state)&&"1".equals(isSelf)){
+            setUserSession(wxUser);
         }
+
         //获得订阅积分
         TMenu menu = menuService.getMenuById(article.getFkMenuId());
         modelAndView.addObject("point",menu.getPoint());
