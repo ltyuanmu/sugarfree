@@ -6,20 +6,17 @@
     <meta name = "format-detection" content = "telephone=no" />
     <title>文章列表</title>
     <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
-    <link  type="text/css" rel="stylesheet" th:href="@{/css/CssReset.min.css}"/>
-    <link  type="text/css" rel="stylesheet" th:href="@{/css/common.css}"/>
     <link  type="text/css" rel="stylesheet" th:href="@{/css/columnList.css}"/>
 </head>
 <body>
 <div>
     <div style="overflow: hidden;">
-        <p th:text="${menu}"></p>
         <div class="columnItem" th:each="article,articleStat : ${list}" >
-            <p>
-                <a th:onclick="|showArticle(${article.id});|" th:text="|第${article.classTime}课,${article.title}|"></a>
-            </p>
+            <a th:onclick="|showArticle(${article.id});|">
+                <p class="title" th:text="|第${article.classTime}课|"></p>
+                <p class="content" th:text="|${article.title}|"></p>
+            </a>
         </div>
-
     </div>
 </div>
 

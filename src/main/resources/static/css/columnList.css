@@ -1,23 +1,14 @@
-.columnList{
-	width: 7.5rem;
-	max-width: 7.5rem;
-    font-size:0.28rem;
-    margin: 0 auto;
-    background: #FFF;
-}
-
-.columnList {
-	overflow: hidden;
-}
 
 .columnItem{
-	float: left;
+	padding:20px 0;
+	font-size: 1.2em;
+	line-height: 1.2em;
+}
+.columnItem .title{
+	color: #000;
+}
+.columnItem .content{
+	margin-top:20px;
+	color: #757575;
 }
 
-.columnList .qrImage{
-	width: 100%;
-}
-
-.columnItem input[type="button"]{
-	background: #97FFFF;
-}
