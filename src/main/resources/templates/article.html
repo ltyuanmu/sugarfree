@@ -129,12 +129,21 @@
             url: "/unSubscribe/" + [[${article.fkMenuId}]],
             type: "GET",
             success: function (data) {
-                window.location.href=window.location.href+"#ver="+10000*Math.random();
+                if (data != null && data != "") {
+                    var content="";
+                    if (data == "ok") {
+                        content = '<a class=" UnDyBtn"><img th:if="${subscriber} == 0" src="/img/quxiaodingyue.png" class="cancle " /></a>';
+                    }else {
+                        content = '<a class=" DyBtn"><img th:if="${subscriber} == 1" src="/img/dianjidingyue.png" class="cancle" /></a>';
+                    }
+                    $(".bottom .DyBox").html(content);
+                }
             }
         })
     })
     $(document).on("click",".shadow",function () {
-        window.location.href=window.location.href+"#ver="+10000*Math.random();
+        $("html,body").css({"overflow":"initial","height":"initial"});
+        $(".shadow").hide();
     })
     $(document).on("click",".PointSubscribe a",function () {
         $.ajax({
