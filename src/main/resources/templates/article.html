@@ -20,8 +20,8 @@
     <div class="bottom" style="">
         <p class="integral" style=""><span th:text="${point}" ></span>个积分</p>
         <div class="DyBox">
-            <img th:if="${subscriber} == 1" src="/img/dianjidingyue.png" class="cancle DyBtn" />
-            <img th:if="${subscriber} == 0" src="/img/quxiaodingyue.png" class="cancle UnDyBtn" />
+            <a class=" DyBtn"><img th:if="${subscriber} == 1" src="/img/dianjidingyue.png" class="cancle" /></a>
+            <a class=" UnDyBtn"><img th:if="${subscriber} == 0" src="/img/quxiaodingyue.png" class="cancle " /></a>
         </div>
         <p class="name">
             <span>「我是</span><span class="overtext" th:text="${user.nickname}"></span><span>」</span>
@@ -29,14 +29,14 @@
         <img th:src="${user.qrUrl}" class="erweima"/>
     </div>
 </div>
-<div class="shadow">
+<a class="shadow">
     <div class="success">
         <img src="/img/dingyuechenggong.png" />
     </div>
     <div class="fail">
         <img src="/img/jifenbuzu.png" />
     </div>
-</div>
+</a>
 <div class="PointSubscribe ">
     <img src="/img/jifenicon.png" />
     <p>
@@ -120,11 +120,11 @@
     });
 
 
-    $(document).on("click","img.DyBtn",function () {
+    $(document).on("click","a.DyBtn",function () {
         $(".PointSubscribe").show();
         $(".article").hide()
     })
-    $(document).on("click","img.UnDyBtn",function () {
+    $(document).on("click","a.UnDyBtn",function () {
         $.ajax({
             url: "/unSubscribe/" + [[${article.fkMenuId}]],
             type: "GET",
@@ -133,7 +133,7 @@
             }
         })
     })
-    $(document).on("click",".shadow",function () {
+    $(document).on("click","a.shadow",function () {
         window.location.reload();
     })
     $(document).on("click",".PointSubscribe a",function () {
@@ -144,13 +144,13 @@
                 if (data != null && data != "") {
                     if (data == "ok") {
                         $(".PointSubscribe").hide();
-                        $(".shadow").show();
+                        $(".shadow").css("display","block");
                         $(".shadow .success").show();
                         $(".shadow .fail").hide();
                         $(".article").show()
                     } else {
                         $(".PointSubscribe").hide();
-                        $(".shadow").show();
+                        $(".shadow").css("display","block");
                         $(".shadow .success").hide();
                         $(".shadow .fail").show();
                         $(".article").show()

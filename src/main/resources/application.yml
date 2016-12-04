@@ -35,5 +35,5 @@ wechat:
         aesKey: qcgUpRRcUIFO5ZzOBEgyHgJM5yRx6XLwWa8L74ZTFl8
 share:
     serverUrl: http://mymoney.sh1.newtouch.com
-    shareArticleUrl: /article/{id}?state={state}
+    shareArticleUrl: /article/{id}?state={state}&isSelf={isSelf}
     shareMenuAbstractUrl: /articleList/{id}?state={state}

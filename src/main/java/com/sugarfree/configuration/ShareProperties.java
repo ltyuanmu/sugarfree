@@ -1,5 +1,6 @@
 package com.sugarfree.configuration;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -43,14 +44,30 @@ public class ShareProperties {
         this.shareMenuAbstractUrl = shareMenuAbstractUrl;
     }
 
+
     /**
      * 获得分享文章url
      * @param articleId 文章id
      * @return url
      */
     public String getShareArticleUrl(int articleId,String state){
+        return getShareArticleUrl(articleId,state,false);
+    }
+
+    /**
+     * 获得分享文章url
+     * @param articleId 文章id
+     * @return url
+     */
+    public String getShareArticleUrl(int articleId,String state,boolean isSelf){
         String url = this.serverUrl.concat(shareArticleUrl);
-        return url.replace("{id}",String.valueOf(articleId)).replace("{state}",state);
+        url = url.replace("{id}",String.valueOf(articleId)).replace("{state}",state);
+        if(isSelf){
+            url = url.replace("{isSelf}","1");
+        }else{
+            url = url.replace("{isSelf}","0");
+        }
+        return url;
     }
 
     /**

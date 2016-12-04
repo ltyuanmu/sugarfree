@@ -293,7 +293,7 @@ public class ViewController {
     * 点击可以进入文章详情
     * */
     @RequestMapping(method = RequestMethod.GET,value = "/article/list/{menuId}")
-    public ModelAndView getArticleList(@PathVariable int menuId,String state) throws WxErrorException {
+    public ModelAndView getArticleList(@PathVariable int menuId,String state,String isSelf) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser;
         if(!"1".equals(state)&&StringUtils.isNotEmpty(state)){
@@ -312,7 +312,8 @@ public class ViewController {
             modelAndView.addObject("subscriber",0);
         }
         //目前如果是分享给别人 则不出现订阅按钮
-        if(!"1".equals(state)){
+        //isSelf 0代表 别人 1 代表自己
+        if(!"1".equals(state)&&!"1".equals(isSelf)){
             modelAndView.addObject("subscriber",2);
         }
         List<TArticle> articleList = this.articleService.getArticleList(wxUser.getId(), menuId);
