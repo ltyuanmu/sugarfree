@@ -147,12 +147,12 @@
             url: "/unSubscribe/" + [[${menuAbstract.fkMenuId}]],
             type: "GET",
             success: function (data) {
-                window.location.reload(true);
+                location.replace(location.href);
             }
         })
     })
     $(document).on("click",".shadow",function () {
-        window.location.reload(true);
+        location.replace(location.href);
     })
 
     $(document).on("click",".PointSubscribe a",function () {
