@@ -129,12 +129,12 @@
             url: "/unSubscribe/" + [[${article.fkMenuId}]],
             type: "GET",
             success: function (data) {
-                window.location.reload(true);
+                window.location.href=window.location.href+"?id="+10000*Math.random();
             }
         })
     })
     $(document).on("click",".shadow",function () {
-        window.location.reload(true);
+        window.location.href=window.location.href+"?id="+10000*Math.random();
     })
     $(document).on("click",".PointSubscribe a",function () {
         $.ajax({
