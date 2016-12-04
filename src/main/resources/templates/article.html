@@ -151,19 +151,23 @@
             type: "GET",
             success: function (data) {
                 if (data != null && data != "") {
+                    var content="";
                     if (data == "ok") {
                         $(".PointSubscribe").hide();
                         $(".shadow").css("display","block");
                         $(".shadow .success").show();
                         $(".shadow .fail").hide();
-                        $(".article").show()
+                        $(".article").show();
+                        content = '<a class=" UnDyBtn"><img th:if="${subscriber} == 0" src="/img/quxiaodingyue.png" class="cancle " /></a>';
                     } else {
                         $(".PointSubscribe").hide();
                         $(".shadow").css("display","block");
                         $(".shadow .success").hide();
                         $(".shadow .fail").show();
                         $(".article").show()
+                        content = '<a class=" DyBtn"><img th:if="${subscriber} == 1" src="/img/dianjidingyue.png" class="cancle" /></a>';
                     }
+                    $(".bottom .DyBox").html(content);
                     $("html,body").css({"overflow":"hidden","height":"100%"})
                 }
             }
