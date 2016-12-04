@@ -1,13 +1,13 @@
 
-.columnItem{
+.articleItem{
 	font-size: 1.2em;
 	line-height: 1.2em;
 	border-bottom:1px solid #d2d2d2;
 }
-.columnItem .title{
+.articleItem .title{
 	color: #000;
 }
-.columnItem .content{
+.articleItem .content{
 	margin-top:20px;
 	color: #757575;
 }
