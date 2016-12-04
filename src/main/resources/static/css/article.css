@@ -4,6 +4,9 @@ div.top,div.content{
     background:#fff ;
     padding: 0.32rem;
 }
+a{
+    cursor: pointer;
+}
 div.top{
     line-height: 1.5em;
     margin:10px 13px 10px 13px;
