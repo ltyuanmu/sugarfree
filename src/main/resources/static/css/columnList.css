@@ -1,8 +1,8 @@
 
 .columnItem{
-	padding:20px 0;
 	font-size: 1.2em;
 	line-height: 1.2em;
+	border-bottom:1px solid #757575;
 }
 .columnItem .title{
 	color: #000;
