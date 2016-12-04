@@ -147,12 +147,12 @@
             url: "/unSubscribe/" + [[${menuAbstract.fkMenuId}]],
             type: "GET",
             success: function (data) {
-                window.location.href=window.location.href+Math.random();
+                window.location.href=window.location.href+"?ver="+10000*Math.random();
             }
         })
     })
     $(document).on("click",".shadow",function () {
-        window.location.href=window.location.href+Math.random();
+        window.location.href=window.location.href+"?ver="+10000*Math.random();
     })
 
     $(document).on("click",".PointSubscribe a",function () {
