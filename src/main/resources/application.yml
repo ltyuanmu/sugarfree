@@ -1,7 +1,10 @@
-server.port:  8080
-server.tomcat.access_log_enabled: true
-server.tomcat.basedir: target/tomcat
 spring:
+  profiles:
+    active: pro
+
+---
+spring:
+    profiles: test
     datasource:
         name: wutang
         url: jdbc:mysql://223.167.85.2:40788/wutang?useUnicode=true&characterEncoding=UTF-8&amp;amp;autoReconnect=true
@@ -37,3 +40,58 @@ share:
     serverUrl: http://mymoney.sh1.newtouch.com
     shareArticleUrl: /article/{id}?state={state}&isSelf={isSelf}
     shareMenuAbstractUrl: /articleList/{id}?state={state}
+    templetId: _FTxMyVjVDgHJlJO6RK1fZuW3EgNYr8q8KpH5BHC4AQ
+server:
+    port: 8080
+    tomcat:
+        access_log_enabled: true
+        basedir: target/tomcat
+
+
+---
+
+spring:
+    profiles: pro
+    datasource:
+        name: wutang
+        url: jdbc:mysql://sugarnew.mysql.rds.aliyuncs.com:3306/sugarfree?useUnicode=true&characterEncoding=UTF-8&amp;amp;autoReconnect=true
+        username: uop_sf6
+        password: U6s123
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 20
+    thymeleaf:
+        cache: false
+        mode: HTML5
+        encoding: UTF-8
+        content-type: text/html
+wechat:
+    mp:
+        appId: wx4d534e8ddeed9bd3
+        secret: b2e3b879350f9066f8bf51644e070ddc
+        token: SM007
+        aesKey: TtDHZGDxl506y5OQuTg6vj9dfBbv1DGquMN31DwNWHy
+share:
+    serverUrl: http://wesugarfree.com/wx
+    shareArticleUrl: /article/{id}?state={state}&isSelf={isSelf}
+    shareMenuAbstractUrl: /articleList/{id}?state={state}
+    templetId: O2SLFq-hX8I-t3UMbh9-7FINANfck2SYHQJlsWzcmuc
+
+server:
+    port: 8088
+    context-path: /wx
+    tomcat:
+        access_log_enabled: true
+        basedir: target/tomcat

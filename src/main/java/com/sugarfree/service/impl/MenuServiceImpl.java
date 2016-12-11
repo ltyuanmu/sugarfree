@@ -92,6 +92,11 @@ public class MenuServiceImpl implements MenuService {
         for(TMenu menu:buttonList){
             WxMenuButton button  = new WxMenuButton();
             button.setName(menu.getName());
+            if("2".equals(menu.getType())){
+                button.setType("view");
+                button.setUrl(menu.getUrl());
+            }
+
             List<TMenu> subMenus = map.get(String.valueOf(menu.getId()));
             Collections.sort(subMenus,(m1,m2) -> {
                 return m1.getId()-m2.getId();
@@ -117,6 +122,10 @@ public class MenuServiceImpl implements MenuService {
                     case "3":
                         subButton.setType("click");
                         subButton.setKey("MY_POINT");
+                        break;
+                    case "4":
+                        subButton.setType("click");
+                        subButton.setKey("MY_QR_CODE");
                         break;
                     default:
                         break;

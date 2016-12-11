@@ -1,6 +1,7 @@
 package com.sugarfree.service;
 
 import com.sugarfree.dao.model.TArticle;
+import com.sugarfree.dao.model.TWxUser;
 
 import java.util.List;
 
@@ -31,4 +32,12 @@ public interface ArticleService {
      * 通过菜单id和课次获得文章信息
      */
     TArticle getArticleByEnumIdClassTime(Integer enumId,Integer classTime);
+
+    /**
+     * 更新文章统计
+     * @param tWxUser 用户名
+     * @param tArticle 文章id
+     * @param type false:是自己打开 true:分享的文章打开
+     */
+    void updateArticleStat(TWxUser tWxUser,TArticle tArticle,boolean type);
 }

@@ -19,7 +19,7 @@ div.content img{
     max-width: 100%;
 }
 div.bottom{
-    background: url('/img/wenzhangzhuanfa.png') no-repeat center;
+    background: url('/wx/img/wenzhangzhuanfa.png') no-repeat center;
     margin: 0.32rem auto;
     background-size:contain;
     height: 530px;

@@ -20,8 +20,8 @@
     <div class="bottom" style="">
         <p class="integral" style=""><span th:text="${point}" ></span>个积分</p>
         <div class="DyBox">
-            <a class=" DyBtn"><img th:if="${subscriber} == 1" src="/img/dianjidingyue.png" class="cancle" /></a>
-            <a class=" UnDyBtn"><img th:if="${subscriber} == 0" src="/img/quxiaodingyue.png" class="cancle " /></a>
+            <a class=" DyBtn"><img th:if="${subscriber} == 1" src="/wx/img/dianjidingyue.png" class="cancle" /></a>
+            <a class=" UnDyBtn"><img th:if="${subscriber} == 0" src="/wx/img/quxiaodingyue.png" class="cancle " /></a>
         </div>
         <p class="name">
             <span>「我是</span><span class="overtext" th:text="${user.nickname}"></span><span>」</span>
@@ -31,14 +31,14 @@
 </div>
 <a class="shadow">
     <div class="success">
-        <img src="/img/dingyuechenggong.png" />
+        <img src="/wx/img/dingyuechenggong.png" />
     </div>
     <div class="fail">
-        <img src="/img/jifenbuzu.png" />
+        <img src="/wx/img/jifenbuzu.png" />
     </div>
 </a>
 <div class="PointSubscribe ">
-    <img src="/img/jifenicon.png" />
+    <img src="/wx/img/jifenicon.png" />
     <p>
         订阅专栏将消耗<span th:text="${menuPoint}"></span>个积分<br />
         确定订阅么？
@@ -126,15 +126,15 @@
     })
     $(document).on("click","a.UnDyBtn",function () {
         $.ajax({
-            url: "/unSubscribe/" + [[${article.fkMenuId}]],
+            url: "/wx/unSubscribe/" + [[${article.fkMenuId}]],
             type: "GET",
             success: function (data) {
                 if (data != null && data != "") {
                     var content="";
                     if (data == "ok") {
-                        content = '<a class=" UnDyBtn"><img src="/img/quxiaodingyue.png" class="cancle " /></a>';
+                        content = '<a class=" DyBtn"><img src="/wx/img/dianjidingyue.png" class="cancle" /></a>';
                     }else {
-                        content = '<a class=" DyBtn"><img src="/img/dianjidingyue.png" class="cancle" /></a>';
+                        content = '<a class=" UnDyBtn"><img src="/wx/img/quxiaodingyue.png" class="cancle " /></a>';
                     }
                     $(".bottom .DyBox").html(content);
                 }
@@ -147,7 +147,7 @@
     })
     $(document).on("click",".PointSubscribe a",function () {
         $.ajax({
-            url: "/subscribe/"+[[${article.fkMenuId}]],
+            url: "/wx/subscribe/"+[[${article.fkMenuId}]],
             type: "GET",
             success: function (data) {
                 if (data != null && data != "") {
@@ -158,14 +158,14 @@
                         $(".shadow .success").show();
                         $(".shadow .fail").hide();
                         $(".article").show();
-                        content = '<a class=" UnDyBtn"><img src="/img/quxiaodingyue.png" class="cancle " /></a>';
+                        content = '<a class=" UnDyBtn"><img src="/wx/img/quxiaodingyue.png" class="cancle " /></a>';
                     } else {
                         $(".PointSubscribe").hide();
                         $(".shadow").css("display","block");
                         $(".shadow .success").hide();
                         $(".shadow .fail").show();
                         $(".article").show()
-                        content = '<a class=" DyBtn"><img src="/img/dianjidingyue.png" class="cancle" /></a>';
+                        content = '<a class=" DyBtn"><img src="/wx/img/dianjidingyue.png" class="cancle" /></a>';
                     }
                     $(".bottom .DyBox").html(content);
                     $("html,body").css({"overflow":"hidden","height":"100%"})

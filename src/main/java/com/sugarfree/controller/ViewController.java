@@ -109,7 +109,7 @@ public class ViewController {
     private String getRequestUrl(){
         HttpServletRequest request = HttpRequestUtil.getRequest();
         String url  = this.shareProperties.getServerUrl();  // 请求服务器
-        url+=request.getRequestURI();     // 工程名
+        url+=request.getServletPath();     // 工程名
         if(request.getQueryString()!=null) //判断请求参数是否为空
             url+="?"+request.getQueryString();   // 参数
         log.info("getRequestUrl :{}",url);
@@ -192,12 +192,23 @@ public class ViewController {
         if(wxUser==null){
             throw new RuntimeException("调用失败!");
         }
+        TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
+        if(menuAbstract==null){
+            throw new RuntimeException("文章专栏详情不存在!!");
+        }
         ModelAndView modelAndView = new ModelAndView("menuAbstract");
         TSubscriber subscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), menuId);
         if(null == subscriber){
             modelAndView.addObject("subscriber",1);
         }else{
-            modelAndView.addObject("subscriber",0);
+            //目前去掉取消订阅按钮
+            //modelAndView.addObject("subscriber",0);
+            modelAndView.addObject("subscriber",2);
+            //如果state为1 则是本人 则进入列表
+            //改为不进入列表
+            /*if("1".equals(state)){
+                return getArticleList(menuId,state,"1");
+            }*/
         }
         //目前如果是分享给别人 则不出现订阅按钮
         if(!"1".equals(state)){
@@ -216,10 +227,6 @@ public class ViewController {
         view.addObject("list",list);
         return view;*/
 
-        TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
-        if(menuAbstract==null){
-            throw new RuntimeException("文章专栏详情不存在!!");
-        }
         modelAndView.addObject("menuAbstract",menuAbstract);
         //获得二维码图片
         String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
@@ -274,14 +281,20 @@ public class ViewController {
         if(null == subscriber){
             modelAndView.addObject("subscriber",1);
         }else{
-            modelAndView.addObject("subscriber",0);
+            //目前去掉取消订阅按钮
+            //modelAndView.addObject("subscriber",0);
+            modelAndView.addObject("subscriber",2);
         }
         //目前如果是分享给别人 则不出现订阅按钮
         //isSelf 0代表 别人 1 代表自己
         if(!"1".equals(state)&&!"1".equals(isSelf)){
             modelAndView.addObject("subscriber",2);
+            this.articleService.updateArticleStat(wxUser,article,true);
         }else if(!"1".equals(state)&&"1".equals(isSelf)){
             setUserSession(wxUser);
+            this.articleService.updateArticleStat(wxUser,article,false);
+        }else{
+            this.articleService.updateArticleStat(wxUser,article,false);
         }
 
         //获得订阅积分
@@ -365,13 +378,31 @@ public class ViewController {
         modelAndView.addObject("shareUrl",shareUrl);
         return modelAndView;*/
     }
-    /*
-    * 获得积分规则介绍
-    * */
 
+    /**
+    * 获得积分规则介绍
+    */
     @RequestMapping(method = RequestMethod.GET,value = "/point")
     public ModelAndView getPointDetail(){
         //目前是个静态界面
         return new ModelAndView("point");
     }
+
+    /**
+     * 获取订阅专栏
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET,value = "/menu/list")
+    public ModelAndView getMenuAbstract() throws WxErrorException {
+        //获取用户信息
+        TWxUser wxUser = getWxUser();
+        if(wxUser==null){
+            throw new RuntimeException("调用失败!");
+        }
+        List<TMenu> subscriberList = this.subscriberService.getSubscriberList(wxUser);
+        ModelAndView modelAndView = new ModelAndView("menuList");
+        modelAndView.addObject("menus",subscriberList);
+        return modelAndView;
+    }
+
 }

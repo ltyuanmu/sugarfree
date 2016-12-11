@@ -49,4 +49,12 @@ public interface SubscriberService {
      * @throws WxErrorException
      */
     String unSubscriberArticle(TWxUser wxUser,TMenu menu)throws WxErrorException;
+
+    /**
+     * 通过用户获得订阅的菜单集合
+     * @param wxUser
+     * @return
+     * @throws WxErrorException
+     */
+    List<TMenu> getSubscriberList(TWxUser wxUser)throws WxErrorException;
 }

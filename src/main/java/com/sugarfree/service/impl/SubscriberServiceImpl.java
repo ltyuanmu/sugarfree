@@ -1,6 +1,9 @@
 package com.sugarfree.service.impl;
 
+import com.google.common.base.*;
+import com.google.common.collect.Lists;
 import com.sugarfree.configuration.ShareProperties;
+import com.sugarfree.dao.mapper.TMenuMapper;
 import com.sugarfree.dao.mapper.TSubscriberMapper;
 import com.sugarfree.dao.mapper.TSubscriberPushMapper;
 import com.sugarfree.dao.mapper.TWxUserMapper;
@@ -16,7 +19,12 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import tk.mybatis.mapper.entity.Example;
+
 import java.util.*;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by Administrator on 2016/11/19.
@@ -40,6 +48,8 @@ public class SubscriberServiceImpl implements SubscriberService{
     private PointService pointService;
     @Autowired
     private TSubscriberPushMapper tSubscriberPushMapper;
+    @Autowired
+    private TMenuMapper tMenuMapper;
 
     @Override
     public void insert(TSubscriber subscriber) {
@@ -70,15 +80,15 @@ public class SubscriberServiceImpl implements SubscriberService{
         String url = this.shareProperties.getShareArticleUrl(article.getId(),tWxUser.getOpenId(),true);
         List<WxMpTemplateData> list =  new ArrayList<>();
         WxMpTemplateData first = new WxMpTemplateData("first",article.getTitle(),"#D2691E");
-        WxMpTemplateData keyword1 = new WxMpTemplateData("keyword1",tWxUser.getNickname(),"#D2691E");
-        WxMpTemplateData keyword2 = new WxMpTemplateData("keyword2","第"+article.getClassTime()+"课","#D2691E");
+        WxMpTemplateData keyword1 = new WxMpTemplateData("keyword1","第"+article.getClassTime()+"课","#D2691E");
+        WxMpTemplateData keyword2 = new WxMpTemplateData("keyword2",tWxUser.getNickname(),"#D2691E");
         WxMpTemplateData remark = new WxMpTemplateData("remark","\n点击阅读好吃到飞起来的烘焙内容","#D2691E");
         list.add(first);
         list.add(keyword1);
         list.add(keyword2);
         list.add(remark);
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
-                .templateId("_FTxMyVjVDgHJlJO6RK1fZuW3EgNYr8q8KpH5BHC4AQ")
+                .templateId(shareProperties.getTempletId())
                 .toUser(tWxUser.getOpenId())
                 .url(url)
                 .topColor("#D2691E")
@@ -110,10 +120,10 @@ public class SubscriberServiceImpl implements SubscriberService{
             subscriber.setLastClassTime(0);
             this.insert(subscriber);
             //判断是否为早上8点和晚上8点 如果是的话发送 否则不进行发送
-            //目前订阅不需要及时推送
+            //任何时候需要及时推送
             /*Calendar calendar = Calendar.getInstance();
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            if(hour>=8&&hour<20){
+            if(hour>=8&&hour<20){*/
                 //进行推送消息 并且修改数据
                 //获得订阅记录
                 TSubscriber subsc = this.getSubscriberByUserId(wxUser.getId(), menu.getId());
@@ -140,7 +150,7 @@ public class SubscriberServiceImpl implements SubscriberService{
                     }
 
                 }
-            }*/
+            /*}*/
         }
         return "1";
     }
@@ -154,5 +164,22 @@ public class SubscriberServiceImpl implements SubscriberService{
         unSubscriber.setStatus("1");
         this.subscriberMapper.updateByPrimaryKeySelective(unSubscriber);
         return "1";
+    }
+
+    @Override
+    public List<TMenu> getSubscriberList(TWxUser wxUser) throws WxErrorException {
+        TSubscriber subscriber = new TSubscriber();
+        subscriber.setStatus("0");
+        subscriber.setFkWxUserId(wxUser.getId());
+        List<TSubscriber> list = this.subscriberMapper.select(subscriber);
+        if(CollectionUtils.isEmpty(list)){
+            return Lists.newArrayList();
+        }else{
+            List<Integer> menuList  = list.stream().map(TSubscriber::getFkMenuId).distinct().collect(Collectors.toList());
+            Example example = new Example(TMenu.class);
+            example.createCriteria().andIn("id",menuList);
+            List<TMenu> tMenus = this.tMenuMapper.selectByExample(example);
+            return Optional.ofNullable(tMenus).orElse(Lists.newArrayList());
+        }
     }
 }

@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+<title>专栏列表</title>
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	background-color: #e6e6e6;
+}
+-->
+#banner{width:98%;margin:30px auto; padding:0px 30px 30px 30px}
+#loading{width:98%;margin:30px auto; text-align:center; font-size: 32px; color:#b4b4b4}
+</style></head>
+
+<body>
+<div id="banner"  th:each="menu,articleStat : ${menus}" >
+    <a th:onclick="|showArticleList(${menu.id});|"><img th:src="@{${menu.menuDesc}}" width="100%" height="100%" border="0" /></a>
+</div>
+<div id="loading">--没有更多关注的专栏了--</div>
+</body>
+
+<script type="text/javascript">
+    function showArticleList(menuId){
+        location.href="/wx/article/list/"+menuId+"?isSelf=1";
+    }
+
+</script>
+</html>

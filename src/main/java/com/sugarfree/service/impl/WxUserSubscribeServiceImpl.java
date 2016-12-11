@@ -47,6 +47,12 @@ public class WxUserSubscribeServiceImpl implements WxUserSubscribeService{
 
     @Override
     public void saveWxUser(WxMpUser userWxInfo,WxMpQrCodeTicket qrCodeTicket) {
+        //查看如果该用户已存在则不进行添加
+        TWxUser tWxUser = this.getWxUserByOpenId(userWxInfo.getOpenId());
+        if(tWxUser!=null){
+            return;
+        }
+
         //保存用户信息(包括二维码信息)
         TWxUser user = new TWxUser();
         BeanUtils.copyProperties(userWxInfo,user);

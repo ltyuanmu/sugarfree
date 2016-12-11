@@ -56,7 +56,7 @@ public class MsgHandler extends AbstractHandler {
 
         if("积分".equals(wxMessage.getContent())){
             int point = pointService.getPointByOpenId(wxMessage.getFromUser());
-            String message = "您的积分为:"+point+"!";
+            String message = "您的积分为:"+point;
             return new TextBuilder().build(message,wxMessage,weixinService);
         }else if(StringUtils.isNotEmpty(wxMessage.getContent())&&wxMessage.getContent().startsWith("DHJF_")){
             String content = wxMessage.getContent();

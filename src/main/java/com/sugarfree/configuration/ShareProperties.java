@@ -19,6 +19,8 @@ public class ShareProperties {
     private String shareArticleUrl;
     /**分享菜单详请介绍url*/
     private String shareMenuAbstractUrl;
+    /**模板id*/
+    private String templetId;
 
     public String getServerUrl() {
         return serverUrl;
@@ -44,6 +46,13 @@ public class ShareProperties {
         this.shareMenuAbstractUrl = shareMenuAbstractUrl;
     }
 
+    public String getTempletId() {
+        return templetId;
+    }
+
+    public void setTempletId(String templetId) {
+        this.templetId = templetId;
+    }
 
     /**
      * 获得分享文章url
