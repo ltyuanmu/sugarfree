@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: pro
+    active: test
 
 ---
 spring:
@@ -37,12 +37,13 @@ wechat:
         token: sugarfree
         aesKey: qcgUpRRcUIFO5ZzOBEgyHgJM5yRx6XLwWa8L74ZTFl8
 share:
-    serverUrl: http://mymoney.sh1.newtouch.com
+    serverUrl: http://mymoney.sh1.newtouch.com/wx
     shareArticleUrl: /article/{id}?state={state}&isSelf={isSelf}
     shareMenuAbstractUrl: /articleList/{id}?state={state}
     templetId: _FTxMyVjVDgHJlJO6RK1fZuW3EgNYr8q8KpH5BHC4AQ
 server:
     port: 8080
+    context-path: /wx
     tomcat:
         access_log_enabled: true
         basedir: target/tomcat
