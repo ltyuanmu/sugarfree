@@ -61,11 +61,6 @@ public class MenuHandler extends AbstractHandler {
                 WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
                 String message = uploadResult.getMediaId();
                 return new ImageBuilder().build(message, wxMessage, weixinService);
-            }else if("ASK_ME".equals(wxMessage.getEventKey())){
-                File file = new File("/home/xiangwotiwen.png");
-                WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image",file);
-                String message = uploadResult.getMediaId();
-                return new ImageBuilder().build(message, wxMessage, weixinService);
             }
         }
 

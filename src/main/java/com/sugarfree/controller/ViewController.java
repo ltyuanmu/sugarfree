@@ -405,4 +405,12 @@ public class ViewController {
         return modelAndView;
     }
 
+    /**
+     * 获得点我提问
+     */
+    @RequestMapping(method = RequestMethod.GET,value = "/askme")
+    public ModelAndView getAskMePicture(){
+        //目前是个静态界面
+        return new ModelAndView("askme");
+    }
 }
