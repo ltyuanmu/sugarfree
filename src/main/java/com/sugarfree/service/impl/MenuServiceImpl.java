@@ -127,6 +127,10 @@ public class MenuServiceImpl implements MenuService {
                         subButton.setType("click");
                         subButton.setKey("MY_QR_CODE");
                         break;
+                    case "5":
+                        subButton.setType("click");
+                        subButton.setKey("ASK_ME");
+                        break;
                     default:
                         break;
                 }
