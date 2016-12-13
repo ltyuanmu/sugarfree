@@ -1,5 +1,6 @@
 package com.sugarfree.handler;
 
+import com.google.common.cache.CacheLoader;
 import com.sugarfree.builder.ImageBuilder;
 import com.sugarfree.builder.TextBuilder;
 import com.sugarfree.dao.model.TWxUser;
@@ -19,6 +20,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -59,8 +62,8 @@ public class MenuHandler extends AbstractHandler {
                 String message = uploadResult.getMediaId();
                 return new ImageBuilder().build(message, wxMessage, weixinService);
             }else if("ASK_ME".equals(wxMessage.getEventKey())){
-                File file = new File("/img/xiangwotiwen.png");
-                WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
+                InputStream inputStream = ClassLoader.getSystemResourceAsStream("static/img/xiangwotiwen.png");
+                WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image","png" ,inputStream);
                 String message = uploadResult.getMediaId();
                 return new ImageBuilder().build(message, wxMessage, weixinService);
             }
