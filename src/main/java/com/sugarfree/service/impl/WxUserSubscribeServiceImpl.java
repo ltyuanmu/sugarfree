@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -110,7 +111,11 @@ public class WxUserSubscribeServiceImpl implements WxUserSubscribeService{
         TWxUser tWxUser = new TWxUser();
         tWxUser.setOpenId(openId);
         tWxUser.setDeleteState("0");
-        Optional<TWxUser> optional = Optional.ofNullable(this.tWxUserMapper.selectOne(tWxUser));
-        return optional.orElse(null);
+        Optional<List<TWxUser>> optional = Optional.ofNullable(this.tWxUserMapper.select(tWxUser));
+        if(optional.isPresent()){
+            return optional.get().stream().findFirst().orElse(null);
+        }else{
+            return null;
+        }
     }
 }

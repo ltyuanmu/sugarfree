@@ -17,9 +17,12 @@ import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -61,6 +64,12 @@ public class MenuHandler extends AbstractHandler {
                 WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
                 String message = uploadResult.getMediaId();
                 return new ImageBuilder().build(message, wxMessage, weixinService);
+            }else if("ASK_ME".equals(wxMessage.getEventKey())) {
+                //获得想我提问
+                File file = new File("/home/sugarfree/wx_front/img/xiangwotiwen.jpg");
+                WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
+                String message = uploadResult.getMediaId();
+                return new ImageBuilder().build(message, wxMessage, weixinService);
             }
         }
 
@@ -69,4 +78,8 @@ public class MenuHandler extends AbstractHandler {
                 .build();
     }
 
+  /*  public static void main(String[] args) throws IOException {
+        ClassPathResource resource = new ClassPathResource("static/img/xiangwotiwen.png");
+        InputStream stream = resource.getInputStream();
+    }*/
 }

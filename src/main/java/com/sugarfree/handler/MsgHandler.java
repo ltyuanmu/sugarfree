@@ -1,9 +1,11 @@
 package com.sugarfree.handler;
 
+import com.sugarfree.builder.ImageBuilder;
 import com.sugarfree.builder.TextBuilder;
 import com.sugarfree.service.PointService;
 import com.sugarfree.utils.JsonUtils;
 import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -32,7 +35,7 @@ public class MsgHandler extends AbstractHandler {
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
             Map<String, Object> context, WxMpService weixinService,
-            WxSessionManager sessionManager)    {
+            WxSessionManager sessionManager) throws WxErrorException {
 
         if (!wxMessage.getMsgType().equals(WxConsts.XML_MSG_EVENT)) {
             //TODO 可以选择将消息保存到本地
@@ -63,6 +66,11 @@ public class MsgHandler extends AbstractHandler {
             String code = content.replaceFirst("DHJF_","");
             String message = pointService.addPointForVoucher(wxMessage.getFromUser(), code);
             return new TextBuilder().build(message,wxMessage,weixinService);
+        }else if("原料".equals(wxMessage.getContent())){
+            File file = new File("/home/sugarfree/wx_front/img/yuanliao.jpg");
+            WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
+            String message = uploadResult.getMediaId();
+            return new ImageBuilder().build(message, wxMessage, weixinService);
         }else{
             return null;
         }

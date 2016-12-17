@@ -9,10 +9,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName: ${}
@@ -30,7 +33,8 @@ public class PointServiceImpl implements PointService{
     private TPointHistoryMapper tPointHistoryMapper;
     @Autowired
     private TCsolMapper tCsolMapper;
-
+    @Autowired
+    private TWxUserMapper tWxUserMapper;
     @Autowired
     private WxUserSubscribeService wxUserSubscribeService;
     @Autowired
@@ -137,6 +141,32 @@ public class PointServiceImpl implements PointService{
         tPointHistory.setSource("兑换的是".concat(tGateway.getName()).concat("的兑换劵"));
         tPointHistoryMapper.insertSelective(tPointHistory);
         return "积分兑换成功，当前积分为：" + sumPoint + "分!";
+    }
+
+    @Override
+    public boolean isSubscriberAddPoint(String openId, String recommendId) {
+        //查看用户的id
+        TWxUser wxUser = this.wxUserSubscribeService.getWxUserByOpenId(openId);
+        if(wxUser==null){
+            return false;
+        }
+        TWxUser tWxUser = new TWxUser();
+        tWxUser.setOpenId(recommendId);
+        List<TWxUser> list = this.tWxUserMapper.select(tWxUser);
+        //查看以前是否有该被邀请的用户id
+        if(CollectionUtils.isEmpty(list)){
+            return true;
+        }
+        //获得被邀请的用户id
+        List<Integer> userIds = list.stream().map(TWxUser::getId).collect(Collectors.toList());
+        //如果有的话 查看该用户是否被此用户邀请过
+        Example example = new Example(TPointHistory.class);
+        example.createCriteria()
+                .andEqualTo("fkWxUserId",wxUser.getId())
+                .andIn("relateWxUserId",userIds);
+        List<TPointHistory> historys = this.tPointHistoryMapper.selectByExample(example);
+        //如果邀请 则不在加积分
+        return CollectionUtils.isEmpty(historys);
     }
 
 }

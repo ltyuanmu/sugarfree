@@ -59,7 +59,10 @@ public class SubscribeHandler extends AbstractHandler {
             String recommendId = "";
             if(StringUtils.isNotEmpty(wxMessage.getEventKey())&&wxMessage.getEventKey().startsWith("qrscene_")){
                 recommendId = wxMessage.getEventKey().substring(wxMessage.getEventKey().indexOf("_")+1);
-                pointService.updatePoint(recommendId, Enum.PointEvent.RECOMMEND,userWxInfo.getOpenId());
+                //添加如果这两个关注已经添加积分则不能在添加积分
+                if(pointService.isSubscriberAddPoint(recommendId,userWxInfo.getOpenId())){
+                    pointService.updatePoint(recommendId, Enum.PointEvent.RECOMMEND,userWxInfo.getOpenId());
+                }
             }
             pointService.updatePoint(userWxInfo.getOpenId(), Enum.PointEvent.SUBSCRIBE,recommendId);
             //发送消息

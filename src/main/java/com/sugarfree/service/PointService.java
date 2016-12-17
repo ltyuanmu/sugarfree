@@ -48,4 +48,12 @@ public interface PointService {
      */
     String addPointForVoucher(String openId,String voucherCode);
 
+    /**
+     * 是否订阅专注添加积分
+     * @param openId openId
+     * @param recommendId 被邀请人的id
+     * @return 返回结果
+     */
+    boolean isSubscriberAddPoint(String openId,String recommendId);
+
 }
