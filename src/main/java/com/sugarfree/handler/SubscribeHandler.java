@@ -83,9 +83,14 @@ public class SubscribeHandler extends AbstractHandler {
             weixinService.getKefuService().sendKefuMessage(keFuOmageMessage);
             //发送最后的消息
             StringBuilder sb = new StringBuilder();
-            sb.append("这是你的专属二维码。欢迎把这个二维码分享给朋友，朋友扫码关注后，你们可以各获得1个积分。")
-                    .append("积分可用于订阅菜单栏左下角的专栏。").append("\n")
-                    .append("\n").append("你的初始积分为4分。").append("\n")
+            //获得订阅的积分
+            int subscribePoint = this.pointService.getPointByEvent(Enum.PointEvent.SUBSCRIBE);
+            int recommendPoint=this.pointService.getPointByEvent(Enum.PointEvent.RECOMMEND);
+
+            sb.append("这是你的专属二维码。欢迎把这个二维码分享给朋友，朋友扫码关注后，你可以获得")
+                    .append(recommendPoint).append("个积分。")
+                    .append("积分可用于订阅菜单栏左下角的专栏。").append("\n").append("\n")
+                    .append("你的初始积分为").append(subscribePoint).append("分。").append("\n")
                     .append("即刻订阅专栏，开始你的烘焙之旅吧。");
             return new TextBuilder().build(sb.toString(),wxMessage,weixinService);
         }
