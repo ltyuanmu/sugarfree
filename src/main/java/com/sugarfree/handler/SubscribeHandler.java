@@ -67,11 +67,15 @@ public class SubscribeHandler extends AbstractHandler {
             pointService.updatePoint(userWxInfo.getOpenId(), Enum.PointEvent.SUBSCRIBE,recommendId);
             //发送消息
             StringBuilder contentSB = new StringBuilder(userWxInfo.getNickname());
-            contentSB.append(",你来啦~是闻着黄油的香味找到这儿的吗？").append("\n")
+            /*contentSB.append(",你来啦~是闻着黄油的香味找到这儿的吗？").append("\n")
                     .append("这里是一间创造美好食物的厨房，也是体验、分享生活的好地方。")
                     .append("你可以发现来自世界各地的烘焙美食，探索和食物之间的美味关系。")
                     .append("如果你恰好喜欢烘焙，这里也有成套的烘焙秘方，你更是来对了地方！").append("\n")
-                    .append("来了，就好好享受这趟烘焙之旅吧。");
+                    .append("来了，就好好享受这趟烘焙之旅吧。");*/
+            //需求变更 文字
+            contentSB.append(",你来啦~是闻着黄油的香味找到这儿的吗？").append("\n").append("\n")
+                    .append("这里是一间创造美好食物的厨房。在这里你可以发现来自世界各地的烘焙美食，")
+                    .append("探索和食物之间的美味关系，也可以系统地学习烘焙。");
             WxMpKefuMessage keFuMessage=WxMpKefuMessage.TEXT().content(contentSB.toString()).toUser(userWxInfo.getOpenId()).build();
             weixinService.getKefuService().sendKefuMessage(keFuMessage);
             //发送二维码消息
@@ -79,8 +83,10 @@ public class SubscribeHandler extends AbstractHandler {
             weixinService.getKefuService().sendKefuMessage(keFuOmageMessage);
             //发送最后的消息
             StringBuilder sb = new StringBuilder();
-            sb.append("这是你的专属二维码。欢迎把这个二维码分享给你的朋友，朋友扫码关注后，你们可以各得到一个积分。积分可用于订阅烘焙课程。")
-                    .append("\n").append("希望你在香甜世界里学得开心~");
+            sb.append("这是你的专属二维码。欢迎把这个二维码分享给朋友，朋友扫码关注后，你们可以各获得1个积分。")
+                    .append("积分可用于订阅菜单栏左下角的专栏。").append("\n")
+                    .append("\n").append("你的初始积分为4分。").append("\n")
+                    .append("即刻订阅专栏，开始你的烘焙之旅吧。");
             return new TextBuilder().build(sb.toString(),wxMessage,weixinService);
         }
 
