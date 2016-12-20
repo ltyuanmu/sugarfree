@@ -131,18 +131,20 @@
         //alert("失败");
     });
 
+
     $(document).on("click","a.DyBtn",function () {
         $(".PointSubscribe").show();
         $(".menuAbstract").hide();
     })
     $(document).on("click","a.UnDyBtn",function () {
-        $.ajax({
+        /*$.ajax({
             url: "/wx/unSubscribe/" + [[${menuAbstract.fkMenuId}]],
             type: "GET",
             success: function (data) {
                 window.location.reload(true);
             }
-        })
+        })*/
+        location.href=[[${formUrl}]];
     })
     $(document).on("click",".shadow",function () {
         window.location.reload(true);
