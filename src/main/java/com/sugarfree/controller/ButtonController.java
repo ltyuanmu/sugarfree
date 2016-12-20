@@ -1,5 +1,6 @@
 package com.sugarfree.controller;
 
+import com.google.gson.Gson;
 import com.sugarfree.dao.model.TArticle;
 import com.sugarfree.service.ArticleService;
 import com.sugarfree.service.SubscriberService;
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
@@ -44,4 +46,13 @@ public class ButtonController {
             return ResponseEntity.status(500).build();
         }
     }
+
+    //会飞的黄油粉丝信息登记回调
+
+    @PostMapping(value = "/gson/form/call", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity formGsonCall(@RequestBody Object object) throws WxErrorException {
+        log.info(new Gson().toJson(object));
+        return ResponseEntity.ok().build();
+    }
+
 }

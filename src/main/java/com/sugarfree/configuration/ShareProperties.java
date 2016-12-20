@@ -21,6 +21,8 @@ public class ShareProperties {
     private String shareMenuAbstractUrl;
     /**模板id*/
     private String templetId;
+    /**form表单的url*/
+    private String formUrl;
 
     public String getServerUrl() {
         return serverUrl;
@@ -87,5 +89,17 @@ public class ShareProperties {
     public String getShareMenuAbstractUrl(int menuId,String state){
         String url = this.serverUrl.concat(shareMenuAbstractUrl);
         return url.replace("{id}",String.valueOf(menuId)).replace("{state}",state);
+    }
+
+    public String getFormUrl() {
+        return formUrl;
+    }
+
+    public String getFormUrl(String openId) {
+        return formUrl.replace("{openId}",openId);
+    }
+
+    public void setFormUrl(String formUrl) {
+        this.formUrl = formUrl;
     }
 }

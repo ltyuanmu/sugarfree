@@ -41,6 +41,7 @@ share:
     shareArticleUrl: /article/{id}?state={state}&isSelf={isSelf}
     shareMenuAbstractUrl: /articleList/{id}?state={state}
     templetId: _FTxMyVjVDgHJlJO6RK1fZuW3EgNYr8q8KpH5BHC4AQ
+    formUrl: https://jinshuju.net/f/OO9vcv?x_field_1={openId}
 server:
     port: 8080
     context-path: /wx

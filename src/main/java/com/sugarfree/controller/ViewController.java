@@ -413,4 +413,59 @@ public class ViewController {
         //目前是个静态界面
         return new ModelAndView("askme");
     }
+
+
+    /**
+     * 获取form表单的
+     * @param menuId
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET,value = "/menu/form/{menuId}/")
+    public ModelAndView getMenuForm(@PathVariable int menuId,String state) throws WxErrorException {
+        //获取用户信息
+        TWxUser wxUser;
+        if(!"1".equals(state)&&StringUtils.isNotEmpty(state)){
+            wxUser = this.wxUserService.getWxUserByOpenId(state);
+        }else{
+            wxUser = getWxUser();
+        }
+        if(wxUser==null){
+            throw new RuntimeException("调用失败!");
+        }
+        TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
+        if(menuAbstract==null){
+            throw new RuntimeException("文章专栏详情不存在!!");
+        }
+        ModelAndView modelAndView = new ModelAndView("menuForm");
+        modelAndView.addObject("formUrl",this.shareProperties.getFormUrl(wxUser.getOpenId()));
+        TSubscriber subscriber = subscriberService.getSubscriberByUserId(wxUser.getId(), menuId);
+        if(null == subscriber){
+            modelAndView.addObject("subscriber",1);
+        }else{
+            //目前去掉取消订阅按钮
+            //modelAndView.addObject("subscriber",0);
+            modelAndView.addObject("subscriber",2);
+        }
+        //目前如果是分享给别人 则不出现订阅按钮
+        if(!"1".equals(state)){
+            modelAndView.addObject("subscriber",2);
+        }
+        modelAndView.addObject("menuAbstract",menuAbstract);
+        //获得二维码图片
+        String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
+        wxUser.setQrUrl(url);
+        modelAndView.addObject("user",wxUser);
+        //获取订阅扣除积分
+        TMenu menu = menuService.getMenuById(menuId);
+        modelAndView.addObject("menuPoint",menu.getPoint());
+        //添加分享的连接和分享的所需要的参数
+        String shareUrl = this.shareProperties.getShareMenuAbstractUrl(menuId,wxUser.getOpenId());
+        //签名需要的Url
+        String signatureUrl = getRequestUrl();
+        log.info("signatureUrl:{}",signatureUrl);
+        WxJsapiSignature signature = this.wxService.createJsapiSignature(signatureUrl);
+        modelAndView.addObject("signature",signature);
+        modelAndView.addObject("shareUrl",shareUrl);
+        return modelAndView;
+    }
 }
