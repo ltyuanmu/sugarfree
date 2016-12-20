@@ -177,7 +177,7 @@ public class SubscriberServiceImpl implements SubscriberService{
         }else{
             List<Integer> menuList  = list.stream().map(TSubscriber::getFkMenuId).distinct().collect(Collectors.toList());
             Example example = new Example(TMenu.class);
-            example.createCriteria().andIn("id",menuList);
+            example.createCriteria().andIn("id",menuList).andNotEqualTo("menuDesc","");
             example.orderBy("id").asc();
             List<TMenu> tMenus = this.tMenuMapper.selectByExample(example);
             return Optional.ofNullable(tMenus).orElse(Lists.newArrayList());

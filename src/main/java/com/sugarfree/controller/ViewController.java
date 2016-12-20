@@ -442,9 +442,9 @@ public class ViewController {
         if(null == subscriber){
             modelAndView.addObject("subscriber",1);
         }else{
-            //目前去掉取消订阅按钮
-            //modelAndView.addObject("subscriber",0);
-            modelAndView.addObject("subscriber",2);
+            //此接口为0时显示
+            modelAndView.addObject("subscriber",0);
+            //modelAndView.addObject("subscriber",2);
         }
         //目前如果是分享给别人 则不出现订阅按钮
         if(!"1".equals(state)){

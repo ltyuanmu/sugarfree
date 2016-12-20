@@ -131,13 +131,6 @@
         //alert("失败");
     });
 
-
-    function subscribe(){
-        if(confirm("订阅需要花费[[${menuPoint}]]积分，确定要订阅吗？")){
-            var menuId =[[${menuAbstract.fkMenuId}]];
-            location.href='/subscribe/'+menuId;
-        }
-    }
     $(document).on("click","a.DyBtn",function () {
         $(".PointSubscribe").show();
         $(".menuAbstract").hide();
