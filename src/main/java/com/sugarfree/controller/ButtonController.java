@@ -3,6 +3,7 @@ package com.sugarfree.controller;
 import com.google.gson.Gson;
 import com.sugarfree.dao.model.TArticle;
 import com.sugarfree.service.ArticleService;
+import com.sugarfree.service.FormInfoService;
 import com.sugarfree.service.SubscriberService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -30,6 +31,8 @@ public class ButtonController {
 
     @Autowired
     private SubscriberService subscriberService;
+    @Autowired
+    private FormInfoService formInfoService;
 
     @PostMapping(value = "/send/user/{userId}/article/{articleId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity sendTemplateMessage(@PathVariable Integer articleId,@PathVariable Integer userId,String uuid) throws WxErrorException {
@@ -51,7 +54,9 @@ public class ButtonController {
 
     @PostMapping(value = "/gson/form/call", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity formGsonCall(@RequestBody Object object) throws WxErrorException {
-        log.info(new Gson().toJson(object));
+        String content = new Gson().toJson(object);
+        log.info(content);
+        formInfoService.saveFormInfo(content);
         return ResponseEntity.ok().build();
     }
 

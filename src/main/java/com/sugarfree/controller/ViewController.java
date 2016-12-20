@@ -59,6 +59,8 @@ public class ViewController {
     @Autowired
     private ShareProperties shareProperties;
 
+    @Autowired
+    private FormInfoService formInfoService;
 
     /*菜单文章的详细介绍
     *以上是静态内容
@@ -442,8 +444,14 @@ public class ViewController {
         if(null == subscriber){
             modelAndView.addObject("subscriber",1);
         }else{
-            //此接口为0时显示
-            modelAndView.addObject("subscriber",0);
+            //已订阅成功
+            //判断是否提交表单如果没有显示为0如果有显示为3
+            boolean isSubmit = this.formInfoService.isSubmitFormByWxUserId(wxUser.getId());
+            if(isSubmit){
+                modelAndView.addObject("subscriber",3);
+            }else{
+                modelAndView.addObject("subscriber",0);
+            }
             //modelAndView.addObject("subscriber",2);
         }
         //目前如果是分享给别人 则不出现订阅按钮

@@ -6,22 +6,23 @@
     <meta name = "format-detection" content = "telephone=no" />
     <title>专栏简介</title>
     <script type="text/javascript" th:src="@{/js/device-adapter.js}"></script>
-    <link  type="text/css" rel="stylesheet" th:href="@{/css/menuAbstract.css}"/>
+    <link  type="text/css" rel="stylesheet" th:href="@{/css/menuForm.css}"/>
     <script></script>
 </head>
 <body>
 <div class="menuAbstract">
-<!--    <div class="topbox">
+   <div class="topbox">
         <div class="top" style="">
-            <span class="overtext" th:text="${menuAbstract.title}"></span>
+            <!--<span class="overtext" th:text="${menuAbstract.title}"></span>-->
         </div>
-    </div>-->
+    </div>
     <div class="content" th:utext="${menuAbstract.context}"></div>
     <div class="bottom">
         <p class="integral" style=""><span th:text="${menuPoint}"></span>个积分</p>
         <div class="DyBox">
-            <a class=" DyBtn"><img th:if="${subscriber} == 1" src="/wx/img/dianjidingyue.png" class="cancle" /></a>
-            <a class=" UnDyBtn"><img th:if="${subscriber} == 0" src="/wx/img/quxiaodingyue.png" class="cancle " /></a>
+            <a class=" DyBtn"><img th:if="${subscriber} == 1" th:src="@{/img/dianjidingyue.png}" class="cancle" /></a>
+            <a class=" UnDyBtn"><img th:if="${subscriber} == 0" th:src="@{/img/selectforminfo.png}" class="cancle " /></a>
+            <a ><img th:if="${subscriber} == 3" th:src="@{/img/yitijiao.png}" class="cancle " /></a>
         </div>
         <p class="name">
             <span>「我是</span><span class="overtext" th:text="${user.nickname}"></span><span>」</span>
