@@ -420,7 +420,7 @@ public class ViewController {
      * @param menuId
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET,value = "/menu/form/{menuId}/")
+    @RequestMapping(method = RequestMethod.GET,value = "/menu/form/{menuId}")
     public ModelAndView getMenuForm(@PathVariable int menuId,String state) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser;
