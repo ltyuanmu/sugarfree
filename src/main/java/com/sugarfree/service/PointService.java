@@ -1,6 +1,7 @@
 package com.sugarfree.service;
 
 import com.sugarfree.constant.Enum;
+import com.sugarfree.dao.model.TCsol;
 
 /**
  * @ClassName: ${}
@@ -56,4 +57,5 @@ public interface PointService {
      */
     boolean isSubscriberAddPoint(String openId,String recommendId);
 
+    String addPointForOneVoucher(String openId,TCsol csol);
 }

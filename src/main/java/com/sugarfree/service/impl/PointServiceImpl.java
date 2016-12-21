@@ -111,6 +111,10 @@ public class PointServiceImpl implements PointService{
         if(csol ==null){
             return "积分码不正确，无法兑换积分!";
         }
+        //积分为2时则为无限兑换码类型 可以无限兑换
+        if("2".equals(csol.getStatus())){
+            return this.addPointForOneVoucher(openId,csol);
+        }
         //查看积分劵是否已经被使用
         if("1".equals(csol.getStatus())){
             return "积分兑换失败，该积分码已经使用过!";
@@ -167,6 +171,35 @@ public class PointServiceImpl implements PointService{
         List<TPointHistory> historys = this.tPointHistoryMapper.selectByExample(example);
         //如果邀请 则不在加积分
         return CollectionUtils.isEmpty(historys);
+    }
+
+    @Override
+    public String addPointForOneVoucher(String openId, TCsol csol) {
+        //获得用户信息
+        TWxUser wxUser = this.wxUserSubscribeService.getWxUserByOpenId(openId);
+        //查看该用户是否兑换过
+        TPointHistory history = new TPointHistory();
+        history.setFkWxUserId(wxUser.getId());
+        history.setStatus(csol.getCode());
+        int i = this.tPointHistoryMapper.selectCount(history);
+        if(i>0){
+            return "积分兑换失败,您已经兑换过了! ";
+        }
+        //更新积分
+        TWxUser modifyWxUser = new TWxUser();
+        Integer sumPoint=wxUser.getPoint()+csol.getScore();
+        modifyWxUser.setPoint(sumPoint);
+        this.wxUserSubscribeService.updateWxUserByOpenId(openId, modifyWxUser);
+        //添加积分历史记录
+        TPointHistory tPointHistory = new TPointHistory();
+        tPointHistory.setFkWxUserId(wxUser.getId());
+        tPointHistory.setRemarkTime(new Date());
+        tPointHistory.setScore(String.valueOf(csol.getScore()));
+        tPointHistory.setStatus(csol.getCode());
+        //获得渠道
+        tPointHistory.setSource("兑换的是".concat(csol.getCode()));
+        tPointHistoryMapper.insertSelective(tPointHistory);
+        return "积分兑换成功，当前积分为：" + sumPoint + "分!";
     }
 
 }
