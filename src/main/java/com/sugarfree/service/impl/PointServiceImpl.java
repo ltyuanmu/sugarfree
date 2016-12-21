@@ -183,7 +183,7 @@ public class PointServiceImpl implements PointService{
         history.setStatus(csol.getCode());
         int i = this.tPointHistoryMapper.selectCount(history);
         if(i>0){
-            return "积分兑换失败,您已经兑换过了! ";
+            return "您已兑换过! ";
         }
         //更新积分
         TWxUser modifyWxUser = new TWxUser();
