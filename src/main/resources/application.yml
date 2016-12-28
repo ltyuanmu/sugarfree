@@ -90,7 +90,7 @@ share:
     shareArticleUrl: /article/{id}?state={state}&isSelf={isSelf}
     shareMenuAbstractUrl: /articleList/{id}?state={state}
     templetId: O2SLFq-hX8I-t3UMbh9-7FINANfck2SYHQJlsWzcmuc
-
+    formUrl: https://jinshuju.net/f/1mgHcO?x_field_1={openId}
 server:
     port: 8088
     context-path: /wx

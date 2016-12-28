@@ -28,6 +28,12 @@
         </p>
         <img th:src="${user.qrUrl}" class="erweima"/>
     </div>
+    <div class="bottom1" style="">
+        <p class="name">
+            <span>「我是</span><span class="overtext" th:text="${user.nickname}"></span><span>」</span>
+        </p>
+        <img th:src="${user.qrUrl}" class="erweima"/>
+    </div>
 </div>
 <a class="shadow">
     <div class="success">
@@ -119,6 +125,16 @@
        // alert("失败");
     });
 
+    $(document).ready(function () {
+        var subscriber = [[${subscriber}]];
+        if(subscriber==1){
+            $(".bottom").show();
+            $(".bottom1").hide()
+        }else{
+            $(".bottom1").show();
+            $(".bottom").hide();
+        }
+    })
 
     $(document).on("click","a.DyBtn",function () {
         $(".PointSubscribe").show();
@@ -133,8 +149,12 @@
                     var content="";
                     if (data == "ok") {
                         content = '<a class=" DyBtn"><img src="/wx/img/dianjidingyue.png" class="cancle" /></a>';
+                        $(".bottom").show();
+                        $(".bottom1").hide()
                     }else {
                         content = '<a class=" UnDyBtn"><img src="/wx/img/quxiaodingyue.png" class="cancle " /></a>';
+                        $(".bottom1").show();
+                        $(".bottom").hide();
                     }
                     $(".bottom .DyBox").html(content);
                 }
@@ -159,6 +179,8 @@
                         $(".shadow .fail").hide();
                         $(".article").show();
                         content = '<a class=" UnDyBtn"><img src="/wx/img/quxiaodingyue.png" class="cancle " /></a>';
+                        $(".bottom1").show();
+                        $(".bottom").hide();
                     } else {
                         $(".PointSubscribe").hide();
                         $(".shadow").css("display","block");
@@ -166,6 +188,8 @@
                         $(".shadow .fail").show();
                         $(".article").show()
                         content = '<a class=" DyBtn"><img src="/wx/img/dianjidingyue.png" class="cancle" /></a>';
+                        $(".bottom").show();
+                        $(".bottom1").hide()
                     }
                     $(".bottom .DyBox").html(content);
                     $("html,body").css({"overflow":"hidden","height":"100%"})
