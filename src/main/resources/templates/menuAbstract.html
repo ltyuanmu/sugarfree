@@ -28,6 +28,13 @@
         </p>
         <img th:src="${user.qrUrl}" class="erweima"/>
     </div>
+    <div class="bottom1" style="">
+        <p class="integral" style=""><span></span></p>
+        <p class="name" style="margin-top: 177px">
+            <span>「我是</span><span class="overtext" th:text="${user.nickname}"></span><span>」</span>
+        </p>
+        <img th:src="${user.qrUrl}" class="erweima"/>
+    </div>
 </div>
 <a class="shadow">
     <div class="success">
@@ -132,12 +139,17 @@
     });
 
 
-    function subscribe(){
-        if(confirm("订阅需要花费[[${menuPoint}]]积分，确定要订阅吗？")){
-            var menuId =[[${menuAbstract.fkMenuId}]];
-            location.href='/subscribe/'+menuId;
+    $(document).ready(function () {
+        var subscriber = [[${subscriber}]];
+        if(subscriber==1){
+            $(".bottom").show();
+            $(".bottom1").hide()
+        }else{
+            $(".bottom1").show();
+            $(".bottom").hide();
         }
-    }
+    })
+
     $(document).on("click","a.DyBtn",function () {
         $(".PointSubscribe").show();
         $(".menuAbstract").hide();

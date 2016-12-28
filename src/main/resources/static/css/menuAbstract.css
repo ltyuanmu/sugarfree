@@ -43,6 +43,14 @@ div.bottom{
     background-size:contain;
     height: 530px;
 }
+
+div.bottom1{
+    background: url('/wx/img/yidingyue.png') no-repeat center;
+    margin: 0.32rem auto;
+    background-size:contain;
+    height: 530px;
+}
+
 p.integral{
     font-size:2em;text-align: center;padding-top:45px;color: #000;letter-spacing: 3px;
 }
