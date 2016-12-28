@@ -213,8 +213,12 @@ public class ViewController {
             }*/
         }
         //目前如果是分享给别人 则不出现订阅按钮
+        //订阅专栏需要统计 true为分享 false为自己
         if(!"1".equals(state)){
             modelAndView.addObject("subscriber",2);
+            this.articleService.updateArticleStat(wxUser,menuAbstract,true);
+        }else{
+            this.articleService.updateArticleStat(wxUser,menuAbstract,false);
         }
         /*List<TArticle> articleList = this.articleService.getArticleList(wxUser.getId(), menuId);
         List<TArticle> list = articleList.stream().map(t -> {
@@ -474,6 +478,23 @@ public class ViewController {
         WxJsapiSignature signature = this.wxService.createJsapiSignature(signatureUrl);
         modelAndView.addObject("signature",signature);
         modelAndView.addObject("shareUrl",shareUrl);
+        return modelAndView;
+    }
+
+
+    /**
+     * 获取订阅专栏
+     * @param menuId
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET,value = "/aboutme/{menuId}")
+    public ModelAndView getAboutMe(@PathVariable int menuId) throws WxErrorException {
+        TArticle article = articleService.getArticleByEnumId(menuId);
+        if(article==null){
+            throw new RuntimeException("文章专栏详情不存在!!");
+        }
+        ModelAndView modelAndView = new ModelAndView("article");
+        modelAndView.addObject("article",article);
         return modelAndView;
     }
 }

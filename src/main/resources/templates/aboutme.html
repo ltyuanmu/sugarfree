@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <meta name = "format-detection" content = "telephone=no" />
+    <link  type="text/css" rel="stylesheet" th:href="@{/css/aboutme.css}"/>
+    <title th:text="${article.title}" ></title>
+    <script type="text/javascript" th:src="@{/js/device-adapter.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+</head>
+<body>
+<div class="article">
+    <div class="content" th:utext="${article.context}"></div>
+</div>
+</body>
+</html>
