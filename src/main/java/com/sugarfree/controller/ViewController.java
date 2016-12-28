@@ -493,7 +493,7 @@ public class ViewController {
         if(article==null){
             throw new RuntimeException("文章专栏详情不存在!!");
         }
-        ModelAndView modelAndView = new ModelAndView("article");
+        ModelAndView modelAndView = new ModelAndView("aboutme");
         modelAndView.addObject("article",article);
         return modelAndView;
     }
