@@ -68,6 +68,17 @@ public class MsgHandler extends AbstractHandler {
             return new TextBuilder().build(message,wxMessage,weixinService);
         }else if("原料".equals(wxMessage.getContent())){
             File file = new File("/home/sugarfree/wx_front/img/yuanliao.jpg");
+            if(!file.exists()){
+                return null;
+            }
+            WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
+            String message = uploadResult.getMediaId();
+            return new ImageBuilder().build(message, wxMessage, weixinService);
+        }else if("巧克力".equals(wxMessage.getContent())){
+            File file = new File("/home/sugarfree/wx_front/img/qiaokeli.jpg");
+            if(!file.exists()){
+                return null;
+            }
             WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
             String message = uploadResult.getMediaId();
             return new ImageBuilder().build(message, wxMessage, weixinService);
