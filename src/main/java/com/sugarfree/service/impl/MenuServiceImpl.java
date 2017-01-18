@@ -59,6 +59,18 @@ public class MenuServiceImpl implements MenuService {
         return tMenuMapper.selectOne(menu);
     }
 
+    @Override
+    public String getMenuLink(int menuId) throws UnsupportedEncodingException {
+        TMenu menu = getMenuById(menuId);
+        if(menu==null){
+            throw new RuntimeException("link is not exits");
+        }
+        String templateUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=_APPID_&redirect_uri=_MENUURL_&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
+        templateUrl = templateUrl.replaceAll("_APPID_",wechatMpProperties.getAppId());
+        String url = URLEncoder.encode(menu.getUrl(), "UTF-8");
+        return templateUrl.replaceAll("_MENUURL_", url);
+    }
+
     /**
      * 生成微信菜单 (待完善)
      * @param tMenus

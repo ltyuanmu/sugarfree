@@ -7,6 +7,7 @@
     <title th:text="${article.title}" ></title>
     <script type="text/javascript" th:src="@{/js/device-adapter.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/APlayer.min.js}"></script>
 </head>
 <body>
 <div class="article">
@@ -15,6 +16,12 @@
         <h3 th:text="'- 第'+${article.classTime}+'课 -'"></h3>
         <p th:text="${article.abstarct}" ></p>
     </div>
+    <!--<div class = "notice">
+        <img  th:src="@{/img/huodongxiaogaoshi.png}" />
+    </div>
+    <div id="music" class="aplayer">
+
+    </div>-->
     <div class="content" th:utext="${article.context}">
     </div>
     <div class="bottom" style="">
@@ -127,6 +134,24 @@
     });
 
     $(document).ready(function () {
+        /*var ap1 = new APlayer({
+            element: document.getElementById('music'),
+            narrow: false,
+            autoplay: false,
+            showlrc: false,
+            mutex: true,
+            theme: '#e6d0b2',
+            preload: 'metadata',
+            mode: 'circulation',
+            music: {
+                title: 'Preparation',
+                author: 'Hans Zimmer/Richard Harvey',
+                url: 'http://devtest.qiniudn.com/Preparation.mp3',
+                pic: 'http://devtest.qiniudn.com/Preparation.jpg'
+            }
+        });*/
+
+
         var subscriber = [[${subscriber}]];
         if(subscriber==1){
             $(".bottom").show();

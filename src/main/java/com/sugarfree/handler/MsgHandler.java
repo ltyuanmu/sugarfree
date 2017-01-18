@@ -82,6 +82,22 @@ public class MsgHandler extends AbstractHandler {
             WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
             String message = uploadResult.getMediaId();
             return new ImageBuilder().build(message, wxMessage, weixinService);
+        }else if("和果子".equals(wxMessage.getContent())){
+            File file = new File("/home/sugarfree/wx_front/img/heguozi.jpg");
+            if(!file.exists()){
+                return null;
+            }
+            WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
+            String message = uploadResult.getMediaId();
+            return new ImageBuilder().build(message, wxMessage, weixinService);
+        }else if("慕斯".equals(wxMessage.getContent())){
+            File file = new File("/home/sugarfree/wx_front/img/musi.jpg");
+            if(!file.exists()){
+                return null;
+            }
+            WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
+            String message = uploadResult.getMediaId();
+            return new ImageBuilder().build(message, wxMessage, weixinService);
         }else{
             return null;
         }

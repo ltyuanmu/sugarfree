@@ -2,6 +2,7 @@ package com.sugarfree.handler;
 
 import com.sugarfree.builder.ImageBuilder;
 import com.sugarfree.builder.TextBuilder;
+import com.sugarfree.configuration.ShareProperties;
 import com.sugarfree.constant.Enum;
 import com.sugarfree.service.PointService;
 import com.sugarfree.service.WxUserSubscribeService;
@@ -35,6 +36,8 @@ public class SubscribeHandler extends AbstractHandler {
     private WxUserSubscribeService wxUserSubscribeService;
     @Autowired
     private PointService pointService;
+    @Autowired
+    private ShareProperties shareProperties;
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
@@ -74,8 +77,15 @@ public class SubscribeHandler extends AbstractHandler {
                     .append("来了，就好好享受这趟烘焙之旅吧。");*/
             //需求变更 文字
             contentSB.append(",你来啦~是闻着黄油的香味找到这儿的吗？").append("\n").append("\n")
-                    .append("这里是一间创造美好食物的厨房。在这里你可以发现来自世界各地的烘焙美食，")
-                    .append("探索和食物之间的美味关系，也可以系统地学习烘焙。");
+                    .append("这里是一间创造美好食物的厨房。欢迎你来和黄油一起探索美食、生活的可能性。")
+                    .append("\n").append("\n")
+                    .append("「专栏推荐」").append("\n").append("\n")
+                    .append("/:sun跟着安琪学烘焙：教你从0开始系统入门烘焙")
+                    .append(shareProperties.getServerUrl()).append("/link/1001")
+                    .append("/:sun拍出好滋味：教你用手机拍出烘焙美食大片")
+                    .append(shareProperties.getServerUrl()).append("/link/1002")
+                    .append("/:sun烘焙地图：跟着黄油一起逛世界")
+                    .append(shareProperties.getServerUrl()).append("/link/1004");
             WxMpKefuMessage keFuMessage=WxMpKefuMessage.TEXT().content(contentSB.toString()).toUser(userWxInfo.getOpenId()).build();
             weixinService.getKefuService().sendKefuMessage(keFuMessage);
             //发送二维码消息

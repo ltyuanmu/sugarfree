@@ -18,4 +18,10 @@ public interface MenuService {
 
     TMenu getMenuById(int menuId);
 
+    /**
+     * 获得url连接
+     * @param menuId
+     * @return
+     */
+    String getMenuLink(int menuId) throws UnsupportedEncodingException;
 }
