@@ -35,10 +35,9 @@
         </p>
         <img th:src="${user.qrUrl}" class="erweima"/>
     </div>
-
-    <div class="bottombar" th:if="${subscriber} == 1">
-        <span>订阅专栏:<span th:text="${menuPoint}"></span >个积分</span>
-    </div>
+</div>
+<div class="bottombar" th:if="${subscriber} == 1">
+    <span>订阅专栏:<span th:text="${menuPoint}"></span >个积分</span>
 </div>
 <a class="shadow">
     <div class="success">
