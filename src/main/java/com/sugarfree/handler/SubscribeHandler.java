@@ -80,11 +80,11 @@ public class SubscribeHandler extends AbstractHandler {
                     .append("这里是一间创造美好食物的厨房。欢迎你来和黄油一起探索美食、生活的可能性。")
                     .append("\n").append("\n")
                     .append("「专栏推荐」").append("\n").append("\n")
-                    .append("/:sun跟着安琪学烘焙：教你从0开始系统入门烘焙")
-                    .append(shareProperties.getServerUrl()).append("/link/1001")
-                    .append("/:sun拍出好滋味：教你用手机拍出烘焙美食大片")
-                    .append(shareProperties.getServerUrl()).append("/link/1002")
-                    .append("/:sun烘焙地图：跟着黄油一起逛世界")
+                    .append("/:sun跟着安琪学烘焙：教你从0开始系统入门烘焙").append("\n")
+                    .append(shareProperties.getServerUrl()).append("/link/1001").append("\n")
+                    .append("/:sun拍出好滋味：教你用手机拍出烘焙美食大片").append("\n")
+                    .append(shareProperties.getServerUrl()).append("/link/1002").append("\n")
+                    .append("/:sun烘焙地图：跟着黄油一起逛世界").append("\n")
                     .append(shareProperties.getServerUrl()).append("/link/1004");
             WxMpKefuMessage keFuMessage=WxMpKefuMessage.TEXT().content(contentSB.toString()).toUser(userWxInfo.getOpenId()).build();
             weixinService.getKefuService().sendKefuMessage(keFuMessage);

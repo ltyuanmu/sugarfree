@@ -144,3 +144,18 @@ body{
 .menuAbstract{
     margin: 10px 13px;
 }
+
+div.bottombar{
+    background: url('/wx/img/lantiao.png') no-repeat;
+    background-size: cover;
+    height: 96px;
+    width: 100%;
+    position:fixed;
+    z-index:999;
+    left: 0;
+    bottom:0;
+    text-align: center;
+    font-size: 36px;
+    line-height: 96px;
+    color: #FFFFFF;
+}
