@@ -1,6 +1,8 @@
 package com.sugarfree.service;
 
 import com.sugarfree.dao.model.TArticle;
+import com.sugarfree.dao.model.TEntry;
+import com.sugarfree.dao.model.TMusic;
 import com.sugarfree.dao.model.TWxUser;
 
 import java.util.List;
@@ -40,4 +42,17 @@ public interface ArticleService {
      * @param type false:是自己打开 true:分享的文章打开
      */
     void updateArticleStat(TWxUser tWxUser,TArticle tArticle,boolean type);
+
+    /**
+     * 获得文章公告
+     * @return 文章公告
+     */
+    TEntry getEntry();
+
+    /**
+     * 通过文章id 获得文章音乐
+     * @param articleId 文章id
+     * @return 音乐
+     */
+    TMusic getMusicByArticleId(Integer articleId);
 }

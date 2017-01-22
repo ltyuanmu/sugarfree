@@ -1,17 +1,14 @@
 package com.sugarfree.service.impl;
 
 import com.google.common.collect.Lists;
-import com.sugarfree.dao.mapper.TArticleMapper;
-import com.sugarfree.dao.mapper.TArticleStatMapper;
-import com.sugarfree.dao.model.TArticle;
-import com.sugarfree.dao.model.TArticleStat;
-import com.sugarfree.dao.model.TSubscriber;
-import com.sugarfree.dao.model.TWxUser;
+import com.sugarfree.dao.mapper.*;
+import com.sugarfree.dao.model.*;
 import com.sugarfree.service.ArticleService;
 import com.sugarfree.service.SubscriberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -34,6 +31,11 @@ public class ArticleServiceImpl implements ArticleService{
     private SubscriberService subscriberService;
     @Autowired
     private TArticleStatMapper tArticleStatMapper;
+
+    @Autowired
+    private TEntryMapper tEntryMapper;
+    @Autowired
+    private TMusicMapper tMusicMapper;
 
     @Override
     public TArticle getArticleByEnumId(Integer enumId) {
@@ -92,5 +94,24 @@ public class ArticleServiceImpl implements ArticleService{
             modify.setOpenNum(stat.getOpenNum()+1);
             this.tArticleStatMapper.updateByPrimaryKeySelective(modify);
         }
+    }
+
+    @Override
+    public TEntry getEntry() {
+        TEntry entry = new TEntry();
+        entry.setDeleteState("0");
+        entry.setStatus("0");
+        List<TEntry> list = this.tEntryMapper.select(entry);
+        return list.stream().findFirst().orElse(null);
+    }
+
+    @Override
+    public TMusic getMusicByArticleId(Integer articleId) {
+        TMusic music = new TMusic();
+        music.setFkArticleId(articleId);
+        music.setDeleteState("0");
+        music.setStatus("0");
+        List<TMusic> list = this.tMusicMapper.select(music);
+        return list.stream().findFirst().orElse(null);
     }
 }

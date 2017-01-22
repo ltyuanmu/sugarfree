@@ -315,6 +315,20 @@ public class ViewController {
         WxJsapiSignature signature = this.wxService.createJsapiSignature(signatureUrl);
         modelAndView.addObject("signature",signature);
         modelAndView.addObject("shareUrl",shareUrl);
+        //获得文章的活动公告
+        modelAndView.addObject("isEntry",0);
+        TEntry entry = this.articleService.getEntry();
+        if(entry!=null){
+            modelAndView.addObject("isEntry",1);
+            modelAndView.addObject("entry",entry);
+        }
+        //获得文章的音乐
+        modelAndView.addObject("isMusic",0);
+        TMusic music = this.articleService.getMusicByArticleId(article.getId());
+        if(music!=null){
+            modelAndView.addObject("isMusic",1);
+            modelAndView.addObject("music",music);
+        }
         return modelAndView;
     }
 

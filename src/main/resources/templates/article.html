@@ -16,12 +16,14 @@
         <h3 th:text="'- 第'+${article.classTime}+'课 -'"></h3>
         <p th:text="${article.abstarct}" ></p>
     </div>
-    <!--<div class = "notice">
+    <div class = "notice" th:if="${isEntry} == 1">
         <img  th:src="@{/img/huodongxiaogaoshi.png}" />
+        <div class="noticeText" th:text="${entry.activity}"></div>
     </div>
-    <div id="music" class="aplayer">
-
-    </div>-->
+    <div class="music">
+    <div id="music" class="aplayer" th:if="${isMusic} == 1">
+    </div>
+    </div>
     <div class="content" th:utext="${article.context}">
     </div>
     <div class="bottom" style="">
@@ -134,22 +136,26 @@
     });
 
     $(document).ready(function () {
-        /*var ap1 = new APlayer({
-            element: document.getElementById('music'),
-            narrow: false,
-            autoplay: false,
-            showlrc: false,
-            mutex: true,
-            theme: '#e6d0b2',
-            preload: 'metadata',
-            mode: 'circulation',
-            music: {
-                title: 'Preparation',
-                author: 'Hans Zimmer/Richard Harvey',
-                url: 'http://devtest.qiniudn.com/Preparation.mp3',
-                pic: 'http://devtest.qiniudn.com/Preparation.jpg'
-            }
-        });*/
+        var isMusic = [[${isMusic}]]
+        if(isMusic==1){
+            var api = new APlayer({
+                element: document.getElementById('music'),
+                narrow: false,
+                autoplay: false,
+                showlrc: false,
+                mutex: true,
+                theme: '#e6d0b2',
+                preload: 'metadata',
+                mode: 'order',
+                music: {
+                    title: [[${music.name}]],
+                    author: [[${music.singer}]],
+                    url: [[${music.song}]],
+                    pic: [[${music.icon}]]
+                }
+            });
+        }
+
 
 
         var subscriber = [[${subscriber}]];
