@@ -21,7 +21,7 @@ div.top h3{
 }
 div.notice {
     background: url('/wx/img/notify.png') no-repeat;
-    padding: 70px 0px 50px;
+    padding: 3.5rem 0px 2.5rem;
     background-size: cover;
 }
 div.notice img {
