@@ -40,7 +40,7 @@ public class ButtonController {
             log.error("非法调用");
             return ResponseEntity.status(400).build();
         }
-        boolean flag = this.subscriberService.sendTempleMessage(articleId, userId);
+        boolean flag =false; //this.subscriberService.sendTempleMessage(articleId, userId);
         if(flag){
             log.info("send success");
             return ResponseEntity.ok().build();

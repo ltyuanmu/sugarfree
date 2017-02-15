@@ -1,10 +1,14 @@
 package com.sugarfree.service.impl;
 
+import com.sugarfree.configuration.ShareProperties;
 import com.sugarfree.constant.Enum;
 import com.sugarfree.dao.mapper.*;
 import com.sugarfree.dao.model.*;
+import com.sugarfree.service.MenuService;
 import com.sugarfree.service.PointService;
+import com.sugarfree.service.SubscriberService;
 import com.sugarfree.service.WxUserSubscribeService;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +43,12 @@ public class PointServiceImpl implements PointService{
     private WxUserSubscribeService wxUserSubscribeService;
     @Autowired
     private TGatewayMapper tGatewayMapper;
+    @Autowired
+    private SubscriberService subscriberService;
+    @Autowired
+    private MenuService menuService;
+    @Autowired
+    private ShareProperties shareProperties;
 
     @Override
     public int getPointByOpenId(String openId) {
@@ -200,6 +210,48 @@ public class PointServiceImpl implements PointService{
         tPointHistory.setSource("兑换的是".concat(csol.getCode()));
         tPointHistoryMapper.insertSelective(tPointHistory);
         return "积分兑换成功，当前积分为：" + sumPoint + "分!";
+    }
+
+    @Override
+    public String getPointMag(String openId) throws WxErrorException {
+        //获得该用户的积分,获得该用户未订阅的列表
+        int point = this.getPointByOpenId(openId);
+        StringBuilder sb = new StringBuilder("您的积分为:");
+        sb.append(point);
+        //获得该用户的订阅列表
+        TWxUser wxUser = this.wxUserSubscribeService.getWxUserByOpenId(openId);
+        List<TMenu> list = subscriberService.getSubscriberList(wxUser);
+        StringBuilder menuText = new StringBuilder();
+        if(0==list.stream().filter(tMenu -> 1001==tMenu.getId()).count()){
+            TMenu tMenu = this.menuService.getMenuById(1001);
+            if(point>=tMenu.getPoint()){
+                menuText.append("\n")
+                    .append("/:sun跟着安琪学烘焙：教你从0开始系统入门烘焙").append("\n")
+                    .append(shareProperties.getServerUrl()).append("/link/1001");
+            }
+        }
+        if(0==list.stream().filter(tMenu -> 1002==tMenu.getId()).count()){
+            TMenu tMenu = this.menuService.getMenuById(1002);
+            if(point>=tMenu.getPoint()){
+                menuText.append("\n")
+                        .append("/:sun拍出好滋味：教你用手机拍出烘焙美食大片").append("\n")
+                        .append(shareProperties.getServerUrl()).append("/link/1002");
+            }
+        }
+        if(0==list.stream().filter(tMenu -> 1004==tMenu.getId()).count()){
+            TMenu tMenu = this.menuService.getMenuById(1004);
+            if(point>=tMenu.getPoint()){
+                menuText.append("\n")
+                        .append("/:sun烘焙地图：跟着黄油一起逛世界").append("\n")
+                        .append(shareProperties.getServerUrl()).append("/link/1004");
+            }
+        }
+        if(StringUtils.isNotEmpty(menuText)){
+            sb.append("\n").append("\n")
+                    .append("你目前可订阅").append("\n")
+                    .append(menuText);
+        }
+        return sb.toString();
     }
 
 }

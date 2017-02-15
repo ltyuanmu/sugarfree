@@ -57,4 +57,10 @@ public interface SubscriberService {
      * @throws WxErrorException
      */
     List<TMenu> getSubscriberList(TWxUser wxUser)throws WxErrorException;
+
+    /**
+     * 订阅文章推送
+     */
+    void subscriberArticlePush();
+
 }

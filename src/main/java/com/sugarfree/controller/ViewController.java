@@ -324,6 +324,7 @@ public class ViewController {
         }
         //获得文章的音乐
         modelAndView.addObject("isMusic",0);
+        modelAndView.addObject("music",new TMusic());
         TMusic music = this.articleService.getMusicByArticleId(article.getId());
         if(music!=null){
             modelAndView.addObject("isMusic",1);

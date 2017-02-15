@@ -2,6 +2,7 @@ package com.sugarfree.service;
 
 import com.sugarfree.constant.Enum;
 import com.sugarfree.dao.model.TCsol;
+import me.chanjar.weixin.common.exception.WxErrorException;
 
 /**
  * @ClassName: ${}
@@ -57,5 +58,18 @@ public interface PointService {
      */
     boolean isSubscriberAddPoint(String openId,String recommendId);
 
+    /**
+     * 对应所有用户的兑换券 添加积分
+     * @param openId
+     * @param csol
+     * @return
+     */
     String addPointForOneVoucher(String openId,TCsol csol);
+
+    /**
+     * 通过openId获得该用户积分回复消息
+     * @param openId
+     * @return
+     */
+    String getPointMag(String openId) throws WxErrorException;
 }

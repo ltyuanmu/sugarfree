@@ -58,14 +58,17 @@ public class MsgHandler extends AbstractHandler {
         }
 
         if("积分".equals(wxMessage.getContent())){
-            int point = pointService.getPointByOpenId(wxMessage.getFromUser());
-            String message = "您的积分为:"+point;
+            //int point = pointService.getPointByOpenId(wxMessage.getFromUser());
+            //String message = "您的积分为:"+point;
+            String message = this.pointService.getPointMag(wxMessage.getFromUser());
             return new TextBuilder().build(message,wxMessage,weixinService);
         }else if(StringUtils.isNotEmpty(wxMessage.getContent())&&wxMessage.getContent().startsWith("DHJF_")){
             String content = wxMessage.getContent();
             String code = content.replaceFirst("DHJF_","");
             String message = pointService.addPointForVoucher(wxMessage.getFromUser(), code);
             return new TextBuilder().build(message,wxMessage,weixinService);
+        }else if("巧克力烘焙".equals(wxMessage.getContent())){
+            return new TextBuilder().build("https://pan.baidu.com/s/1nv37FXf",wxMessage,weixinService);
         }else if("原料".equals(wxMessage.getContent())){
             File file = new File("/home/sugarfree/wx_front/img/yuanliao.jpg");
             if(!file.exists()){
@@ -100,6 +103,14 @@ public class MsgHandler extends AbstractHandler {
             return new ImageBuilder().build(message, wxMessage, weixinService);
         }else if("猫头鹰饼干".equals(wxMessage.getContent())){
             File file = new File("/home/sugarfree/wx_front/img/maotouyingbinggan.jpg");
+            if(!file.exists()){
+                return null;
+            }
+            WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
+            String message = uploadResult.getMediaId();
+            return new ImageBuilder().build(message, wxMessage, weixinService);
+        }else if("车轮泡芙".equals(wxMessage.getContent())){
+            File file = new File("/home/sugarfree/wx_front/img/chelunpaofu.jpg");
             if(!file.exists()){
                 return null;
             }

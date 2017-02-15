@@ -3,10 +3,7 @@ package com.sugarfree.service.impl;
 import com.google.common.base.*;
 import com.google.common.collect.Lists;
 import com.sugarfree.configuration.ShareProperties;
-import com.sugarfree.dao.mapper.TMenuMapper;
-import com.sugarfree.dao.mapper.TSubscriberMapper;
-import com.sugarfree.dao.mapper.TSubscriberPushMapper;
-import com.sugarfree.dao.mapper.TWxUserMapper;
+import com.sugarfree.dao.mapper.*;
 import com.sugarfree.dao.model.*;
 import com.sugarfree.service.ArticleService;
 import com.sugarfree.service.PointService;
@@ -35,7 +32,7 @@ import java.util.stream.Collectors;
 public class SubscriberServiceImpl implements SubscriberService{
 
     @Autowired
-    private TSubscriberMapper subscriberMapper;
+    private TSubscriberMapper tSubscriberMapper;
     @Autowired
     private WxMpService wxService;
     @Autowired
@@ -50,10 +47,12 @@ public class SubscriberServiceImpl implements SubscriberService{
     private TSubscriberPushMapper tSubscriberPushMapper;
     @Autowired
     private TMenuMapper tMenuMapper;
+    @Autowired
+    private SubscriberDao subscriberDao;
 
     @Override
     public void insert(TSubscriber subscriber) {
-        subscriberMapper.insertSelective(subscriber);
+        tSubscriberMapper.insertSelective(subscriber);
     }
 
     @Override
@@ -62,7 +61,7 @@ public class SubscriberServiceImpl implements SubscriberService{
         tSubscriber.setFkWxUserId(userId);
         tSubscriber.setFkMenuId(menuId);
         tSubscriber.setStatus("0");
-        return subscriberMapper.selectOne(tSubscriber);
+        return tSubscriberMapper.selectOne(tSubscriber);
     }
 
     @Override
@@ -138,7 +137,7 @@ public class SubscriberServiceImpl implements SubscriberService{
                         modifySubscriber.setId(subsc.getId());
                         modifySubscriber.setLastClassTime(1);
                         modifySubscriber.setEndTime(new Date());
-                        this.subscriberMapper.updateByPrimaryKeySelective(modifySubscriber);
+                        this.tSubscriberMapper.updateByPrimaryKeySelective(modifySubscriber);
                         //添加推送历史
                         TSubscriberPush push = new TSubscriberPush();
                         push.setArticleTitle(article.getTitle());
@@ -162,7 +161,7 @@ public class SubscriberServiceImpl implements SubscriberService{
         TSubscriber unSubscriber = new TSubscriber();
         unSubscriber.setId(tSubscriber.getId());
         unSubscriber.setStatus("1");
-        this.subscriberMapper.updateByPrimaryKeySelective(unSubscriber);
+        this.tSubscriberMapper.updateByPrimaryKeySelective(unSubscriber);
         return "1";
     }
 
@@ -171,7 +170,7 @@ public class SubscriberServiceImpl implements SubscriberService{
         TSubscriber subscriber = new TSubscriber();
         subscriber.setStatus("0");
         subscriber.setFkWxUserId(wxUser.getId());
-        List<TSubscriber> list = this.subscriberMapper.select(subscriber);
+        List<TSubscriber> list = this.tSubscriberMapper.select(subscriber);
         if(CollectionUtils.isEmpty(list)){
             return Lists.newArrayList();
         }else{
@@ -181,6 +180,45 @@ public class SubscriberServiceImpl implements SubscriberService{
             example.orderBy("id").asc();
             List<TMenu> tMenus = this.tMenuMapper.selectByExample(example);
             return Optional.ofNullable(tMenus).orElse(Lists.newArrayList());
+        }
+    }
+
+    @Override
+    public void subscriberArticlePush(){
+        //获得需要推送的订阅信息
+        List<ArticlePushBean> list = this.subscriberDao.getSubscriberArticle();
+        for(ArticlePushBean articlePushBean:list){
+            //log.info("subscriberArticlePush start,userId:{},articleId:{}",articlePushBean.getFkWxUserId(),articlePushBean.getFkArticleId());
+            try {
+                TArticle article = this.articleService.getArticleById(articlePushBean.getFkArticleId());
+                if(article!=null){
+                    //发送文章
+                    boolean flag = this.sendTempleMessage(article.getId(),articlePushBean.getFkWxUserId());
+                    if(flag){
+                        //维护推送数据
+                        TSubscriber modifySubscriber = new TSubscriber();
+                        modifySubscriber.setId(articlePushBean.getFkSubscriberId());
+                        modifySubscriber.setLastClassTime(articlePushBean.getClassTime());
+                        modifySubscriber.setEndTime(new Date());
+                        this.tSubscriberMapper.updateByPrimaryKeySelective(modifySubscriber);
+                        //添加推送历史
+                        TSubscriberPush push = new TSubscriberPush();
+                        push.setArticleTitle(article.getTitle());
+                        push.setFkArticleId(article.getId());
+                        push.setFkWxUserId(articlePushBean.getFkWxUserId());
+                        push.setPushTime(modifySubscriber.getEndTime());
+                        push.setStaus("1");
+                        tSubscriberPushMapper.insertSelective(push);
+                        log.info("subscriberArticlePush successful,userId:{},articleId:{}",articlePushBean.getFkWxUserId(),articlePushBean.getFkArticleId());
+                    }else{
+                        log.error("subscriberArticlePush fail,userId:{},articleId:{}",articlePushBean.getFkWxUserId(),articlePushBean.getFkArticleId());
+                    }
+                }
+            } catch (WxErrorException e) {
+                log.error(e.getMessage(),e);
+                log.error("subscriberArticlePush fail,userId:{},articleId:{}",articlePushBean.getFkWxUserId(),articlePushBean.getFkArticleId());
+            }
+            //log.info("subscriberArticlePush end,userId:{},articleId:{}",articlePushBean.getFkWxUserId(),articlePushBean.getFkArticleId());
         }
     }
 }

@@ -110,7 +110,7 @@ public class ArticleServiceImpl implements ArticleService{
         TMusic music = new TMusic();
         music.setFkArticleId(articleId);
         music.setDeleteState("0");
-        music.setStatus("0");
+        music.setStatus("1");
         List<TMusic> list = this.tMusicMapper.select(music);
         return list.stream().findFirst().orElse(null);
     }
