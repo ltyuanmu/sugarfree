@@ -113,7 +113,7 @@ public class PointServiceImpl implements PointService{
     }
 
     @Override
-    public String addPointForVoucher(String openId, String voucherCode) {
+    public String addPointForVoucher(String openId, String voucherCode) throws WxErrorException {
         //查看是否有积分券
         TCsol tCsol = new TCsol();
         tCsol.setCode(voucherCode);
@@ -154,7 +154,8 @@ public class PointServiceImpl implements PointService{
         TGateway tGateway = this.tGatewayMapper.selectByPrimaryKey(csol.getFkGatewayId());
         tPointHistory.setSource("兑换的是".concat(tGateway.getName()).concat("的兑换劵"));
         tPointHistoryMapper.insertSelective(tPointHistory);
-        return "积分兑换成功，当前积分为：" + sumPoint + "分!";
+        String message = this.getPointMag(openId);
+        return "积分兑换成功，"+message;
     }
 
     @Override
@@ -184,7 +185,7 @@ public class PointServiceImpl implements PointService{
     }
 
     @Override
-    public String addPointForOneVoucher(String openId, TCsol csol) {
+    public String addPointForOneVoucher(String openId, TCsol csol) throws WxErrorException {
         //获得用户信息
         TWxUser wxUser = this.wxUserSubscribeService.getWxUserByOpenId(openId);
         //查看该用户是否兑换过
@@ -209,7 +210,8 @@ public class PointServiceImpl implements PointService{
         //获得渠道
         tPointHistory.setSource("兑换的是".concat(csol.getCode()));
         tPointHistoryMapper.insertSelective(tPointHistory);
-        return "积分兑换成功，当前积分为：" + sumPoint + "分!";
+        String message = this.getPointMag(openId);
+        return "积分兑换成功，"+message;
     }
 
     @Override

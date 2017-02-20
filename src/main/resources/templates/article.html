@@ -44,6 +44,11 @@
         </p>
         <img th:src="${user.qrUrl}" class="erweima"/>
     </div>
+    <a th:href="@{'/article/list/'+${article.fkMenuId}+'?isSelf=1'}">
+        <div class="topbar" >
+            <span><img th:src="@{/img/shouzhi.png}"/></span><span>点击可查看往期专栏课程</span>
+        </div>
+    </a>
 </div>
 <a class="shadow">
     <div class="success">

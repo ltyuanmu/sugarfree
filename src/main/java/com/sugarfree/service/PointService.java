@@ -48,7 +48,7 @@ public interface PointService {
      * @param voucherCode 积分码
      * @return 得到的信息
      */
-    String addPointForVoucher(String openId,String voucherCode);
+    String addPointForVoucher(String openId,String voucherCode) throws WxErrorException;
 
     /**
      * 是否订阅专注添加积分
@@ -64,7 +64,7 @@ public interface PointService {
      * @param csol
      * @return
      */
-    String addPointForOneVoucher(String openId,TCsol csol);
+    String addPointForOneVoucher(String openId,TCsol csol) throws WxErrorException;
 
     /**
      * 通过openId获得该用户积分回复消息
