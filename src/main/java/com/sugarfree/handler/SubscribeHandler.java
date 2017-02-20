@@ -65,6 +65,10 @@ public class SubscribeHandler extends AbstractHandler {
                 //添加如果这两个关注已经添加积分则不能在添加积分
                 if(pointService.isSubscriberAddPoint(recommendId,userWxInfo.getOpenId())){
                     pointService.updatePoint(recommendId, Enum.PointEvent.RECOMMEND,userWxInfo.getOpenId());
+                    //获得当前推荐人的积分
+                    int point = this.pointService.getPointByOpenId(recommendId);
+                    WxMpKefuMessage keFuMessage=WxMpKefuMessage.TEXT().content("积分变动提醒,你当前积分为"+point).toUser(recommendId).build();
+                    weixinService.getKefuService().sendKefuMessage(keFuMessage);
                 }
             }
             pointService.updatePoint(userWxInfo.getOpenId(), Enum.PointEvent.SUBSCRIBE,recommendId);
