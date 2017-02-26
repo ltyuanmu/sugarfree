@@ -3,6 +3,7 @@ package com.sugarfree.service;
 import com.sugarfree.dao.model.TMenu;
 import com.sugarfree.dao.model.TSubscriber;
 import com.sugarfree.dao.model.TWxUser;
+import com.sugarfree.outvo.MenuOutVo;
 import me.chanjar.weixin.common.exception.WxErrorException;
 
 import java.util.List;
@@ -62,5 +63,12 @@ public interface SubscriberService {
      * 订阅文章推送
      */
     void subscriberArticlePush();
+
+    /**
+     * 通过用户id获得菜单列表 获得订阅量,菜单内容,菜单图片
+     * @param wxUserId 用户id
+     * @return 返回MenuOutVo列表
+     */
+    List<MenuOutVo> getMenuList(Integer wxUserId);
 
 }

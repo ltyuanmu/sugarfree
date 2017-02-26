@@ -9,7 +9,7 @@ a{
 }
 div.top{
     line-height: 1.5em;
-    margin:48px 0px 10px 0px;
+    margin:0px 0px 10px 0px;
 }
 div.top h2,div.top h3{
     text-align:center;
@@ -162,7 +162,7 @@ body{
 
 div.topbar{
     background-color: #F0F0F0;
-    height: 48px;
+    height: 40px;
     width: 100%;
     position:fixed;
     z-index:999;
@@ -171,12 +171,13 @@ div.topbar{
     /*bottom:0;*/
     text-align: center;
     font-size: 12px;
-    line-height: 48px;
+    line-height: 40px;
     text-decoration:underline;
     color: #5078C8;
-    box-shadow:0px 0px 10px 0px #444;
+    /*box-shadow:0px 0px 10px 0px #444;*/
 }
 
 div.topbar img{
-    vertical-align:text-bottom
+    vertical-align:text-bottom;
+    height: 16px;
 }

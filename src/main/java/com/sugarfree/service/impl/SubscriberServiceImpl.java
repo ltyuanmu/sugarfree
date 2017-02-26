@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.sugarfree.configuration.ShareProperties;
 import com.sugarfree.dao.mapper.*;
 import com.sugarfree.dao.model.*;
+import com.sugarfree.outvo.MenuOutVo;
 import com.sugarfree.service.ArticleService;
 import com.sugarfree.service.PointService;
 import com.sugarfree.service.SubscriberService;
@@ -220,5 +221,10 @@ public class SubscriberServiceImpl implements SubscriberService{
             }
             //log.info("subscriberArticlePush end,userId:{},articleId:{}",articlePushBean.getFkWxUserId(),articlePushBean.getFkArticleId());
         }
+    }
+
+    @Override
+    public List<MenuOutVo> getMenuList(Integer wxUserId) {
+        return this.subscriberDao.getMenuList(wxUserId);
     }
 }

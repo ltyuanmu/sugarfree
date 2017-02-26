@@ -25,4 +25,26 @@
             )
         AND t.`status` = '0';
     </select>
+
+    <select id="getMenuList" resultType="com.sugarfree.dao.model.ArticlePushBean" parameterType="Integer">
+        SELECT
+        t.id AS menuId,
+        ta.id AS articleId,
+        t.`name` AS menuName,
+        ta.sub_title AS subTitle,
+        CASE WHEN ts.id IS NOT NULL THEN 1 ELSE 0 END AS isSubscriber,
+        sn.num AS subscriberNum,
+        un.updateNum AS updateNum,
+        tc.img AS menuImg,
+        point AS point
+        FROM t_menu t
+        INNER JOIN t_article ta ON t.id = ta.fk_menu_id AND ta.delete_state='0' AND ta.type='0' AND ta.`status` = '1'
+        LEFT JOIN t_subscriber ts ON ts.fk_menu_id = t.id AND ts.fk_wx_user_id = #{wxUserId} AND ts.`status` ='0'
+        LEFT JOIN (SELECT fk_menu_id,COUNT(1) num FROM t_subscriber WHERE `status`='0' GROUP BY fk_menu_id) sn ON sn.fk_menu_id = t.id
+        LEFT JOIN (SELECT fk_menu_id,MAX(class_time) updateNum FROM t_article WHERE delete_state='0' AND `status` = '1' GROUP BY fk_menu_id) un ON un.fk_menu_id = t.id
+        LEFT JOIN t_column tc ON tc.fk_menu_id = t.id
+        WHERE t.id LIKE '10%'
+        AND t.type = '1'
+        AND t.delete_state ='0'
+    </select>
 </mapper>

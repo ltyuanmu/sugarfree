@@ -4,6 +4,7 @@ import com.sugarfree.configuration.ShareProperties;
 import com.sugarfree.constant.*;
 import com.sugarfree.constant.Enum;
 import com.sugarfree.dao.model.*;
+import com.sugarfree.outvo.MenuOutVo;
 import com.sugarfree.service.*;
 import com.sugarfree.utils.HttpRequestUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -293,7 +294,9 @@ public class ViewController {
         }
         //目前如果是分享给别人 则不出现订阅按钮
         //isSelf 0代表 别人 1 代表自己
+        modelAndView.addObject("isSelf",1);
         if(!"1".equals(state)&&!"1".equals(isSelf)){
+            modelAndView.addObject("isSelf",0);
             modelAndView.addObject("subscriber",2);
             this.articleService.updateArticleStat(wxUser,article,true);
         }else if(!"1".equals(state)&&"1".equals(isSelf)){
@@ -411,7 +414,7 @@ public class ViewController {
 
     /**
      * 获取订阅专栏
-     * @return
+     * @return 返回页面
      */
     @RequestMapping(method = RequestMethod.GET,value = "/menu/list")
     public ModelAndView getMenuAbstract() throws WxErrorException {
@@ -438,8 +441,8 @@ public class ViewController {
 
     /**
      * 获取form表单的
-     * @param menuId
-     * @return
+     * @param menuId 菜单id
+     * @return 返回页面
      */
     @RequestMapping(method = RequestMethod.GET,value = "/menu/form/{menuId}")
     public ModelAndView getMenuForm(@PathVariable int menuId,String state) throws WxErrorException {
@@ -499,8 +502,8 @@ public class ViewController {
 
     /**
      * 获取订阅专栏
-     * @param menuId
-     * @return
+     * @param menuId 菜单id
+     * @return 返回页面
      */
     @RequestMapping(method = RequestMethod.GET,value = "/aboutme/{menuId}")
     public ModelAndView getAboutMe(@PathVariable int menuId) throws WxErrorException {
@@ -510,6 +513,15 @@ public class ViewController {
         }
         ModelAndView modelAndView = new ModelAndView("aboutme");
         modelAndView.addObject("article",article);
+        return modelAndView;
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/columns")
+    public ModelAndView getAboutMe() throws WxErrorException {
+        TWxUser wxUser = getWxUser();
+        List<MenuOutVo> menuList = this.subscriberService.getMenuList(wxUser.getId());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("menuList",menuList);
         return modelAndView;
     }
 }

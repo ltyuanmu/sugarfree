@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+    <title>更多专栏</title>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <link  type="text/css" rel="stylesheet" th:href="@{/css/menus.css}"/>
+</head>
+<body>
+<div class="content" th:each="outVo,outVoStat : ${menuList}">
+    <div>
+        <img class="background" th:src="@{${outVo.menuImg}}"/>
+        <img class="huidi" th:src="@{/img/menus/huidi.png}"/>
+        <span class="update">更新至<span th:text="${outvo.updateNum}"></span>期&nbsp&nbsp<img src="fenge.png"/> <span th:text="${outvo.subscriberNum}"></span>人订阅</span>
+    </div>
+    <p class="title" th:text="${outvo.menuName}"></p>
+    <p class="subtitle" th:text="'“'+${outvo.subTitle}+'”'"></p>
+    <a th:if="${outvo.menuName}==0" th:onclick="|showMenuAbstract(${menu.id});|">
+        <div class="button" >
+            订阅专栏 : <span th:text="${outvo.point}"></span>个积分
+        </div>
+    </a>
+    <a th:if="${outvo.menuName}==1" th:onclick="|showArticleList(${menu.id});|">
+        <div class="button1" >
+            查看课程目录
+        </div>
+    </a>
+
+</div>
+
+
+</body>
+
+<script type="text/javascript">
+    function showArticleList(menuId){
+        if(menuId=1099){
+            location.href="/wx/menu/form/"+menuId+"state=1";
+        }else{
+            location.href="/wx/article/list/"+menuId+"?isSelf=1";
+        }
+    }
+    function showMenuAbstract(menuId){
+        if(menuId=1099){
+            location.href="/wx/menu/form/"+menuId+"state=1";
+        }else {
+            location.href="/wx/articleList/" + menuId + "state=1";
+        }
+    }
+</script>
+</html>
