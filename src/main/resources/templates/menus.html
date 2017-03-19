@@ -6,135 +6,155 @@
 <script th:src="@{/js/jquery.min.js}"></script>
 <script>
     /*<![CDATA[*/
-function banner(n,p,o,s){var l=0;
-var m=1;
-var u=5000;
-var t=1;
-var r;
-n.hide();
-n.eq(0).fadeIn("slow");
-if(n.length>1){p.eq(0).addClass("nuw");
-var v=false;
-if(s!=null&&s.length>0){v=true
-}if(v){s.eq(0).addClass("on")
-}function q(){m=l+1;
-if(m>n.length-1){m=0
-}n.eq(l).css("z-index","2");
-n.eq(m).css("z-index","1");
-n.eq(m).show();
-n.eq(l).fadeOut("slow");
-p.removeClass("nuw");
-p.eq(m).addClass("nuw");
-if(v){s.removeClass("on");
-s.eq(m).addClass("on")
-}l=m
-}r=setInterval(q,u);
-p.click(function(){var a=p.index(this);
-if(a!=l&&t==1){t=0;
-n.eq(l).css("z-index","2");
-n.eq(a).css("z-index","1");
-n.eq(a).show();
-n.eq(l).fadeOut("slow",function(){t=1
-});
-p.removeClass("nuw");
-p.eq(a).addClass("nuw");
-if(v){s.removeClass("on");
-s.eq(a).addClass("on")
-}l=a
-}});
-if(v){s.click(function(){var a=s.index(this);
-if(a!=l&&t==1){t=0;
-n.eq(l).css("z-index","2");
-n.eq(a).css("z-index","1");
-n.eq(a).show();
-n.eq(l).fadeOut("slow",function(){t=1
-});
-p.removeClass("nuw");
-p.eq(a).addClass("nuw");
-s.removeClass("on");
-s.eq(a).addClass("on");
-l=a
-}})
-}o.hover(function(){clearInterval(r)
-},function(){r=setInterval(q,u)
-})
-}else{}}
-$(function(){
-	
-banner($("#banner .d1"),$("#banner_id li"),$("#banner_id"));
-	})
+    function banner(n,p,o,s){var l=0;
+        var m=1;
+        var u=5000;
+        var t=1;
+        var r;
+        n.hide();
+        n.eq(0).fadeIn("slow");
+        if(n.length>1){p.eq(0).addClass("nuw");
+            var v=false;
+            if(s!=null&&s.length>0){v=true
+            }if(v){s.eq(0).addClass("on")
+            }function q(){m=l+1;
+                if(m>n.length-1){m=0
+                }n.eq(l).css("z-index","2");
+                n.eq(m).css("z-index","1");
+                n.eq(m).show();
+                n.eq(l).fadeOut("slow");
+                p.removeClass("nuw");
+                p.eq(m).addClass("nuw");
+                if(v){s.removeClass("on");
+                    s.eq(m).addClass("on")
+                }l=m
+            }r=setInterval(q,u);
+            p.click(function(){var a=p.index(this);
+                if(a!=l&&t==1){t=0;
+                    n.eq(l).css("z-index","2");
+                    n.eq(a).css("z-index","1");
+                    n.eq(a).show();
+                    n.eq(l).fadeOut("slow",function(){t=1
+                    });
+                    p.removeClass("nuw");
+                    p.eq(a).addClass("nuw");
+                    if(v){s.removeClass("on");
+                        s.eq(a).addClass("on")
+                    }l=a
+                }});
+            if(v){s.click(function(){var a=s.index(this);
+                if(a!=l&&t==1){t=0;
+                    n.eq(l).css("z-index","2");
+                    n.eq(a).css("z-index","1");
+                    n.eq(a).show();
+                    n.eq(l).fadeOut("slow",function(){t=1
+                    });
+                    p.removeClass("nuw");
+                    p.eq(a).addClass("nuw");
+                    s.removeClass("on");
+                    s.eq(a).addClass("on");
+                    l=a
+                }})
+            }o.hover(function(){clearInterval(r)
+            },function(){r=setInterval(q,u)
+            })
+        }else{}}
+    $(function(){
+
+        banner($("#banner .d1"),$("#banner_id li"),$("#banner_id"));
+    })
+
+    window.onload=function(){
+        if($(".Item .ItemLeft img").length>0){
+            $(".Item .ItemLeft img").each(function(index, element) {
+                $(this).css("height",$(".Item .ItemLeft img")[0].offsetWidth*2/3);
+            });
+        }
+    }
     /*]]>*/
 </script>
-<style>
-.banner {
-	width:100%;
-	margin:0 auto;
-    position: relative;
-	overflow:hidden;
-	max-height:280px;
-}
-.banner .d2 li {
-	display:none;
-}
-.banner .d1 {
-    width: 100%;
-    display: block;
-}
+    <style>
+        body{
+            width:100%;
+            margin-top:0 !important;
+        }
+        .banner {
+            width:100%;
+            margin:0 auto;
+            position: relative;
+            overflow:hidden;
+            max-height:280px;
+        }
+        .banner .d2 li {
+            display:none;
+        }
+        .banner .d1 {
+            width: 100%;
+            display: block;
+        }
 
-.AllPage p.Title{
-	font-size: 18px;
-	height:30px;
-	border-bottom:1px solid #d2d2d2;
-    vertical-align: baseline;
-    font-family: 微软雅黑, arial, verdana, sans-serif;
-    text-align: left;
-    background: #F1F1F1;
-	margin:10px 2.5%;
-}
-.AllPage ul li .ItemLeft{
-	width:36%;
-	padding:2%;
-	float:left;
-}
-.AllPage ul li .ItemLeft img{
-	max-width:100%;
-}
-.AllPage ul li .ItemRight{
-	width:56%;
-	padding:2%;
-	float:left;
-}
-.AllPage ul li .ItemRight .ItemRightTop{
-	font-size:20px;
-	padding-right:20px;
-	background:url('/wx/img/menus/back.png') no-repeat right center;
-	font-weight:bold;
-}
-.AllPage ul li .ItemRight .ItemRightTime{
-	padding:8px;
-	text-align:center;
-	border:1px solid #d2d2d2;
-	border-radius:10px;
-	float:left;
-}
-.AllPage ul li .ItemRight .ItemRightTime span{
-	float:left;
-	margin:0 5px;
-}
-.AllPage ul li .ItemRight .ItemRightBottom{
-	font-size:18px;
-	margin-top:10px;
-}
-.AllPage ul li .ItemRight .ItemRightBottom span{
-	margin-left:5px;
-}
-.AllPage ul li .ItemRight .ItemRightBottom.on{
-	color:#b0c8ea;
-}
-.AllPage ul li .ItemRight .ItemRightBottom{
-	color:#77a3e2;
-}
-</style>
+        .AllPage p.Title{
+            font-size: 18px;
+            height:30px;
+            border-bottom:1px solid #d2d2d2;
+            vertical-align: baseline;
+            font-family: 微软雅黑, arial, verdana, sans-serif;
+            text-align: left;
+            background: #F1F1F1;
+            margin:10px 2.5%;
+        }
+        .AllPage ul li{
+            float:left;
+            border-bottom: 1px solid #bfbfbf;
+            width:100%;
+        }
+        .AllPage ul li .ItemLeft{
+            width:36%;
+            padding:2%;
+            float:left;
+        }
+        .AllPage ul li .ItemLeft img{
+            max-width:100%:
+        }
+        .AllPage ul li .ItemRight{
+            width:56%;
+            padding:2%;
+            float:left;
+        }
+        .AllPage ul li .ItemRight .ItemRightTop{
+            font-size:20px;
+            padding-right:20px;
+            background:url('/wx/img/menus/back.png') no-repeat right center;
+            font-weight:bold;
+            color:#000;
+        }
+        .AllPage ul li .ItemRight .ItemRightTime{
+            padding:8px;
+            font-size:1.5em
+            text-align:center;
+            border:1px solid #d2d2d2;
+            border-radius:10px;
+            float:left;
+        }
+        .AllPage ul li .ItemRight .ItemRightTime span{
+            float:left;
+            margin:0 5px;
+            color:#737373;
+        }
+        .AllPage ul li .ItemRight .ItemRightBottom{
+            font-size:2em;
+            margin-top:10px;
+        }
+        .AllPage ul li .ItemRight .ItemRightBottom span{
+            margin-left:5px;
+        }
+        .AllPage ul li .ItemRight .ItemRightBottom.on{
+            color:#b0c8ea;
+        }
+        .AllPage ul li .ItemRight .ItemRightBottom{
+            color:#77a3e2;
+        }
+    </style>
 <link type="text/css" rel="stylesheet" th:href="@{/css/newcommon.css}"/>
 </head>
 
