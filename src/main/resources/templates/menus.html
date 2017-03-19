@@ -1,51 +1,183 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
-    <title>更多专栏</title>
-    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
-    <link  type="text/css" rel="stylesheet" th:href="@{/css/menus.css}"/>
-</head>
-<body>
-<div class="content" th:each="outVo,outVoStat : ${menuList}">
-    <div>
-        <img class="background" th:src="@{${outVo.menuImg}}"/>
-        <img class="huidi" th:src="@{/img/menus/huidi.png}"/>
-        <span class="update">更新至<span th:text="${outvo.updateNum}"></span>期&nbsp&nbsp<img src="fenge.png"/> <span th:text="${outvo.subscriberNum}"></span>人订阅</span>
-    </div>
-    <p class="title" th:text="${outvo.menuName}"></p>
-    <p class="subtitle" th:text="'“'+${outvo.subTitle}+'”'"></p>
-    <a th:if="${outvo.menuName}==0" th:onclick="|showMenuAbstract(${menu.id});|">
-        <div class="button" >
-            订阅专栏 : <span th:text="${outvo.point}"></span>个积分
-        </div>
-    </a>
-    <a th:if="${outvo.menuName}==1" th:onclick="|showArticleList(${menu.id});|">
-        <div class="button1" >
-            查看课程目录
-        </div>
-    </a>
-
-</div>
-
-
-</body>
-
-<script type="text/javascript">
-    function showArticleList(menuId){
-        if(menuId=1099){
-            location.href="/wx/menu/form/"+menuId+"state=1";
-        }else{
-            location.href="/wx/article/list/"+menuId+"?isSelf=1";
-        }
-    }
-    function showMenuAbstract(menuId){
-        if(menuId=1099){
-            location.href="/wx/menu/form/"+menuId+"state=1";
-        }else {
-            location.href="/wx/articleList/" + menuId + "state=1";
-        }
-    }
+<meta charset="utf-8"/>
+<title>全部专栏</title>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script>
+    /*<![CDATA[*/
+function banner(n,p,o,s){var l=0;
+var m=1;
+var u=5000;
+var t=1;
+var r;
+n.hide();
+n.eq(0).fadeIn("slow");
+if(n.length>1){p.eq(0).addClass("nuw");
+var v=false;
+if(s!=null&&s.length>0){v=true
+}if(v){s.eq(0).addClass("on")
+}function q(){m=l+1;
+if(m>n.length-1){m=0
+}n.eq(l).css("z-index","2");
+n.eq(m).css("z-index","1");
+n.eq(m).show();
+n.eq(l).fadeOut("slow");
+p.removeClass("nuw");
+p.eq(m).addClass("nuw");
+if(v){s.removeClass("on");
+s.eq(m).addClass("on")
+}l=m
+}r=setInterval(q,u);
+p.click(function(){var a=p.index(this);
+if(a!=l&&t==1){t=0;
+n.eq(l).css("z-index","2");
+n.eq(a).css("z-index","1");
+n.eq(a).show();
+n.eq(l).fadeOut("slow",function(){t=1
+});
+p.removeClass("nuw");
+p.eq(a).addClass("nuw");
+if(v){s.removeClass("on");
+s.eq(a).addClass("on")
+}l=a
+}});
+if(v){s.click(function(){var a=s.index(this);
+if(a!=l&&t==1){t=0;
+n.eq(l).css("z-index","2");
+n.eq(a).css("z-index","1");
+n.eq(a).show();
+n.eq(l).fadeOut("slow",function(){t=1
+});
+p.removeClass("nuw");
+p.eq(a).addClass("nuw");
+s.removeClass("on");
+s.eq(a).addClass("on");
+l=a
+}})
+}o.hover(function(){clearInterval(r)
+},function(){r=setInterval(q,u)
+})
+}else{}}
+$(function(){
+	
+banner($("#banner .d1"),$("#banner_id li"),$("#banner_id"));
+	})
+    /*]]>*/
 </script>
+<style>
+.banner {
+	width:100%;
+	margin:0 auto;
+    position: relative;
+	overflow:hidden;
+	max-height:280px;
+}
+.banner .d2 li {
+	display:none;
+}
+.banner .d1 {
+    width: 100%;
+    display: block;
+}
+
+.AllPage p.Title{
+	font-size: 18px;
+	height:30px;
+	border-bottom:1px solid #d2d2d2;
+    vertical-align: baseline;
+    font-family: 微软雅黑, arial, verdana, sans-serif;
+    text-align: left;
+    background: #F1F1F1;
+	margin:10px 2.5%;
+}
+.AllPage ul li .ItemLeft{
+	width:36%;
+	padding:2%;
+	float:left;
+}
+.AllPage ul li .ItemLeft img{
+	max-width:100%;
+}
+.AllPage ul li .ItemRight{
+	width:56%;
+	padding:2%;
+	float:left;
+}
+.AllPage ul li .ItemRight .ItemRightTop{
+	font-size:20px;
+	padding-right:20px;
+	background:url('/wx/img/menus/back.png') no-repeat right center;
+	font-weight:bold;
+}
+.AllPage ul li .ItemRight .ItemRightTime{
+	padding:8px;
+	text-align:center;
+	border:1px solid #d2d2d2;
+	border-radius:10px;
+	float:left;
+}
+.AllPage ul li .ItemRight .ItemRightTime span{
+	float:left;
+	margin:0 5px;
+}
+.AllPage ul li .ItemRight .ItemRightBottom{
+	font-size:18px;
+	margin-top:10px;
+}
+.AllPage ul li .ItemRight .ItemRightBottom span{
+	margin-left:5px;
+}
+.AllPage ul li .ItemRight .ItemRightBottom.on{
+	color:#b0c8ea;
+}
+.AllPage ul li .ItemRight .ItemRightBottom{
+	color:#77a3e2;
+}
+</style>
+<link type="text/css" rel="stylesheet" th:href="@{/css/newcommon.css}"/>
+</head>
+
+<body>
+<div class="common">
+<div class="Top">
+<!--此处banner图片区域-->
+<div class="banner" id="banner">
+    <div class="d2" id="banner_id" style="margin-right: -102.5px;">
+        <ul>
+            <!--此处banner图片切换按钮区域-->
+        <li class=""></li><li class=""></li><li class=""></li><li class=""></li><li class="nuw"></li></ul>
+    </div>
+	<img class="d1" style="display: none; z-index: 2;" th:src="@{/img/menus/banner.png}" src="banner.png" />
+	<img class="d1" style="display: none; z-index: 2;" th:src="@{/img/menus/banner.png}" src="banner.png" />
+	<img class="d1" style="display: none; z-index: 2;" th:src="@{/img/menus/banner.png}" src="banner.png" />
+	<img class="d1" style="display: none; z-index: 2;" th:src="@{/img/menus/banner.png}" src="banner.png" />
+	<img class="d1" style="display: none; z-index: 2;" th:src="@{/img/menus/banner.png}" src="banner.png" />
+	</div>
+</div>
+<div class="AllPage">
+	<p class="Title">全部专栏</p>
+    <div>
+    	<ul>
+        	<li class="Item" th:each="outVo,outVoStat : ${menuList}" >
+            	<div class="ItemLeft">
+                	<img src="" alt="" th:src="@{${outVo.menuImg}}" />
+                </div>
+                <div class="ItemRight">
+                	<p class="ItemRightTop" th:text="${outVo.menuName}">跟着安琪学烘焙</p>
+                    <div class="ItemRightTime">
+                    	<span>更新至<span th:text="${outVo.updateNum}"></span>期</span>
+                        <span>|</span>
+                        <span><span th:text="${outVo.subscriberNum}"></span>人订阅</span>
+                    </div>
+                    <div style="clear:both;"></div>
+					<p th:if="${outVo.isSubscriber}==0" class="ItemRightBottom">订阅：<span><span th:text="${outVo.point}"></span>积分</span></p>
+                    <p th:if="${outVo.isSubscriber}==1" class="ItemRightBottom on">已订阅</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+</body>
 </html>

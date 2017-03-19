@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name = "format-detection" content = "telephone=no" />
+    <title>文章列表</title>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/newcommon.css}"/>
+    <style>
+        .AllPage ul li{
+            float:left;
+            width:100%;
+            border-bottom: 1px solid #bfbfbf;
+        }
+        .AllPage ul li .ItemLeft{
+            width:36%;
+            padding:2%;
+            float:left;
+        }
+        .AllPage ul li .ItemLeft img{
+            width:100%;
+        }
+        .AllPage ul li .ItemRight{
+            width:52%;
+            padding:4%;
+            float:left;
+        }
+        .AllPage ul li .ItemRight .ItemRightTop{
+            font-size:3em;
+            height:1em;
+            font-weight:bold;
+            color:#000;
+        }
+        .AllPage ul li .ItemRight .ItemRightContent{
+            color:#bfbfbf;
+            font-size:2em;
+        }
+        .AllPage ul li .ItemRight .ItemRightBottom{
+            font-size:18px;
+            margin-top:10px;
+        }
+        .AllPage ul li .ItemRight .ItemRightBottom span{
+            margin-left:5px;
+        }
+        .AllPage ul li .ItemRight .ItemRightBottom.on{
+            color:#b0c8ea;
+        }
+        .AllPage ul li .ItemRight .ItemRightBottom{
+            color:#77a3e2;
+        }
+    </style>
+</head>
+
+
+<body>
+<div class="common">
+<div class="AllPage">
+    <div>
+    	<ul>
+        	<li class="Item" th:each="article,articleStat : ${list}">
+                <a th:onclick="|showArticle(${article.id});|">
+                    <div class="ItemLeft">
+                        <img th:src="${article.icon}"  alt="" />
+                    </div>
+                    <div class="ItemRight">
+                        <p class="ItemRightTop" th:text="|第${article.classTime}课|"></p>
+                        <p class="ItemRightContent" th:text="|${article.title}|">
+                        </p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+</body>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    window.onload=function(){
+        if($(".Item .ItemLeft img").length>0){
+            $(".Item .ItemLeft img").each(function(index, element) {
+                $(this).css("height",$(".Item .ItemLeft img")[0].offsetWidth*2/3);
+            });
+        }
+    }
+    function showArticle(articleId){
+        location.href="/wx/article/"+articleId+"?isSelf=1";
+    }
+    /*]]>*/
+</script>
+</html>

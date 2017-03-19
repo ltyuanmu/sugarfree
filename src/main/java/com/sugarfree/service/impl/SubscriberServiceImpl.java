@@ -215,7 +215,7 @@ public class SubscriberServiceImpl implements SubscriberService{
                         log.error("subscriberArticlePush fail,userId:{},articleId:{}",articlePushBean.getFkWxUserId(),articlePushBean.getFkArticleId());
                     }
                 }
-            } catch (WxErrorException e) {
+            } catch (Exception e) {
                 log.error(e.getMessage(),e);
                 log.error("subscriberArticlePush fail,userId:{},articleId:{}",articlePushBean.getFkWxUserId(),articlePushBean.getFkArticleId());
             }

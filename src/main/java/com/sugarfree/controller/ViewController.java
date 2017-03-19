@@ -374,6 +374,7 @@ public class ViewController {
             article.setId(t.getId());
             article.setClassTime(t.getClassTime());
             article.setTitle(t.getTitle());
+            article.setIcon(t.getIcon());
             return article;
         }).collect(Collectors.toList());
         ModelAndView view = new ModelAndView("articleList");
@@ -517,11 +518,61 @@ public class ViewController {
     }
 
     @RequestMapping(method = RequestMethod.GET,value = "/columns")
-    public ModelAndView getAboutMe() throws WxErrorException {
-        TWxUser wxUser = getWxUser();
+    public ModelAndView getCloumns(String state) throws WxErrorException {
+        TWxUser wxUser;
+        if(!"1".equals(state)&&StringUtils.isNotEmpty(state)){
+            wxUser = this.wxUserService.getWxUserByOpenId(state);
+            setUserSession(wxUser);
+        }else{
+            wxUser = getWxUser();
+        }
         List<MenuOutVo> menuList = this.subscriberService.getMenuList(wxUser.getId());
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView("menus");
         modelAndView.addObject("menuList",menuList);
+        return modelAndView;
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/columns/{menuId}")
+    public ModelAndView getCloumn(@PathVariable int menuId,String state) throws WxErrorException {
+        TWxUser wxUser;
+        if(!"1".equals(state)&&StringUtils.isNotEmpty(state)){
+            wxUser = this.wxUserService.getWxUserByOpenId(state);
+            setUserSession(wxUser);
+        }else{
+            wxUser = getWxUser();
+        }
+        TArticle menuAbstract = articleService.getArticleByEnumId(menuId);
+        if(menuAbstract==null){
+            throw new RuntimeException("文章专栏详情不存在!!");
+        }
+        ModelAndView modelAndView = new ModelAndView("column");
+        //目前如果是分享给别人 则不出现订阅按钮
+        //订阅专栏需要统计 true为分享 false为自己
+        this.articleService.updateArticleStat(wxUser,menuAbstract,true);
+        modelAndView.addObject("menuAbstract",menuAbstract);
+        //获得二维码图片
+        String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
+        wxUser.setQrUrl(url);
+        modelAndView.addObject("user",wxUser);
+        //获取订阅扣除积分
+        TMenu menu = menuService.getMenuById(menuId);
+        modelAndView.addObject("menuPoint",menu.getPoint());
+        return modelAndView;
+    }
+
+
+    /**
+     * 新版获得文章列表
+     * @param menuId 菜单id
+     * @param state 状态
+     * @param isSelf 是否是自己
+     * @return 反参
+     * @throws WxErrorException 异常
+     */
+    @RequestMapping(method = RequestMethod.GET,value = "/article/list/new/{menuId}")
+    public ModelAndView getNewArticleList(@PathVariable int menuId,String state,String isSelf) throws WxErrorException {
+        ModelAndView modelAndView = this.getArticleList(menuId, state, isSelf);
+        modelAndView.setViewName("newArticleList");
         return modelAndView;
     }
 }

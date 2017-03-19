@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+    <meta name = "format-detection" content = "telephone=no" />
+    <title>专栏简介</title>
+    <script type="text/javascript" th:src="@{/js/device-adapter.js}"></script>
+    <link  type="text/css" rel="stylesheet" th:href="@{/css/column.css}"/>
+    <script></script>
+</head>
+<body>
+<div class="menuAbstract">
+    <div class="content" th:utext="${menuAbstract.context}"></div>
+    <div class="bottom" style="">
+        <img th:src="${user.qrUrl}" class="erweima"/>
+    </div>
+</div>
+
+<script type="text/javascript" th:src="@{https://res.wx.qq.com/open/js/jweixin-1.0.0.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+</body>
+</html>
