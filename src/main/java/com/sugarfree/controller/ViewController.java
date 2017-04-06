@@ -184,7 +184,7 @@ public class ViewController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET,value = "/articleList/{menuId}")
-    public ModelAndView getMenuAbstract(@PathVariable int menuId,String state) throws WxErrorException {
+    public ModelAndView getMenuAbstract(@PathVariable int menuId,String state,String isSelf) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser;
         if(!"1".equals(state)&&StringUtils.isNotEmpty(state)){
@@ -215,7 +215,8 @@ public class ViewController {
         }
         //目前如果是分享给别人 则不出现订阅按钮
         //订阅专栏需要统计 true为分享 false为自己
-        if(!"1".equals(state)){
+        log.info(isSelf+"=====================================================================");
+        if(!"1".equals(state)&&!"1".equals(isSelf)){
             modelAndView.addObject("subscriber",2);
             this.articleService.updateArticleStat(wxUser,menuAbstract,true);
         }else{
@@ -418,7 +419,7 @@ public class ViewController {
      * @return 返回页面
      */
     @RequestMapping(method = RequestMethod.GET,value = "/menu/list")
-    public ModelAndView getMenuAbstract() throws WxErrorException {
+    public ModelAndView getMenuAbstractList() throws WxErrorException {
         //获取用户信息
         TWxUser wxUser = getWxUser();
         if(wxUser==null){
@@ -446,7 +447,7 @@ public class ViewController {
      * @return 返回页面
      */
     @RequestMapping(method = RequestMethod.GET,value = "/menu/form/{menuId}")
-    public ModelAndView getMenuForm(@PathVariable int menuId,String state) throws WxErrorException {
+    public ModelAndView getMenuForm(@PathVariable int menuId,String state,String isSelf) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser;
         if(!"1".equals(state)&&StringUtils.isNotEmpty(state)){
@@ -478,7 +479,7 @@ public class ViewController {
             //modelAndView.addObject("subscriber",2);
         }
         //目前如果是分享给别人 则不出现订阅按钮
-        if(!"1".equals(state)){
+        if(!"1".equals(state)&&!"1".equals(isSelf)){
             modelAndView.addObject("subscriber",2);
         }
         modelAndView.addObject("menuAbstract",menuAbstract);

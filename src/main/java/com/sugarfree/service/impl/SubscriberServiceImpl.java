@@ -225,6 +225,11 @@ public class SubscriberServiceImpl implements SubscriberService{
 
     @Override
     public List<MenuOutVo> getMenuList(Integer wxUserId) {
-        return this.subscriberDao.getMenuList(wxUserId);
+        List<MenuOutVo> menuList = this.subscriberDao.getMenuList(wxUserId);
+        menuList.forEach(t->{
+            int num = t.getSubscriberNum()==null?0:t.getSubscriberNum();
+            t.setSubscriberNum(num*3);
+        });
+        return menuList;
     }
 }

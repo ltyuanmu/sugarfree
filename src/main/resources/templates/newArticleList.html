@@ -8,47 +8,46 @@
     <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
     <link type="text/css" rel="stylesheet" th:href="@{/css/newcommon.css}"/>
     <style>
+        p{
+            margin-bottom:0;
+        }
+        .AllPage ul{
+            margin:0;
+            padding:0;
+        }
         .AllPage ul li{
             float:left;
             width:100%;
+            padding: 5px 0;
             border-bottom: 1px solid #bfbfbf;
         }
         .AllPage ul li .ItemLeft{
-            width:36%;
-            padding:2%;
+            width:44%;
             float:left;
         }
-        .AllPage ul li .ItemLeft img{
+        .AllPage ul li .ItemLeft .ImgBox{
             width:100%;
+            overflow: hidden;
         }
         .AllPage ul li .ItemRight{
             width:52%;
-            padding:4%;
+            padding:2%;
             float:left;
         }
         .AllPage ul li .ItemRight .ItemRightTop{
-            font-size:3em;
-            height:1em;
+            font-size:18px;
             font-weight:bold;
             color:#000;
+            margin-bottom: 5px;
+            line-height: 24px;
         }
         .AllPage ul li .ItemRight .ItemRightContent{
-            color:#bfbfbf;
-            font-size:2em;
-            line-height:2em;
+            color:#8c8c8c;
+            font-size:14px;
+            line-height:20px;
         }
-        .AllPage ul li .ItemRight .ItemRightBottom{
-            font-size:18px;
-            margin-top:10px;
-        }
-        .AllPage ul li .ItemRight .ItemRightBottom span{
-            margin-left:5px;
-        }
-        .AllPage ul li .ItemRight .ItemRightBottom.on{
-            color:#b0c8ea;
-        }
-        .AllPage ul li .ItemRight .ItemRightBottom{
-            color:#77a3e2;
+        .AllPage ul li .ItemLeft .ImgBox img{
+            width:100%;
         }
     </style>
 </head>
@@ -56,13 +55,15 @@
 
 <body>
 <div class="common">
-<div class="AllPage">
-    <div>
-    	<ul>
+    <div class="AllPage">
+        <div>
+            <ul>
         	<li class="Item" th:each="article,articleStat : ${list}">
                 <a th:onclick="|showArticle(${article.id});|">
                     <div class="ItemLeft">
-                        <img th:src="${article.icon}"  alt="" />
+                        <div class="ImgBox">
+                            <img th:src="${article.icon}"  alt="" />
+                        </div>
                     </div>
                     <div class="ItemRight">
                         <p class="ItemRightTop" th:text="|第${article.classTime}课|"></p>
@@ -78,13 +79,27 @@
 </body>
 <script type="text/javascript">
     /*<![CDATA[*/
-    window.onload=function(){
-        if($(".Item .ItemLeft img").length>0){
-            $(".Item .ItemLeft img").each(function(index, element) {
-                $(this).css("height",$(".Item .ItemLeft img")[0].offsetWidth*2/3);
-            });
+    $(function(){
+        var windowResize = function(){
+            document.documentElement.style.fontSize = document.documentElement.clientWidth >750?(100+ 'px'):(document.documentElement.clientWidth / 7.5 + 'px');
+            if($(".Item .ItemLeft .ImgBox").length>0){
+                $(".Item .ItemLeft .ImgBox").each(function(index, element) {
+                    $(this).css({"height":$(".Item .ItemLeft .ImgBox")[0].offsetWidth*11/21,"width":"100%"});
+                    if($(this).find("img").width()/$(this).find("img").height()<21/11){
+                        $(this).find("img").css({"width":"100%"}).css("margin-top",($(this)[0].offsetHeight-$(this).find("img")[0].offsetHeight)/2+"px").css("margin-left","0");
+                    }
+                    else{
+                        $(this).find("img").css({"height":"100%","width":"initial"}).css("margin-left",($(this)[0].offsetWidth-$(this).find("img")[0].offsetWidth)/2+"px").css("margin-top","0");
+                    }
+                });
+            }
         }
-    }
+        window.onresize = windowResize;
+        $(".Item .ItemLeft .ImgBox").css({"height":$(".Item .ItemLeft .ImgBox")[0].offsetWidth*11/21,"width":"100%"});
+        window.onload=function(){
+            windowResize();
+        }
+    })
     function showArticle(articleId){
         location.href="/wx/article/"+articleId+"?isSelf=1";
     }

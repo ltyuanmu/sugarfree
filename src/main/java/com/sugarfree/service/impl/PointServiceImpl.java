@@ -114,6 +114,13 @@ public class PointServiceImpl implements PointService{
 
     @Override
     public String addPointForVoucher(String openId, String voucherCode) throws WxErrorException {
+        //获得用户信息
+        TWxUser wxUser = this.wxUserSubscribeService.getWxUserByOpenId(openId);
+        //客户需要如果是此积分则返回特定语句
+        if("OCI7P2JN".equals(voucherCode)){
+            return wxUser.getNickname()+"，不好意思，兑换码已经过期了哦～希望你关注我新的文章";
+        }
+
         //查看是否有积分券
         TCsol tCsol = new TCsol();
         tCsol.setCode(voucherCode);
@@ -129,8 +136,7 @@ public class PointServiceImpl implements PointService{
         if("1".equals(csol.getStatus())){
             return "积分兑换失败，该积分码已经使用过!";
         }
-        //获得用户信息
-        TWxUser wxUser = this.wxUserSubscribeService.getWxUserByOpenId(openId);
+
         //更新积分
         TWxUser modifyWxUser = new TWxUser();
         Integer sumPoint=wxUser.getPoint()+csol.getScore();

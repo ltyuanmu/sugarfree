@@ -1,9 +1,149 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=0.6,maximum-scale=1.0,user-scalable=0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no"/>
 <title>全部专栏</title>
 <script th:src="@{/js/jquery.min.js}"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/newcommon.css}"/>
+
+    <style>
+        p{
+            margin-bottom:0;
+        }
+        .banner {
+            width:100%;
+            margin:0 auto;
+            position: relative;
+            overflow:hidden;
+        }
+        .banner .d2 li {
+            display:none;
+        }
+        .banner .d1 {
+            width: 100%;
+            display: block;
+        }
+
+        .AllPage p.Title{
+            font-size: 26px;
+            line-height: 26px;
+            height: 40px;
+            border-bottom:1px solid #d2d2d2;
+            vertical-align: baseline;
+            font-family: 微软雅黑, arial, verdana, sans-serif;
+            text-align: left;
+            background: #F1F1F1;
+            margin:30px 2.5% 0px;
+            color:#8c8c8c;
+        }
+        .AllPage ul{
+            margin: 10px 2.5%;
+            padding:0;
+        }
+        .AllPage ul li{
+            float:left;
+            border-bottom: 1px solid #d2d2d2;
+            width:100%;
+            padding:25px 0 20px;
+        }
+        .AllPage ul li .ItemLeft{
+            width:270px;
+            float:left;
+        }
+        .AllPage ul li .ItemLeft .ImgBox{
+            width:100%;
+            overflow: hidden;
+        }
+        .AllPage ul li .ItemLeft .ImgBox img{
+            width:100%;
+        }
+        .AllPage ul li .ItemRight{
+            float:left;
+            margin-left:10px;
+        }
+        .AllPage ul li .ItemRight .ItemRightTop{
+            font-size: 30px;
+            line-height: 42px;
+            background:url('/wx/img/menus/back.png') no-repeat right center;
+            font-weight:bold;
+            color:#3d3d3d;
+        }
+        .AllPage ul li .ItemRight .ItemRightTime{
+            padding:8px;
+            margin-top: 10px;
+            font-size:22px;
+            text-align:center;
+            border:1px solid #d2d2d2;
+            border-radius:10px;
+            float:left;
+        }
+        .AllPage ul li .ItemRight .ItemRightTime span{
+            float:left;
+        /* margin:0 5px;*/
+            color:#8c8c8c;
+        }
+        .AllPage ul li .ItemRight .ItemRightBottom{
+            font-size: 26px;
+            line-height: 70px;
+            height: 60px;
+            margin: 0;
+            color:#3a8dff;
+        }
+        .AllPage ul li .ItemRight .ItemRightBottom span{
+            margin-left:5px;
+        }
+        .AllPage ul li .ItemRight .ItemRightBottom.on{
+            color:#95bff8;
+        }
+    </style>
+</head>
+
+<body>
+<div class="common">
+    <div class="Top">
+        <!--此处banner图片区域-->
+        <div class="banner" id="banner">
+            <div class="d2" id="banner_id" style="margin-right: -102.5px;display:none;">
+                <ul>
+                    <!--此处banner图片切换按钮区域-->
+                    <li class=""></li><li class=""></li><li class=""></li><li class=""></li><li class="nuw"></li></ul>
+            </div>
+            <img class="d1" style="display: none; z-index: 2;" th:src="@{/img/menus/banner.png}" src="banner.png" />
+        </div>
+    </div>
+
+    <div class="AllPage">
+        <p class="Title">全部专栏</p>
+        <div>
+            <ul>
+        	<li class="Item" th:each="outVo,outVoStat : ${menuList}" >
+                <a th:onclick="|showArticle(${outVo.menuId},${outVo.isSubscriber});|">
+            	<div class="ItemLeft">
+                    <div class="ImgBox">
+                	    <img src="" alt="" th:src="@{${outVo.menuImg}}" />
+                    </div>
+                </div>
+                <div class="ItemRight">
+                	<p class="ItemRightTop" th:text="${outVo.menuName}">跟着安琪学烘焙</p>
+                    <div class="ItemRightTime">
+                    	<span th:text="|更新至${outVo.updateNum}期|"></span>
+                        <span style="margin:0 5px;">|</span>
+                        <span><span th:text="${outVo.subscriberNum}"></span>人订阅</span>
+                    </div>
+                    <div style="clear:both;"></div>
+					<p th:if="${outVo.isSubscriber}==0" class="ItemRightBottom">订阅：<span><span th:text="${outVo.point}"></span>积分</span></p>
+                    <p th:if="${outVo.isSubscriber}==1" class="ItemRightBottom on">已订阅</p>
+                </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
 <script>
     /*<![CDATA[*/
     function banner(n,p,o,s){var l=0;
@@ -60,144 +200,51 @@
             })
         }else{}}
     $(function(){
-
+        var windowResize = function(){
+            document.documentElement.style.fontSize = document.documentElement.clientWidth >750?(100+ 'px'):(document.documentElement.clientWidth / 7.5 + 'px');
+            $(".AllPage ul li .ItemRight").css("width",$(".Item").width()-$(".Item .ItemLeft").width()-11);
+            if($(".Item .ItemLeft .ImgBox").length>0){
+                $(".Item .ItemLeft .ImgBox").each(function(index, element) {
+                    $(this).css({"height":$(".Item .ItemLeft .ImgBox")[0].offsetWidth*2/3,"width":"100%"});
+                    $(this).find("img").removeAttr("style");
+                    if($(this).find("img").width()/$(this).find("img").height()<3/2){
+                        $(this).find("img").css({"width":"100%"}).css("margin-top",($(this)[0].offsetHeight-$(this).find("img")[0].offsetHeight)/2+"px");
+                    }
+                    else{
+                        $(this).find("img").css({"height":"100%"}).css("margin-left",($(this)[0].offsetWidth-$(this).find("img")[0].offsetWidth)/2+"px");
+                    }
+                });
+            }
+            $(".banner").css("height",$(".banner")[0].offsetWidth*38/75);
+            if($(".banner .d1").length>0){
+                $(".banner .d1").each(function(index, element) {
+                    if($(this).width()/$(this).height()<75/38){
+                        $(this).css({"width":"100%"}).css("margin-top",($(".banner")[0].offsetHeight-$(this).height())/2+"px");
+                    }
+                    else{
+                        $(this).find("img").css({"height":"100%","width":"initial"}).css("margin-left",($(".banner")[0].offsetWidth-$(this).width())/2+"px");;
+                    }
+                });
+            }
+        }
+        window.onresize = windowResize;
+        $(".Item .ItemLeft .ImgBox").css({"height":$(".Item .ItemLeft .ImgBox")[0].offsetWidth*2/3,"width":"100%"});
         banner($("#banner .d1"),$("#banner_id li"),$("#banner_id"));
+        window.onload=function(){
+            windowResize();
+        }
     })
 
-    window.onload=function(){
-        if($(".Item .ItemLeft img").length>0){
-            $(".Item .ItemLeft img").each(function(index, element) {
-                $(this).css("height",$(".Item .ItemLeft img")[0].offsetWidth*2/3);
-            });
+    function showArticle(menuId,isSubscriber){
+        if(1099==menuId){
+            location.href="/wx/menu/form/"+menuId+"?isSelf=1";
+        }else if(0==isSubscriber){
+            location.href="/wx/articleList/"+menuId+"?isSelf=1";
+        }else{
+            location.href="/wx/article/list/new/"+menuId+"?isSelf=1";
         }
     }
     /*]]>*/
 </script>
-    <style>
-        body{
-            width:100%;
-            margin-top:0 !important;
-        }
-        .banner {
-            width:100%;
-            margin:0 auto;
-            position: relative;
-            overflow:hidden;
-            max-height:280px;
-        }
-        .banner .d2 li {
-            display:none;
-        }
-        .banner .d1 {
-            width: 100%;
-            display: block;
-        }
-
-        .AllPage p.Title{
-            font-size: 18px;
-            height:30px;
-            border-bottom:1px solid #d2d2d2;
-            vertical-align: baseline;
-            font-family: 微软雅黑, arial, verdana, sans-serif;
-            text-align: left;
-            background: #F1F1F1;
-            margin:10px 2.5%;
-        }
-        .AllPage ul li{
-            float:left;
-            border-bottom: 1px solid #bfbfbf;
-            width:100%;
-        }
-        .AllPage ul li .ItemLeft{
-            width:36%;
-            padding:2%;
-            float:left;
-        }
-        .AllPage ul li .ItemLeft img{
-            max-width:100%:
-        }
-        .AllPage ul li .ItemRight{
-            width:56%;
-            padding:2%;
-            float:left;
-        }
-        .AllPage ul li .ItemRight .ItemRightTop{
-            font-size:20px;
-            padding-right:20px;
-            background:url('/wx/img/menus/back.png') no-repeat right center;
-            font-weight:bold;
-            color:#000;
-        }
-        .AllPage ul li .ItemRight .ItemRightTime{
-            padding:8px;
-            font-size:1.5em
-            text-align:center;
-            border:1px solid #d2d2d2;
-            border-radius:10px;
-            float:left;
-        }
-        .AllPage ul li .ItemRight .ItemRightTime span{
-            float:left;
-            margin:0 5px;
-            color:#737373;
-        }
-        .AllPage ul li .ItemRight .ItemRightBottom{
-            font-size:2em;
-            margin-top:10px;
-        }
-        .AllPage ul li .ItemRight .ItemRightBottom span{
-            margin-left:5px;
-        }
-        .AllPage ul li .ItemRight .ItemRightBottom.on{
-            color:#b0c8ea;
-        }
-        .AllPage ul li .ItemRight .ItemRightBottom{
-            color:#77a3e2;
-        }
-    </style>
-<link type="text/css" rel="stylesheet" th:href="@{/css/newcommon.css}"/>
-</head>
-
-<body>
-<div class="common">
-<div class="Top">
-<!--此处banner图片区域-->
-<div class="banner" id="banner">
-    <div class="d2" id="banner_id" style="margin-right: -102.5px;">
-        <ul>
-            <!--此处banner图片切换按钮区域-->
-        <li class=""></li><li class=""></li><li class=""></li><li class=""></li><li class="nuw"></li></ul>
-    </div>
-	<img class="d1" style="display: none; z-index: 2;" th:src="@{/img/menus/banner.png}" src="banner.png" />
-	<img class="d1" style="display: none; z-index: 2;" th:src="@{/img/menus/banner.png}" src="banner.png" />
-	<img class="d1" style="display: none; z-index: 2;" th:src="@{/img/menus/banner.png}" src="banner.png" />
-	<img class="d1" style="display: none; z-index: 2;" th:src="@{/img/menus/banner.png}" src="banner.png" />
-	<img class="d1" style="display: none; z-index: 2;" th:src="@{/img/menus/banner.png}" src="banner.png" />
-	</div>
-</div>
-<div class="AllPage">
-	<p class="Title">全部专栏</p>
-    <div>
-    	<ul>
-        	<li class="Item" th:each="outVo,outVoStat : ${menuList}" >
-            	<div class="ItemLeft">
-                	<img src="" alt="" th:src="@{${outVo.menuImg}}" />
-                </div>
-                <div class="ItemRight">
-                	<p class="ItemRightTop" th:text="${outVo.menuName}">跟着安琪学烘焙</p>
-                    <div class="ItemRightTime">
-                    	<span>更新至<span th:text="${outVo.updateNum}"></span>期</span>
-                        <span>|</span>
-                        <span><span th:text="${outVo.subscriberNum}"></span>人订阅</span>
-                    </div>
-                    <div style="clear:both;"></div>
-					<p th:if="${outVo.isSubscriber}==0" class="ItemRightBottom">订阅：<span><span th:text="${outVo.point}"></span>积分</span></p>
-                    <p th:if="${outVo.isSubscriber}==1" class="ItemRightBottom on">已订阅</p>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
-</div>
 </body>
 </html>
