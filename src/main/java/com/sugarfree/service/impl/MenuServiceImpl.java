@@ -65,10 +65,15 @@ public class MenuServiceImpl implements MenuService {
         if(menu==null){
             throw new RuntimeException("link is not exits");
         }
-        String templateUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=_APPID_&redirect_uri=_MENUURL_&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
-        templateUrl = templateUrl.replaceAll("_APPID_",wechatMpProperties.getAppId());
-        String url = URLEncoder.encode(menu.getUrl(), "UTF-8");
-        return templateUrl.replaceAll("_MENUURL_", url);
+        //type为一 则需要重定向 和微信封装
+        if("1".equals(menu.getType())){
+            String templateUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=_APPID_&redirect_uri=_MENUURL_&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
+            templateUrl = templateUrl.replaceAll("_APPID_",wechatMpProperties.getAppId());
+            String url = URLEncoder.encode(menu.getUrl(), "UTF-8");
+            return templateUrl.replaceAll("_MENUURL_", url);
+        }else{
+            return menu.getUrl();
+        }
     }
 
     /**

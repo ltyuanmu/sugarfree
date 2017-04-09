@@ -80,7 +80,7 @@ public class SubscribeHandler extends AbstractHandler {
                     .append("如果你恰好喜欢烘焙，这里也有成套的烘焙秘方，你更是来对了地方！").append("\n")
                     .append("来了，就好好享受这趟烘焙之旅吧。");*/
             //需求变更 文字
-            contentSB.append(",你来啦~是闻着黄油的香味找到这儿的吗？").append("\n").append("\n")
+            /*contentSB.append(",你来啦~是闻着黄油的香味找到这儿的吗？").append("\n").append("\n")
                     .append("这里是一间创造美好食物的厨房。欢迎你来和黄油一起探索美食、生活的可能性。")
                     .append("\n").append("\n")
                     .append("「专栏推荐」").append("\n").append("\n")
@@ -89,7 +89,15 @@ public class SubscribeHandler extends AbstractHandler {
                     .append("/:sun拍出好滋味：教你用手机拍出烘焙美食大片").append("\n")
                     .append(shareProperties.getServerUrl()).append("/link/1002").append("\n")
                     .append("/:sun烘焙地图：跟着黄油一起逛世界").append("\n")
-                    .append(shareProperties.getServerUrl()).append("/link/1004");
+                    .append(shareProperties.getServerUrl()).append("/link/1004");*/
+            contentSB.append(",你来啦~是闻着黄油的香味找到这儿的吗？").append("\n").append("\n")
+                    .append("这里是一间创造美好食物的厨房。欢迎你来和黄油一起探索美食、生活的可能性。")
+                    .append("\n").append("\n")
+                    .append("了解会飞的黄油").append("\n")
+                    .append(shareProperties.getServerUrl()).append("/link/1101").append("\n")
+                    .append("/:sun跟着安琪学烘焙：教你从0开始系统入门烘焙").append("\n")
+                    .append(shareProperties.getServerUrl()).append("/link/1001").append("\n")
+                    .append("更多精彩专栏，点击菜单栏左下角“专栏订阅”了解并订阅。");
             WxMpKefuMessage keFuMessage=WxMpKefuMessage.TEXT().content(contentSB.toString()).toUser(userWxInfo.getOpenId()).build();
             weixinService.getKefuService().sendKefuMessage(keFuMessage);
             //发送二维码消息
