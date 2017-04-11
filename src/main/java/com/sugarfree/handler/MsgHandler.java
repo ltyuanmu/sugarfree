@@ -2,8 +2,8 @@ package com.sugarfree.handler;
 
 import com.sugarfree.builder.ImageBuilder;
 import com.sugarfree.builder.TextBuilder;
+import com.sugarfree.configuration.ShareProperties;
 import com.sugarfree.service.PointService;
-import com.sugarfree.utils.JsonUtils;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -31,6 +31,8 @@ public class MsgHandler extends AbstractHandler {
 
     @Autowired
     private PointService pointService;
+    @Autowired
+    private ShareProperties shareProperties;
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
@@ -134,7 +136,9 @@ public class MsgHandler extends AbstractHandler {
             String message = uploadResult.getMediaId();
             return new ImageBuilder().build(message, wxMessage, weixinService);
         }else{
-            return null;
+            StringBuilder sb = new StringBuilder();
+            sb.append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1101").append("\">").append("了解会飞的黄油").append("</a>").append("\n");
+            return new TextBuilder().build(sb.toString(),wxMessage,weixinService);
         }
         //TODO 组装回复消息
         //String content = "收到信息内容：" + JsonUtils.toJson(wxMessage);
