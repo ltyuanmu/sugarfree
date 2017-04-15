@@ -50,6 +50,8 @@ public class SubscriberServiceImpl implements SubscriberService{
     private TMenuMapper tMenuMapper;
     @Autowired
     private SubscriberDao subscriberDao;
+    @Autowired
+    private TCarouselMapper tCarouselMapper;
 
     @Override
     public void insert(TSubscriber subscriber) {
@@ -231,5 +233,12 @@ public class SubscriberServiceImpl implements SubscriberService{
             t.setSubscriberNum(num*3);
         });
         return menuList;
+    }
+
+    @Override
+    public List<TCarousel> getCarouselList() {
+        TCarousel tCarousel = new TCarousel();
+        tCarousel.setDeleteState("0");
+        return this.tCarouselMapper.select(tCarousel);
     }
 }

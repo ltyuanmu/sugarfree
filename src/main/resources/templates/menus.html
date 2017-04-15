@@ -112,7 +112,10 @@
                     <!--此处banner图片切换按钮区域-->
                     <li class=""></li><li class=""></li><li class=""></li><li class=""></li><li class="nuw"></li></ul>
             </div>
-            <img class="d1" style="display: none; z-index: 2;" th:src="@{/img/menus/banner.png}" src="banner.png" />
+            <a th:if="${carouselList}!=null" th:each="bannerVo,bannerStat : ${carouselList}" th:href="${bannerVo.url}">
+                <img class="d1" style="display: none; z-index: 2;" th:src="${bannerVo.image}" src="banner.png" />
+            </a>
+            <img th:if="${carouselList}==null" class="d1" style="display: none; z-index: 2;" th:src="@{/img/menus/banner.png}" src="banner.png" />
         </div>
     </div>
 

@@ -93,8 +93,10 @@ public class SubscribeHandler extends AbstractHandler {
             contentSB.append(",你来啦~是闻着黄油的香味找到这儿的吗？").append("\n").append("\n")
                     .append("这里是一间创造美好食物的厨房。欢迎你来和黄油一起探索美食、生活的可能性。")
                     .append("\n").append("\n")
-                    .append("了解会飞的黄油").append("\n")
+                    //.append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1101").append("\">").append("/:sun了解会飞的黄油").append("</a>").append("\n").append("\n")
+                    .append("/:sun了解会飞的黄油").append("\n")
                     .append(shareProperties.getServerUrl()).append("/link/1101").append("\n").append("\n")
+                    //.append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1001").append("\">").append("/:sun跟着安琪学烘焙：教你从0开始系统入门烘焙").append("</a>").append("\n").append("\n")
                     .append("/:sun跟着安琪学烘焙：教你从0开始系统入门烘焙").append("\n")
                     .append(shareProperties.getServerUrl()).append("/link/1001").append("\n").append("\n")
                     .append("更多精彩专栏，点击菜单栏左下角“专栏订阅”了解并订阅。");

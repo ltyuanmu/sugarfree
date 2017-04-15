@@ -1,5 +1,6 @@
 package com.sugarfree.service;
 
+import com.sugarfree.dao.model.TCarousel;
 import com.sugarfree.dao.model.TMenu;
 import com.sugarfree.dao.model.TSubscriber;
 import com.sugarfree.dao.model.TWxUser;
@@ -71,4 +72,9 @@ public interface SubscriberService {
      */
     List<MenuOutVo> getMenuList(Integer wxUserId);
 
+    /**
+     * 获得轮播图片
+     * @return
+     */
+    List<TCarousel> getCarouselList();
 }

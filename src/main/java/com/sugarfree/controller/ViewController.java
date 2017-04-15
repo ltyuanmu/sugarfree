@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -530,6 +531,10 @@ public class ViewController {
         List<MenuOutVo> menuList = this.subscriberService.getMenuList(wxUser.getId());
         ModelAndView modelAndView = new ModelAndView("menus");
         modelAndView.addObject("menuList",menuList);
+        List<TCarousel> carouselList = this.subscriberService.getCarouselList();
+        if(!CollectionUtils.isEmpty(carouselList)){
+            modelAndView.addObject("carouselList",carouselList);
+        }
         return modelAndView;
     }
 
