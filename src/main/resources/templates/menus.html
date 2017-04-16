@@ -7,6 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <meta name="format-detection" content="telephone=no"/>
 <title>全部专栏</title>
+    <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script th:src="@{/js/jquery.min.js}"></script>
     <link type="text/css" rel="stylesheet" th:href="@{/css/newcommon.css}"/>
 
@@ -101,16 +102,48 @@
         }
     </style>
 </head>
+<script>
+    /*<![CDATA[*/
 
+    $(document).on("pagecreate","#banner",function(){
+        $(".banner img").on("swipeleft",function(){
+            Imgswipeleft();
+        });
+        $(".banner img").on("swiperight",function(){
+            Imgswiperight();
+        });
+    })
+    function Imgswipeleft(){
+        var index = $("#banner_id ul li.nuw").index();
+        var length = $("#banner_id ul li").length;
+        if(index!=0){
+            $("#banner_id ul li:eq("+(index-1)+")").click();
+        }else{
+            $("#banner_id ul li:eq("+(length-1)+")").click();
+        }
+    }
+
+    function Imgswiperight(){
+        var index = $("#banner_id ul li.nuw").index();
+        var length = $("#banner_id ul li").length;
+        if(index!=length-1){
+            $("#banner_id ul li:eq("+(index+1)+")").click();
+        }else{
+            $("#banner_id ul li:eq(0)").click();
+        }
+    }
+    /*]]>*/
+</script>
 <body>
 <div class="common">
     <div class="Top">
         <!--此处banner图片区域-->
-        <div class="banner" id="banner">
+        <div data-role="page" class="banner" id="banner">
             <div class="d2" id="banner_id" style="margin-right: -102.5px;display:none;">
                 <ul>
                     <!--此处banner图片切换按钮区域-->
-                    <li class=""></li><li class=""></li><li class=""></li><li class=""></li><li class="nuw"></li></ul>
+                    <li class="" th:each="bannerVo,bannerStat : ${carouselList}"></li>
+                </ul>
             </div>
             <a th:if="${carouselList}!=null" th:each="bannerVo,bannerStat : ${carouselList}" th:href="${bannerVo.url}">
                 <img class="d1" style="display: none; z-index: 2;" th:src="${bannerVo.image}" src="banner.png" />
@@ -203,32 +236,6 @@
             })
         }else{}
     }
-    $(".banner img").on("swipeleft",function(){
-        Imgswipeleft();
-    });
-    $(".banner img").on("swiperight",function(){
-        Imgswiperight();
-    });
-    function Imgswipeleft(){
-        var index = $("#banner_id ul li.nuw").index();
-        var length = $("#banner_id ul li").length;
-        if(index!=0){
-            $("#banner_id ul li:eq("+(index-1)+")").click();
-        }else{
-            $("#banner_id ul li:eq("+(length-1)+")").click();
-        }
-    }
-
-    function Imgswiperight(){
-        var index = $("#banner_id ul li.nuw").index();
-        var length = $("#banner_id ul li").length;
-        if(index!=length-1){
-            $("#banner_id ul li:eq("+(index+1)+")").click();
-        }else{
-            $("#banner_id ul li:eq(0)").click();
-        }
-    }
-
 
     $(function(){
         var windowResize = function(){
