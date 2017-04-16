@@ -201,7 +201,35 @@
             }o.hover(function(){clearInterval(r)
             },function(){r=setInterval(q,u)
             })
-        }else{}}
+        }else{}
+    }
+    $(".banner img").on("swipeleft",function(){
+        Imgswipeleft();
+    });
+    $(".banner img").on("swiperight",function(){
+        Imgswiperight();
+    });
+    function Imgswipeleft(){
+        var index = $("#banner_id ul li.nuw").index();
+        var length = $("#banner_id ul li").length;
+        if(index!=0){
+            $("#banner_id ul li:eq("+(index-1)+")").click();
+        }else{
+            $("#banner_id ul li:eq("+(length-1)+")").click();
+        }
+    }
+
+    function Imgswiperight(){
+        var index = $("#banner_id ul li.nuw").index();
+        var length = $("#banner_id ul li").length;
+        if(index!=length-1){
+            $("#banner_id ul li:eq("+(index+1)+")").click();
+        }else{
+            $("#banner_id ul li:eq(0)").click();
+        }
+    }
+
+
     $(function(){
         var windowResize = function(){
             document.documentElement.style.fontSize = document.documentElement.clientWidth >750?(100+ 'px'):(document.documentElement.clientWidth / 7.5 + 'px');

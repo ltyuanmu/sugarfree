@@ -2,7 +2,9 @@ package com.sugarfree.service.impl;
 
 import com.sugarfree.configuration.WechatMpProperties;
 import com.sugarfree.dao.mapper.TMenuMapper;
+import com.sugarfree.dao.mapper.TMenuNewMapper;
 import com.sugarfree.dao.model.TMenu;
+import com.sugarfree.dao.model.TMenuNew;
 import com.sugarfree.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
@@ -11,6 +13,7 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpMenuService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.URLEditor;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName: ${}
@@ -35,6 +39,9 @@ public class MenuServiceImpl implements MenuService {
     private TMenuMapper tMenuMapper;
 
     @Autowired
+    private TMenuNewMapper tMenuNewMapper;
+
+    @Autowired
     private WxMpService wxService;
 
     @Autowired
@@ -42,8 +49,13 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public void updateMenu() throws UnsupportedEncodingException {
-        List<TMenu> tMenus = tMenuMapper.selectAll();
-        WxMenu wxMeun = this.generateWxMenu(tMenus);
+        List<TMenuNew> tMenus = tMenuNewMapper.selectAll();
+        List<TMenu> tMenuList = tMenus.stream().map(t -> {
+            TMenu tMenu = new TMenu();
+            BeanUtils.copyProperties(t, tMenu);
+            return tMenu;
+        }).collect(Collectors.toList());
+        WxMenu wxMeun = this.generateWxMenu(tMenuList);
         System.out.println(wxMeun.toJson());
         try {
             this.wxService.getMenuService().menuCreate(wxMeun);
