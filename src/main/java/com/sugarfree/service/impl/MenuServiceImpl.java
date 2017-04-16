@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.URLEditor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -125,47 +126,58 @@ public class MenuServiceImpl implements MenuService {
                 button.setType("view");
                 button.setUrl(menu.getUrl());
             }
-
+            if("1".equals(menu.getType())){
+                button.setType("view");
+                String templateUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=_APPID_&redirect_uri=_MENUURL_&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
+                templateUrl = templateUrl.replaceAll("_APPID_",wechatMpProperties.getAppId());
+                String url = URLEncoder.encode(menu.getUrl(), "UTF-8");
+                url = templateUrl.replaceAll("_MENUURL_", url);
+                button.setUrl(url);
+            }
             List<TMenu> subMenus = map.get(String.valueOf(menu.getId()));
-            Collections.sort(subMenus,(m1,m2) -> {
-                return m1.getId()-m2.getId();
-            });
+            if(!CollectionUtils.isEmpty(subMenus)){
+                Collections.sort(subMenus,(m1,m2) -> {
+                    return m1.getId()-m2.getId();
+                });
+            }
             List<WxMenuButton> subButtons = new ArrayList();
             String templateUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=_APPID_&redirect_uri=_MENUURL_&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
             templateUrl = templateUrl.replaceAll("_APPID_",wechatMpProperties.getAppId());
-            for(TMenu subMenu :subMenus){
-                WxMenuButton subButton  = new WxMenuButton();
-                subButton.setName(subMenu.getName());
-                String type = subMenu.getType();
-                switch (type){
-                    case "1":
-                        subButton.setType("view");
-                        String url = URLEncoder.encode(subMenu.getUrl(), "UTF-8");
-                        url = templateUrl.replaceAll("_MENUURL_", url);
-                        subButton.setUrl(url);
-                        break;
-                    case "2":
-                        subButton.setType("view");
-                        subButton.setUrl(subMenu.getUrl());
-                        break;
-                    case "3":
-                        subButton.setType("click");
-                        subButton.setKey("MY_POINT");
-                        break;
-                    case "4":
-                        subButton.setType("click");
-                        subButton.setKey("MY_QR_CODE");
-                        break;
-                    case "5":
-                        subButton.setType("click");
-                        subButton.setKey("ASK_ME");
-                        break;
-                    default:
-                        break;
-                }
-                //没有type 目前不允许 添加入子菜单
-                if(StringUtils.isNotEmpty(type)){
-                    subButtons.add(subButton);
+            if(!CollectionUtils.isEmpty(subMenus)){
+                for(TMenu subMenu :subMenus){
+                    WxMenuButton subButton  = new WxMenuButton();
+                    subButton.setName(subMenu.getName());
+                    String type = subMenu.getType();
+                    switch (type){
+                        case "1":
+                            subButton.setType("view");
+                            String url = URLEncoder.encode(subMenu.getUrl(), "UTF-8");
+                            url = templateUrl.replaceAll("_MENUURL_", url);
+                            subButton.setUrl(url);
+                            break;
+                        case "2":
+                            subButton.setType("view");
+                            subButton.setUrl(subMenu.getUrl());
+                            break;
+                        case "3":
+                            subButton.setType("click");
+                            subButton.setKey("MY_POINT");
+                            break;
+                        case "4":
+                            subButton.setType("click");
+                            subButton.setKey("MY_QR_CODE");
+                            break;
+                        case "5":
+                            subButton.setType("click");
+                            subButton.setKey("ASK_ME");
+                            break;
+                        default:
+                            break;
+                    }
+                    //没有type 目前不允许 添加入子菜单
+                    if(StringUtils.isNotEmpty(type)){
+                        subButtons.add(subButton);
+                    }
                 }
             }
             button.setSubButtons(subButtons);

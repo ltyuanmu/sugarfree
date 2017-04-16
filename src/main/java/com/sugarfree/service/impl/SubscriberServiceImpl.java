@@ -239,6 +239,8 @@ public class SubscriberServiceImpl implements SubscriberService{
     public List<TCarousel> getCarouselList() {
         TCarousel tCarousel = new TCarousel();
         tCarousel.setDeleteState("0");
+        List<TCarousel> list = this.tCarouselMapper.select(tCarousel);
+        list.sort((t1,t2)->t1.getId()-t2.getId());
         return this.tCarouselMapper.select(tCarousel);
     }
 }
