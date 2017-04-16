@@ -44,10 +44,12 @@ share:
     formUrl: https://jinshuju.net/f/OO9vcv?x_field_1={openId}
 server:
     port: 8080
+    session-timeout: 60
     context-path: /wx
     tomcat:
         access_log_enabled: true
         basedir: target/tomcat
+        max-threads: 800
 
 
 ---
