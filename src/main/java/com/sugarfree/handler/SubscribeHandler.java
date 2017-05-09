@@ -97,9 +97,11 @@ public class SubscribeHandler extends AbstractHandler {
                     .append("/:sun了解会飞的黄油").append("\n")
                     .append(shareProperties.getServerUrl()).append("/link/1101").append("\n").append("\n")
                     //.append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1001").append("\">").append("/:sun跟着安琪学烘焙：教你从0开始系统入门烘焙").append("</a>").append("\n").append("\n")
-                    .append("/:sun跟着安琪学烘焙：教你从0开始系统入门烘焙").append("\n")
+                    .append("/:sun点击菜单栏“发现黄油”，订阅专栏“跟着安琪学烘焙”，教你从0开始系统入门烘焙").append("\n")
                     .append(shareProperties.getServerUrl()).append("/link/1001").append("\n").append("\n")
-                    .append("更多精彩专栏，点击菜单栏左下角“专栏订阅”了解并订阅。");
+                    .append("/:sun点击菜单栏“黄油优选”，购买专栏内烘焙原料").append("\n")
+                    .append("https://kdt.im/ryj0Rr");
+                    //.append("更多精彩专栏，点击菜单栏左下角“专栏订阅”了解并订阅。");
             WxMpKefuMessage keFuMessage=WxMpKefuMessage.TEXT().content(contentSB.toString()).toUser(userWxInfo.getOpenId()).build();
             weixinService.getKefuService().sendKefuMessage(keFuMessage);
             //发送二维码消息

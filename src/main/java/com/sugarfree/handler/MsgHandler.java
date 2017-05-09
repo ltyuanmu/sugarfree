@@ -3,7 +3,9 @@ package com.sugarfree.handler;
 import com.sugarfree.builder.ImageBuilder;
 import com.sugarfree.builder.TextBuilder;
 import com.sugarfree.configuration.ShareProperties;
+import com.sugarfree.dao.model.TWxUser;
 import com.sugarfree.service.PointService;
+import com.sugarfree.service.WxUserSubscribeService;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -11,6 +13,7 @@ import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -33,6 +36,8 @@ public class MsgHandler extends AbstractHandler {
     private PointService pointService;
     @Autowired
     private ShareProperties shareProperties;
+    @Autowired
+    private WxUserSubscribeService wxUserSubscribeService;
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
@@ -69,6 +74,17 @@ public class MsgHandler extends AbstractHandler {
             String code = content.replaceFirst("DHJF_","");
             String message = pointService.addPointForVoucher(wxMessage.getFromUser(), code);
             return new TextBuilder().build(message,wxMessage,weixinService);
+        }else if("二维码".equals(wxMessage.getContent())||"我的二维码".equals(wxMessage.getContent())) {
+            //获得个人专属二维码
+            TWxUser wxUser = this.wxUserSubscribeService.getWxUserByOpenId(wxMessage.getFromUser());
+            String url = weixinService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
+            WxMpQrCodeTicket wxUserQRImage = new WxMpQrCodeTicket();
+            wxUserQRImage.setUrl(url);
+            wxUserQRImage.setTicket(wxUser.getQrTicket());
+            File file = weixinService.getQrcodeService().qrCodePicture(wxUserQRImage);
+            WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
+            String message = uploadResult.getMediaId();
+            return new ImageBuilder().build(message, wxMessage, weixinService);
         }else if("巧克力烘焙".equals(wxMessage.getContent())){
             return new TextBuilder().build("https://pan.baidu.com/s/1nv37FXf",wxMessage,weixinService);
         }else if("原料".equals(wxMessage.getContent())){

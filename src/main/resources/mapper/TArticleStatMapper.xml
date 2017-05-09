@@ -11,5 +11,6 @@
     <result column="article_title" property="articleTitle" jdbcType="VARCHAR" />
     <result column="open_num" property="openNum" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
 </mapper>

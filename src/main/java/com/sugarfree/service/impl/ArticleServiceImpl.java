@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,6 +88,7 @@ public class ArticleServiceImpl implements ArticleService{
         if(stat==null){
             tArticleStat.setArticleTitle(tArticle.getTitle());
             tArticleStat.setOpenNum(1);
+            tArticleStat.setCreateTime(new Date());
             this.tArticleStatMapper.insertSelective(tArticleStat);
         }else{
             TArticleStat modify = new TArticleStat();

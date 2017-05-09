@@ -1,5 +1,6 @@
 package com.sugarfree.dao.model;
 
+import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "t_article_stat")
@@ -36,6 +37,9 @@ public class TArticleStat {
      * 是否为分享打开,0:用户正常打开,1分享的用户打开
      */
     private String type;
+
+    @Column(name = "create_time")
+    private Date createTime;
 
     /**
      * @return id
@@ -139,5 +143,19 @@ public class TArticleStat {
      */
     public void setType(String type) {
         this.type = type;
+    }
+
+    /**
+     * @return create_time
+     */
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * @param createTime
+     */
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

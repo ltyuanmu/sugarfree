@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: test
+    active: pro
 
 ---
 spring:
@@ -93,9 +93,12 @@ share:
     shareMenuAbstractUrl: /articleList/{id}?state={state}
     templetId: O2SLFq-hX8I-t3UMbh9-7FINANfck2SYHQJlsWzcmuc
     formUrl: https://jinshuju.net/f/1mgHcO?x_field_1={openId}
+
 server:
     port: 8088
+    session-timeout: 60
     context-path: /wx
     tomcat:
         access_log_enabled: true
         basedir: target/tomcat
+        max-threads: 800
