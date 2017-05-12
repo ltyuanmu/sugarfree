@@ -256,7 +256,7 @@
     $(function(){
         var windowResize = function(){
             document.documentElement.style.fontSize = document.documentElement.clientWidth >750?(100+ 'px'):(document.documentElement.clientWidth / 7.5 + 'px');
-            $(".AllPage ul li .ItemRight").css("width",$(".Item").width()-$(".Item .ItemLeft").width());
+            $(".AllPage ul li .ItemRight").css("width",$(".Item").width()-$(".Item .ItemLeft").width()-11);
             if($(".Item .ItemLeft .ImgBox").length>0){
                 $(".Item .ItemLeft .ImgBox").each(function(index, element) {
                     $(this).css({"height":$(".Item .ItemLeft .ImgBox")[0].offsetWidth*2/3,"width":"100%"});

@@ -94,6 +94,7 @@ public class ViewController {
             }
             session.setAttribute("openId",openId);
         }
+        log.info("user openid:{}",openId);
         return wxUserService.getWxUserByOpenId(openId);
     }
 

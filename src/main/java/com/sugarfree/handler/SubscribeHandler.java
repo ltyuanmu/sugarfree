@@ -54,10 +54,10 @@ public class SubscribeHandler extends AbstractHandler {
             // 可以添加关注用户到本地
             //获得用户二维码
             WxMpQrCodeTicket wxUserQRImage = wxUserSubscribeService.getWxUserQRImage(wxMessage.getFromUser());
+            this.wxUserSubscribeService.saveWxUser(userWxInfo,wxUserQRImage);
             //上传用户二维码
             File file = weixinService.getQrcodeService().qrCodePicture(wxUserQRImage);
             WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
-            this.wxUserSubscribeService.saveWxUser(userWxInfo,wxUserQRImage);
             //更新积分 qrscene_oGQqrxGgynJzYJDjrWmhoUWhDSOc
             String recommendId = "";
             if(StringUtils.isNotEmpty(wxMessage.getEventKey())&&wxMessage.getEventKey().startsWith("qrscene_")){
