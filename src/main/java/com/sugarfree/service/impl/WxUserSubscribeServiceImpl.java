@@ -47,11 +47,11 @@ public class WxUserSubscribeServiceImpl implements WxUserSubscribeService{
     private TSubscriberMapper tSubscriberMapper;
 
     @Override
-    public void saveWxUser(WxMpUser userWxInfo,WxMpQrCodeTicket qrCodeTicket) {
+    public TWxUser saveWxUser(WxMpUser userWxInfo,WxMpQrCodeTicket qrCodeTicket) {
         //查看如果该用户已存在则不进行添加
         TWxUser tWxUser = this.getWxUserByOpenId(userWxInfo.getOpenId());
         if(tWxUser!=null){
-            return;
+            return tWxUser;
         }
 
         //保存用户信息(包括二维码信息)
@@ -67,14 +67,26 @@ public class WxUserSubscribeServiceImpl implements WxUserSubscribeService{
         user.setCreateTime(new Date());
         user.setUpdateTime(user.getCreateTime());
         this.tWxUserMapper.insertSelective(user);
-
+        return this.getWxUserByOpenId(userWxInfo.getOpenId());
     }
 
     @Override
+    /**永久获得二维码方法不能用目前使用临时二维码方案*/
     public WxMpQrCodeTicket getWxUserQRImage(String openId) {
         WxMpQrcodeService qrcodeService = this.wxService.getQrcodeService();
         try {
             return qrcodeService.qrCodeCreateLastTicket(openId);
+        } catch (WxErrorException e) {
+            log.error(e.getMessage(),e);
+            return null;
+        }
+    }
+
+    @Override
+    public WxMpQrCodeTicket getWxUserIMPQRImage(Integer wxUserId) {
+        WxMpQrcodeService qrcodeService = this.wxService.getQrcodeService();
+        try {
+            return qrcodeService.qrCodeCreateTmpTicket(wxUserId,604800);
         } catch (WxErrorException e) {
             log.error(e.getMessage(),e);
             return null;
@@ -117,5 +129,10 @@ public class WxUserSubscribeServiceImpl implements WxUserSubscribeService{
         }else{
             return null;
         }
+    }
+
+    @Override
+    public TWxUser getWxUserByWxUserId(Integer wxUserId) {
+        return this.tWxUserMapper.selectByPrimaryKey(wxUserId);
     }
 }

@@ -23,7 +23,7 @@ public interface WxUserSubscribeService {
      * @param userWxInfo
      * @param qrCodeTicket
      */
-    void saveWxUser(WxMpUser userWxInfo,WxMpQrCodeTicket qrCodeTicket);
+    TWxUser saveWxUser(WxMpUser userWxInfo,WxMpQrCodeTicket qrCodeTicket);
 
     /**
      * 获得用户的二维码
@@ -32,6 +32,12 @@ public interface WxUserSubscribeService {
      */
     WxMpQrCodeTicket getWxUserQRImage(String openId);
 
+    /**
+     * 用户获得临时二维码
+     * @param wxUserId
+     * @return
+     */
+    WxMpQrCodeTicket getWxUserIMPQRImage(Integer wxUserId);
     /**
      * 取消关注
      * @param openId
@@ -51,4 +57,11 @@ public interface WxUserSubscribeService {
      * @return
      */
     TWxUser getWxUserByOpenId(String openId);
+
+    /**
+     * 通过用户id获得用户
+     * @param wxUserId
+     * @return
+     */
+    TWxUser getWxUserByWxUserId(Integer wxUserId);
 }

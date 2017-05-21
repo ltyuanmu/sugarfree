@@ -50,7 +50,8 @@ server:
         access_log_enabled: true
         basedir: target/tomcat
         max-threads: 800
-
+tmp:
+  filePath: /home/tmp/
 
 ---
 
@@ -102,3 +103,6 @@ server:
         access_log_enabled: true
         basedir: target/tomcat
         max-threads: 800
+
+tmp:
+  filePath: /home/sugarfree/wx_front/tmp/

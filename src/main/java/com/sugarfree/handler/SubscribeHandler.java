@@ -4,6 +4,7 @@ import com.sugarfree.builder.ImageBuilder;
 import com.sugarfree.builder.TextBuilder;
 import com.sugarfree.configuration.ShareProperties;
 import com.sugarfree.constant.Enum;
+import com.sugarfree.dao.model.TWxUser;
 import com.sugarfree.service.PointService;
 import com.sugarfree.service.WxUserSubscribeService;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
@@ -53,8 +54,12 @@ public class SubscribeHandler extends AbstractHandler {
         if (userWxInfo != null) {
             // 可以添加关注用户到本地
             //获得用户二维码
-            WxMpQrCodeTicket wxUserQRImage = wxUserSubscribeService.getWxUserQRImage(wxMessage.getFromUser());
-            this.wxUserSubscribeService.saveWxUser(userWxInfo,wxUserQRImage);
+            //目前获得二维码出现用户永久二维码数量过大 所以做成临时二维码
+            //影响问题为参数二维码为int值,用户表中不计入二维码字段
+            //WxMpQrCodeTicket wxUserQRImage = wxUserSubscribeService.getWxUserQRImage(wxMessage.getFromUser());
+            TWxUser tWxUser = this.wxUserSubscribeService.saveWxUser(userWxInfo, null);
+            //获得临时用户二维码
+            WxMpQrCodeTicket wxUserQRImage = wxUserSubscribeService.getWxUserIMPQRImage(tWxUser.getId());
             //上传用户二维码
             File file = weixinService.getQrcodeService().qrCodePicture(wxUserQRImage);
             WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
@@ -62,6 +67,12 @@ public class SubscribeHandler extends AbstractHandler {
             String recommendId = "";
             if(StringUtils.isNotEmpty(wxMessage.getEventKey())&&wxMessage.getEventKey().startsWith("qrscene_")){
                 recommendId = wxMessage.getEventKey().substring(wxMessage.getEventKey().indexOf("_")+1);
+                //查看是否为数字如果为数字的话则为用户id转换为用户的openId
+                if(StringUtils.isNumeric(recommendId)){
+                    TWxUser wxUserByWxUserId = this.wxUserSubscribeService.getWxUserByWxUserId(Integer.valueOf(recommendId));
+                    recommendId = wxUserByWxUserId.getOpenId();
+                }
+
                 //添加如果这两个关注已经添加积分则不能在添加积分
                 if(pointService.isSubscriberAddPoint(recommendId,userWxInfo.getOpenId())){
                     pointService.updatePoint(recommendId, Enum.PointEvent.RECOMMEND,userWxInfo.getOpenId());
@@ -93,14 +104,15 @@ public class SubscribeHandler extends AbstractHandler {
             contentSB.append(",你来啦~是闻着黄油的香味找到这儿的吗？").append("\n").append("\n")
                     .append("这里是一间创造美好食物的厨房。欢迎你来和黄油一起探索美食、生活的可能性。")
                     .append("\n").append("\n")
-                    //.append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1101").append("\">").append("/:sun了解会飞的黄油").append("</a>").append("\n").append("\n")
-                    .append("/:sun了解会飞的黄油").append("\n")
-                    .append(shareProperties.getServerUrl()).append("/link/1101").append("\n").append("\n")
-                    //.append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1001").append("\">").append("/:sun跟着安琪学烘焙：教你从0开始系统入门烘焙").append("</a>").append("\n").append("\n")
-                    .append("/:sun点击菜单栏“发现黄油”，订阅专栏“跟着安琪学烘焙”，教你从0开始系统入门烘焙").append("\n")
-                    .append(shareProperties.getServerUrl()).append("/link/1001").append("\n").append("\n")
-                    .append("/:sun点击菜单栏“黄油优选”，购买专栏内烘焙原料").append("\n")
-                    .append("https://kdt.im/ryj0Rr");
+                    .append("/:sun").append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1101").append("\">").append("了解会飞的黄油").append("</a>").append("\n").append("\n")
+                    //.append("/:sun了解会飞的黄油").append("\n")
+                    //.append(shareProperties.getServerUrl()).append("/link/1101").append("\n").append("\n")
+                    .append("/:sun跟着安琪学烘焙：").append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1001").append("\">").append("教你从0开始系统入门烘焙").append("</a>").append("\n").append("\n")
+                    //.append("/:sun点击菜单栏“发现黄油”，订阅专栏“跟着安琪学烘焙”，教你从0开始系统入门烘焙").append("\n")
+                    //.append(shareProperties.getServerUrl()).append("/link/1001").append("\n").append("\n")
+                    .append("/:sun点击菜单栏“黄油优选”，").append("<a href=\"").append("https://kdt.im/ryj0Rr").append("\">").append("购买专栏内烘焙原料").append("</a>");
+                    //.append("/:sun点击菜单栏“黄油优选”，购买专栏内烘焙原料").append("\n")
+                    //.append("https://kdt.im/ryj0Rr");
                     //.append("更多精彩专栏，点击菜单栏左下角“专栏订阅”了解并订阅。");
             WxMpKefuMessage keFuMessage=WxMpKefuMessage.TEXT().content(contentSB.toString()).toUser(userWxInfo.getOpenId()).build();
             weixinService.getKefuService().sendKefuMessage(keFuMessage);

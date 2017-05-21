@@ -6,6 +6,7 @@ import com.sugarfree.configuration.ShareProperties;
 import com.sugarfree.dao.model.TWxUser;
 import com.sugarfree.service.PointService;
 import com.sugarfree.service.WxUserSubscribeService;
+import com.sugarfree.utils.UrlImageUtil;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -21,6 +22,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -77,11 +79,24 @@ public class MsgHandler extends AbstractHandler {
         }else if("二维码".equals(wxMessage.getContent())||"我的二维码".equals(wxMessage.getContent())) {
             //获得个人专属二维码
             TWxUser wxUser = this.wxUserSubscribeService.getWxUserByOpenId(wxMessage.getFromUser());
-            String url = weixinService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
-            WxMpQrCodeTicket wxUserQRImage = new WxMpQrCodeTicket();
-            wxUserQRImage.setUrl(url);
-            wxUserQRImage.setTicket(wxUser.getQrTicket());
-            File file = weixinService.getQrcodeService().qrCodePicture(wxUserQRImage);
+            //个人二维码如果不是永久则返回临时二维码
+            File file;
+            if(StringUtils.isNotEmpty(wxUser.getQrTicket())){
+                WxMpQrCodeTicket wxUserQRImage = new WxMpQrCodeTicket();
+                wxUserQRImage.setUrl(wxUser.getQrUrl());
+                wxUserQRImage.setTicket(wxUser.getQrTicket());
+                file = weixinService.getQrcodeService().qrCodePicture(wxUserQRImage);
+            }else{
+                WxMpQrCodeTicket wxUserIMPQRImage = this.wxUserSubscribeService.getWxUserIMPQRImage(wxUser.getId());
+                file = weixinService.getQrcodeService().qrCodePicture(wxUserIMPQRImage);
+            }
+            //添加低图拼接
+            try {
+                File baseMap = pointService.getBaseMap();
+                file = UrlImageUtil.joinImage(file, baseMap);
+            } catch (IOException e) {
+                logger.error(e.getMessage(),e);
+            }
             WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
             String message = uploadResult.getMediaId();
             return new ImageBuilder().build(message, wxMessage, weixinService);
@@ -151,6 +166,8 @@ public class MsgHandler extends AbstractHandler {
             WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
             String message = uploadResult.getMediaId();
             return new ImageBuilder().build(message, wxMessage, weixinService);
+        }else if("烘焙书".equals(wxMessage.getContent())){
+            return new TextBuilder().build("https://pan.baidu.com/s/1i4Jei3N",wxMessage,weixinService);
         }else{
           //  StringBuilder sb = new StringBuilder();
           //  sb.append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1101").append("\">").append("了解会飞的黄油").append("</a>").append("\n");

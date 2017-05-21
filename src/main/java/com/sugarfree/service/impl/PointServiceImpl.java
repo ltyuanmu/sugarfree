@@ -8,6 +8,7 @@ import com.sugarfree.service.MenuService;
 import com.sugarfree.service.PointService;
 import com.sugarfree.service.SubscriberService;
 import com.sugarfree.service.WxUserSubscribeService;
+import com.sugarfree.utils.UrlImageUtil;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +51,8 @@ public class PointServiceImpl implements PointService{
     private MenuService menuService;
     @Autowired
     private ShareProperties shareProperties;
+    @Autowired
+    private TBaseMapMapper tBaseMapMapper;
 
     @Override
     public int getPointByOpenId(String openId) {
@@ -260,6 +264,19 @@ public class PointServiceImpl implements PointService{
                     .append(menuText);
         }
         return sb.toString();
+    }
+
+    @Override
+    public File getBaseMap() {
+        TBaseMap baseMap = new TBaseMap();
+        baseMap.setDeleteState(false);
+        List<TBaseMap> select = this.tBaseMapMapper.select(baseMap);
+        String url = select.stream().findFirst().map(TBaseMap::getUrl).orElse(null);
+        if(StringUtils.isEmpty(url)){
+            return null;
+        }else{
+            return UrlImageUtil.getImageFromNetByUrl(url);
+        }
     }
 
 }

@@ -14,6 +14,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -56,14 +57,21 @@ public class MenuHandler extends AbstractHandler {
             }else if("MY_QR_CODE".equals(wxMessage.getEventKey())) {
                 //获得个人专属二维码
                 TWxUser wxUser = this.wxUserSubscribeService.getWxUserByOpenId(wxMessage.getFromUser());
-                String url = weixinService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
-                WxMpQrCodeTicket wxUserQRImage = new WxMpQrCodeTicket();
-                wxUserQRImage.setUrl(url);
-                wxUserQRImage.setTicket(wxUser.getQrTicket());
-                File file = weixinService.getQrcodeService().qrCodePicture(wxUserQRImage);
-                WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
-                String message = uploadResult.getMediaId();
-                return new ImageBuilder().build(message, wxMessage, weixinService);
+                if(StringUtils.isNotEmpty(wxUser.getQrTicket())){
+                    WxMpQrCodeTicket wxUserQRImage = new WxMpQrCodeTicket();
+                    wxUserQRImage.setUrl(wxUser.getQrUrl());
+                    wxUserQRImage.setTicket(wxUser.getQrTicket());
+                    File file = weixinService.getQrcodeService().qrCodePicture(wxUserQRImage);
+                    WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
+                    String message = uploadResult.getMediaId();
+                    return new ImageBuilder().build(message, wxMessage, weixinService);
+                }else{
+                    WxMpQrCodeTicket wxUserIMPQRImage = this.wxUserSubscribeService.getWxUserIMPQRImage(wxUser.getId());
+                    File file = weixinService.getQrcodeService().qrCodePicture(wxUserIMPQRImage);
+                    WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
+                    String message = uploadResult.getMediaId();
+                    return new ImageBuilder().build(message, wxMessage, weixinService);
+                }
             }else if("ASK_ME".equals(wxMessage.getEventKey())) {
                 //获得想我提问
                 File file = new File("/home/sugarfree/wx_front/img/xiangwotiwen.jpg");

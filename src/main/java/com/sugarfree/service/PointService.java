@@ -4,6 +4,8 @@ import com.sugarfree.constant.Enum;
 import com.sugarfree.dao.model.TCsol;
 import me.chanjar.weixin.common.exception.WxErrorException;
 
+import java.io.File;
+
 /**
  * @ClassName: ${}
  * @Description:
@@ -72,4 +74,10 @@ public interface PointService {
      * @return
      */
     String getPointMag(String openId) throws WxErrorException;
+
+
+    /**
+     * 获得底图
+     */
+    File getBaseMap();
 }

@@ -12,6 +12,7 @@ import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
+import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -63,6 +64,9 @@ public class ViewController {
 
     @Autowired
     private FormInfoService formInfoService;
+
+    @Autowired
+    private WxUserSubscribeService wxUserSubscribeService;
 
     /*菜单文章的详细介绍
     *以上是静态内容
@@ -239,8 +243,15 @@ public class ViewController {
 
         modelAndView.addObject("menuAbstract",menuAbstract);
         //获得二维码图片
-        String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
-        wxUser.setQrUrl(url);
+        //如果没有永久二维码 则获得临时二维码
+        if(StringUtils.isNotEmpty(wxUser.getQrTicket())){
+            String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
+            wxUser.setQrUrl(url);
+        }else{
+            WxMpQrCodeTicket wxUserQRImage = wxUserSubscribeService.getWxUserIMPQRImage(wxUser.getId());
+            String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUserQRImage.getTicket());
+            wxUser.setQrUrl(url);
+        }
         modelAndView.addObject("user",wxUser);
         //获取订阅扣除积分
         TMenu menu = menuService.getMenuById(menuId);
@@ -275,14 +286,21 @@ public class ViewController {
             throw new RuntimeException("调用失败!");
         }
         ModelAndView modelAndView = new ModelAndView("article");
-        //获得二维码图片
-        String url = null;
-        try {
-            url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
-        } catch (WxErrorException e) {
-            log.error(e.getMessage(),e);
+        //如果没有永久二维码 则获得临时二维码
+        if(StringUtils.isNotEmpty(wxUser.getQrTicket())){
+            //获得二维码图片
+            String url = null;
+            try {
+                url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
+            } catch (WxErrorException e) {
+                log.error(e.getMessage(),e);
+            }
+            wxUser.setQrUrl(url);
+        }else{
+            WxMpQrCodeTicket wxUserQRImage = wxUserSubscribeService.getWxUserIMPQRImage(wxUser.getId());
+            String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUserQRImage.getTicket());
+            wxUser.setQrUrl(url);
         }
-        wxUser.setQrUrl(url);
         modelAndView.addObject("user", wxUser);
         TArticle article = articleService.getArticleById(id);
         modelAndView.addObject("article", article);
@@ -486,8 +504,15 @@ public class ViewController {
         }
         modelAndView.addObject("menuAbstract",menuAbstract);
         //获得二维码图片
-        String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
-        wxUser.setQrUrl(url);
+        //如果没有永久二维码 则获得临时二维码
+        if(StringUtils.isNotEmpty(wxUser.getQrTicket())){
+            String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
+            wxUser.setQrUrl(url);
+        }else{
+            WxMpQrCodeTicket wxUserQRImage = wxUserSubscribeService.getWxUserIMPQRImage(wxUser.getId());
+            String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUserQRImage.getTicket());
+            wxUser.setQrUrl(url);
+        }
         modelAndView.addObject("user",wxUser);
         //获取订阅扣除积分
         TMenu menu = menuService.getMenuById(menuId);
@@ -558,8 +583,15 @@ public class ViewController {
         this.articleService.updateArticleStat(wxUser,menuAbstract,true);
         modelAndView.addObject("menuAbstract",menuAbstract);
         //获得二维码图片
-        String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
-        wxUser.setQrUrl(url);
+        //如果没有永久二维码 则获得临时二维码
+        if(StringUtils.isNotEmpty(wxUser.getQrTicket())){
+            String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUser.getQrTicket());
+            wxUser.setQrUrl(url);
+        }else{
+            WxMpQrCodeTicket wxUserQRImage = wxUserSubscribeService.getWxUserIMPQRImage(wxUser.getId());
+            String url = this.wxService.getQrcodeService().qrCodePictureUrl(wxUserQRImage.getTicket());
+            wxUser.setQrUrl(url);
+        }
         modelAndView.addObject("user",wxUser);
         //获取订阅扣除积分
         TMenu menu = menuService.getMenuById(menuId);
