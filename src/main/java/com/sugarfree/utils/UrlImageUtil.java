@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -18,6 +19,7 @@ import java.net.URL;
  * @date: 2017/2/8
  */
 @Slf4j
+@Component
 public class UrlImageUtil {
     @Value("${tmp.filePath}")
     private static String filePath;
