@@ -96,6 +96,7 @@ public class MsgHandler extends AbstractHandler {
             try {
                 File baseMap = pointService.getBaseMap();
                 file = urlImageUtil.joinImage(file, baseMap);
+                logger.info("file size:{}",file.length());
             } catch (IOException e) {
                 logger.error(e.getMessage(),e);
             }
