@@ -22,13 +22,13 @@ import java.net.URL;
 @Component
 public class UrlImageUtil {
     @Value("${tmp.filePath}")
-    private static String filePath;
+    private String filePath;
     /**
      * 通过url获得图片文件
      * @param strUrl
      * @return
      */
-    public static File getImageFromNetByUrl(String strUrl){
+    public File getImageFromNetByUrl(String strUrl){
         String imgName= FilenameUtils.getName(strUrl);
         //String imgPath = "E:/temp/"+imgName;
         checkOrCreateDir(filePath);
@@ -51,7 +51,7 @@ public class UrlImageUtil {
      * 校验有没有此目录 如果有则创建
      * @param path
      */
-    private static void checkOrCreateDir(String path){
+    private void checkOrCreateDir(String path){
         log.info("check path:{}",path);
         File filePath = new File(path);
         if  (!filePath.exists() && !filePath.isDirectory()){
@@ -61,7 +61,7 @@ public class UrlImageUtil {
         }
     }
 
-    public static File joinImage(File qrCode,File baseMap) throws IOException {
+    public File joinImage(File qrCode,File baseMap) throws IOException {
         if (baseMap==null){
             return qrCode;
         }

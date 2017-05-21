@@ -40,6 +40,8 @@ public class MsgHandler extends AbstractHandler {
     private ShareProperties shareProperties;
     @Autowired
     private WxUserSubscribeService wxUserSubscribeService;
+    @Autowired
+    private UrlImageUtil urlImageUtil;
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
@@ -93,7 +95,7 @@ public class MsgHandler extends AbstractHandler {
             //添加低图拼接
             try {
                 File baseMap = pointService.getBaseMap();
-                file = UrlImageUtil.joinImage(file, baseMap);
+                file = urlImageUtil.joinImage(file, baseMap);
             } catch (IOException e) {
                 logger.error(e.getMessage(),e);
             }

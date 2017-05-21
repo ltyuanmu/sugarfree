@@ -53,6 +53,8 @@ public class PointServiceImpl implements PointService{
     private ShareProperties shareProperties;
     @Autowired
     private TBaseMapMapper tBaseMapMapper;
+    @Autowired
+    private UrlImageUtil urlImageUtil;
 
     @Override
     public int getPointByOpenId(String openId) {
@@ -275,7 +277,7 @@ public class PointServiceImpl implements PointService{
         if(StringUtils.isEmpty(url)){
             return null;
         }else{
-            return UrlImageUtil.getImageFromNetByUrl(url);
+            return urlImageUtil.getImageFromNetByUrl(url);
         }
     }
 
