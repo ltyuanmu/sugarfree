@@ -64,7 +64,7 @@
             margin:40px 0;
             color:#8c8c8c;
             letter-spacing: 5px;
-            border-bottom: 2px solid #fadc1e;
+            border-bottom: 4px solid #fadc1e;
             width: 124px;
         }
         .AllPage ul{
@@ -94,7 +94,7 @@
             margin: -36px 5px;
             z-index: 999;
             padding: 4px 6px;
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.6);
             color: #fff;
             border-radius: 30px;
             letter-spacing: 3px;
@@ -110,6 +110,7 @@
             font-weight:bold;
             color:#3d3d3d;
             letter-spacing: 3px;
+            margin: 0;
         }
         .AllPage ul li .ItemRight .ItemRightCenter{
             font-size: 22px;
@@ -126,6 +127,7 @@
             font-size: 20px;
             float:left;
             color:#5c5c5c;
+            margin:0;
         }
         .AllPage ul li .ItemRight .ItemRightBottom a.btn{
             font-size:22px;
@@ -133,6 +135,7 @@
             border:1px solid #f76829;
             margin-left:15px;
             color:#f76829;
+            float:right;
         }
         .AllPage ul li .ItemRight .ItemRightBottom a.btn.menubtn{
             border-color:#bababa;
@@ -145,6 +148,20 @@
             position: relative;
             overflow: hidden;
             min-height: initial !important;
+        }
+        .footer p{
+            margin:20px 0;
+            text-align:center;
+            color:#bababa;
+            font-size: 20px;
+        }
+        a.jingxuan{
+            display:block;
+            width:59px;
+            height:22px;
+            position:absolute;
+            background:url('/wx/img/menus/jingxuan.png');
+            margin:8px;
         }
     </style>
 </head>
@@ -266,6 +283,7 @@
                 <a>
                     <div class="ItemLeft">
                         <div class="ImgBox">
+                            <a class="jingxuan"></a>
                             <img src="left.png" th:src="@{${hongBei.menuImg}}" alt=""/>
                             <span>更新至23期</span>
                         </div>
@@ -286,6 +304,7 @@
                 <a th:onclick="|showArticle(${hongBei.menuId},${hongBei.isSubscriber});|">
                     <div class="ItemLeft">
                         <div class="ImgBox">
+                            <a class="jingxuan"></a>
                             <img src="left.png" alt="" th:src="@{${hongBei.menuImg}}"/>
                             <span th:text="|更新至${hongBei.updateNum}期|">更新至4期</span>
                         </div>
@@ -328,6 +347,9 @@
                 </a>
             </li>
         </ul>
+    </div>
+    <div class="footer">
+        <p>——我会努力做出更多专栏的——</p>
     </div>
 </div>
 <script>
