@@ -13,6 +13,10 @@
     <link type="text/css" rel="stylesheet" th:href="@{/css/newcommon.css}"/>
 
     <style>
+        a{
+            text-decoration:none;
+            cursor:pointer;
+        }
         body{
             background:#fff;
         }
@@ -130,7 +134,7 @@
             color:#5c5c5c;
             margin:0;
         }
-        .AllPage ul li .ItemRight .ItemRightBottom a.btn{
+        .AllPage ul li .ItemRight .ItemRightBottom label.btn{
             font-size: 22px;
             padding: 0 15px;
             border: 1px solid #f76829;
@@ -142,8 +146,9 @@
             margin-top: 6px;
             width: 136px;
             text-align: center;
+            cursor:pointer;
         }
-        .AllPage ul li .ItemRight .ItemRightBottom a.btn.menubtn{
+        .AllPage ul li .ItemRight .ItemRightBottom label.btn.menubtn{
             border-color:#bababa;
             color:#bababa;
         }
@@ -161,7 +166,7 @@
             color:#bababa;
             font-size: 20px;
         }
-        a.jingxuan{
+        label.jingxuan{
             display:block;
             width:59px;
             height:22px;
@@ -295,7 +300,7 @@
                 <a href="https://h5.xiaoeknow.com/appf9dCIFvN2440/">
                     <div class="ItemLeft">
                         <div class="ImgBox">
-                            <a class="jingxuan"></a>
+                            <label class="jingxuan"></label>
                             <img src="left.png" th:src="@{img/menus/mianbaoshi.png}" alt=""/>
                             <span>更新至3期</span>
                         </div>
@@ -307,7 +312,7 @@
                         </p>
                         <div class="ItemRightBottom">
                             <p>10订阅</p>
-                            <a class="btn overtext">订阅：99元</a>
+                            <label class="btn overtext">订阅：99元</label>
                         </div>
                     </div>
                 </a>
@@ -316,7 +321,7 @@
                 <a th:onclick="|showArticle(${hongBei.menuId},${hongBei.isSubscriber});|">
                     <div class="ItemLeft">
                         <div class="ImgBox">
-                            <a class="jingxuan"></a>
+                            <label class="jingxuan"></label>
                             <img src="left.png" alt="" th:src="@{${hongBei.menuImg}}"/>
                             <span th:text="|更新至${hongBei.updateNum}期|">更新至4期</span>
                         </div>
@@ -328,8 +333,8 @@
                         </p>
                         <div class="ItemRightBottom">
                             <p th:text="|${hongBei.subscriberNum}订阅|">99999订阅</p>
-                            <a th:if="${hongBei.isSubscriber}==0" class="btn overtext">订阅：<span th:text="${hongBei.point}"></span>积分</a>
-                            <a th:if="${hongBei.isSubscriber}==1" class="btn menubtn">查看目录</a>
+                            <label th:if="${hongBei.isSubscriber}==0" class="btn overtext">订阅：<span th:text="${hongBei.point}"></span>积分</label>
+                            <label th:if="${hongBei.isSubscriber}==1" class="btn menubtn">查看目录</label>
                         </div>
                     </div>
                 </a>
@@ -352,8 +357,8 @@
                         </p>
                         <div class="ItemRightBottom">
                             <p th:text="|${outVo.subscriberNum}订阅|">99999订阅</p>
-                            <a th:if="${outVo.isSubscriber}==0" class="btn overtext">订阅：<span th:text="${outVo.point}"></span>积分</a>
-                            <a th:if="${outVo.isSubscriber}==1" class="btn menubtn">查看目录</a>
+                            <label th:if="${outVo.isSubscriber}==0" class="btn overtext">订阅：<span th:text="${outVo.point}"></span>积分</label>
+                            <label th:if="${outVo.isSubscriber}==1" class="btn menubtn">查看目录</label>
                         </div>
                     </div>
                 </a>
