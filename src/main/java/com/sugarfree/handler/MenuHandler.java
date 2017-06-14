@@ -6,6 +6,7 @@ import com.sugarfree.builder.TextBuilder;
 import com.sugarfree.dao.model.TWxUser;
 import com.sugarfree.service.PointService;
 import com.sugarfree.service.WxUserSubscribeService;
+import com.sugarfree.utils.UrlImageUtil;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -38,6 +39,8 @@ public class MenuHandler extends AbstractHandler {
     private PointService pointService;
     @Autowired
     private WxUserSubscribeService wxUserSubscribeService;
+    @Autowired
+    private UrlImageUtil urlImageUtil;
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
             Map<String, Object> context, WxMpService weixinService,
@@ -57,21 +60,28 @@ public class MenuHandler extends AbstractHandler {
             }else if("MY_QR_CODE".equals(wxMessage.getEventKey())) {
                 //获得个人专属二维码
                 TWxUser wxUser = this.wxUserSubscribeService.getWxUserByOpenId(wxMessage.getFromUser());
+                //个人二维码如果不是永久则返回临时二维码
+                File file;
                 if(StringUtils.isNotEmpty(wxUser.getQrTicket())){
                     WxMpQrCodeTicket wxUserQRImage = new WxMpQrCodeTicket();
                     wxUserQRImage.setUrl(wxUser.getQrUrl());
                     wxUserQRImage.setTicket(wxUser.getQrTicket());
-                    File file = weixinService.getQrcodeService().qrCodePicture(wxUserQRImage);
-                    WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
-                    String message = uploadResult.getMediaId();
-                    return new ImageBuilder().build(message, wxMessage, weixinService);
+                    file = weixinService.getQrcodeService().qrCodePicture(wxUserQRImage);
                 }else{
                     WxMpQrCodeTicket wxUserIMPQRImage = this.wxUserSubscribeService.getWxUserIMPQRImage(wxUser.getId());
-                    File file = weixinService.getQrcodeService().qrCodePicture(wxUserIMPQRImage);
-                    WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
-                    String message = uploadResult.getMediaId();
-                    return new ImageBuilder().build(message, wxMessage, weixinService);
+                    file = weixinService.getQrcodeService().qrCodePicture(wxUserIMPQRImage);
                 }
+                //添加低图拼接
+                try {
+                    File baseMap = pointService.getBaseMap();
+                    file = urlImageUtil.joinImage(file, baseMap);
+                    logger.info("file size:{}",file.length());
+                } catch (IOException e) {
+                    logger.error(e.getMessage(),e);
+                }
+                WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
+                String message = uploadResult.getMediaId();
+                return new ImageBuilder().build(message, wxMessage, weixinService);
             }else if("ASK_ME".equals(wxMessage.getEventKey())) {
                 //获得想我提问
                 File file = new File("/home/sugarfree/wx_front/img/xiangwotiwen.jpg");

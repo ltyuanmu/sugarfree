@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <meta name="format-detection" content="telephone=no"/>
-    <title>黄油优选</title>
+    <title>专栏课程</title>
     <script th:src="@{/js/jquery.min.js}"></script>
     <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
@@ -170,6 +170,11 @@
             margin:8px;
             background-size: contain;
         }
+        .overtext {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <script>
@@ -296,13 +301,13 @@
                         </div>
                     </div>
                     <div class="ItemRight">
-                        <p class="ItemRightTop">人人都是面包师</p>
+                        <p class="ItemRightTop overtext">人人都是面包师</p>
                         <p class="ItemRightCenter">
-                            有香味的人生，耐人寻味和我一起来做一个完美的妈妈。。。
+                            9大类，37款面包，800张图解，100天入门面包。
                         </p>
                         <div class="ItemRightBottom">
                             <p>99999订阅</p>
-                            <a class="btn">订阅：99元</a>
+                            <a class="btn overtext">订阅：99元</a>
                         </div>
                     </div>
                 </a>
@@ -317,13 +322,13 @@
                         </div>
                     </div>
                     <div class="ItemRight">
-                        <p class="ItemRightTop" th:text="${hongBei.menuName}">跟着安琪学烘焙</p>
+                        <p class="ItemRightTop overtext" th:text="${hongBei.menuName}">跟着安琪学烘焙</p>
                         <p class="ItemRightCenter" th:text="${hongBei.subTitle}">
                             有香味的人生，耐人寻味和我一起来做一个完美的妈妈。。。
                         </p>
                         <div class="ItemRightBottom">
                             <p th:text="|${hongBei.subscriberNum}订阅|">99999订阅</p>
-                            <a th:if="${hongBei.isSubscriber}==0" class="btn">订阅：<span th:text="${hongBei.point}"></span>积分</a>
+                            <a th:if="${hongBei.isSubscriber}==0" class="btn overtext">订阅：<span th:text="${hongBei.point}"></span>积分</a>
                             <a th:if="${hongBei.isSubscriber}==1" class="btn menubtn">查看目录</a>
                         </div>
                     </div>
@@ -342,12 +347,12 @@
                         </div>
                     </div>
                     <div class="ItemRight">
-                        <p class="ItemRightTop" th:text="${outVo.menuName}">烘焙地图</p>
+                        <p class="ItemRightTop overtext" th:text="${outVo.menuName}">烘焙地图</p>
                         <p class="ItemRightCenter" th:text="${outVo.subTitle}">
                         </p>
                         <div class="ItemRightBottom">
                             <p th:text="|${outVo.subscriberNum}订阅|">99999订阅</p>
-                            <a th:if="${outVo.isSubscriber}==0" class="btn">订阅：<span th:text="${outVo.point}"></span>积分</a>
+                            <a th:if="${outVo.isSubscriber}==0" class="btn overtext">订阅：<span th:text="${outVo.point}"></span>积分</a>
                             <a th:if="${outVo.isSubscriber}==1" class="btn menubtn">查看目录</a>
                         </div>
                     </div>
