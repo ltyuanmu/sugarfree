@@ -13,6 +13,12 @@
     <link type="text/css" rel="stylesheet" th:href="@{/css/newcommon.css}"/>
 
     <style>
+        body{
+            background:#fff;
+        }
+        .common{
+            padding:0 15px;
+        }
         p{
             margin-bottom:0;
         }
@@ -22,38 +28,57 @@
             position: relative;
             overflow:hidden;
         }
-        .banner .d2 li {
-            display:none;
+        .Top .d2{
+            overflow:hidden;
+            margin:10px 0;
+        }
+        .Top .d2 ul{
+            position:relative;
+            float:left;
+            padding: 0;
+        }
+        .Top .d2 li {
+            width:14px;
+            height: 14px;
+            background: #d5d5d5;
+            border-radius: 14px;
+            float: left;
+            margin-left: 10px;
+        }
+        .Top .d2 li.on {
+            background:#979797;
+            width:45px;
         }
         .banner .d1 {
             width: 100%;
             display: block;
         }
 
-        .AllPage p.Title{
+        p.Title{
             font-size: 26px;
             line-height: 26px;
             height: 40px;
-            border-bottom:1px solid #d2d2d2;
             vertical-align: baseline;
             font-family: 微软雅黑, arial, verdana, sans-serif;
             text-align: left;
-            background: #F1F1F1;
-            margin:30px 2.5% 0px;
+            margin:40px 0;
             color:#8c8c8c;
+            letter-spacing: 5px;
+            border-bottom: 2px solid #fadc1e;
+            width: 124px;
         }
         .AllPage ul{
-            margin: 10px 2.5%;
+            margin: 10px 0;
             padding:0;
+            overflow:hidden;
         }
         .AllPage ul li{
             float:left;
-            border-bottom: 1px solid #d2d2d2;
             width:100%;
-            padding:25px 0 20px;
+            padding-bottom:60px;
         }
         .AllPage ul li .ItemLeft{
-            width:270px;
+            width:240px;
             float:left;
         }
         .AllPage ul li .ItemLeft .ImgBox{
@@ -63,6 +88,18 @@
         .AllPage ul li .ItemLeft .ImgBox img{
             width:100%;
         }
+        .AllPage ul li .ItemLeft .ImgBox span{
+            position: relative;
+            float: right;
+            margin: -36px 5px;
+            z-index: 999;
+            padding: 4px 6px;
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+            border-radius: 30px;
+            letter-spacing: 3px;
+            font-size:18px;
+        }
         .AllPage ul li .ItemRight{
             float:left;
             margin-left:10px;
@@ -70,38 +107,37 @@
         .AllPage ul li .ItemRight .ItemRightTop{
             font-size: 30px;
             line-height: 42px;
-            background:url('/wx/img/menus/back.png') no-repeat right center;
             font-weight:bold;
             color:#3d3d3d;
+            letter-spacing: 3px;
         }
-        .AllPage ul li .ItemRight .ItemRightTime{
-            padding:8px;
-            margin-top: 10px;
-            font-size:22px;
-            text-align:center;
-            border:1px solid #d2d2d2;
-            border-radius:10px;
-            float:left;
-        }
-        .AllPage ul li .ItemRight .ItemRightTime span{
-            float:left;
-        /* margin:0 5px;*/
-            color:#8c8c8c;
+        .AllPage ul li .ItemRight .ItemRightCenter{
+            font-size: 22px;
+            line-height: 30px;
+            height: 44px;
+            margin: 15px 0;
+            color:#c3c3c3;
         }
         .AllPage ul li .ItemRight .ItemRightBottom{
-            font-size: 26px;
-            line-height: 70px;
-            height: 60px;
-            margin: 0;
-            color:#3a8dff;
+            height:50px;
+            line-height:50px;
         }
-        .AllPage ul li .ItemRight .ItemRightBottom span{
-            margin-left:5px;
+        .AllPage ul li .ItemRight .ItemRightBottom p{
+            font-size: 20px;
+            float:left;
+            color:#5c5c5c;
         }
-        .AllPage ul li .ItemRight .ItemRightBottom.on{
-            color:#95bff8;
+        .AllPage ul li .ItemRight .ItemRightBottom a.btn{
+            font-size:22px;
+            padding:4px 15px;
+            border:1px solid #f76829;
+            margin-left:15px;
+            color:#f76829;
         }
-
+        .AllPage ul li .ItemRight .ItemRightBottom a.btn.menubtn{
+            border-color:#bababa;
+            color:#bababa;
+        }
         .ui-loader{display:none !important;}
         .banner {
             width: 100%;
@@ -126,7 +162,7 @@
         var r;
         n.hide();
         n.eq(0).fadeIn("slow");
-        if(n.length>1){p.eq(0).addClass("nuw");
+        if(n.length>1){p.eq(0).addClass("on");
             var v=false;
             if(s!=null&&s.length>0){v=true
             }if(v){s.eq(0).addClass("on")
@@ -136,8 +172,8 @@
                 n.eq(m).css("z-index","1");
                 n.eq(m).show();
                 n.eq(l).fadeOut("slow");
-                p.removeClass("nuw");
-                p.eq(m).addClass("nuw");
+                p.removeClass("on");
+                p.eq(m).addClass("on");
                 if(v){s.removeClass("on");
                     s.eq(m).addClass("on")
                 }l=m
@@ -149,8 +185,8 @@
                     n.eq(a).show();
                     n.eq(l).fadeOut("slow",function(){t=1
                     });
-                    p.removeClass("nuw");
-                    p.eq(a).addClass("nuw");
+                    p.removeClass("on");
+                    p.eq(a).addClass("on");
                     if(v){s.removeClass("on");
                         s.eq(a).addClass("on")
                     }l=a
@@ -162,8 +198,8 @@
                     n.eq(a).show();
                     n.eq(l).fadeOut("slow",function(){t=1
                     });
-                    p.removeClass("nuw");
-                    p.eq(a).addClass("nuw");
+                    p.removeClass("on");
+                    p.eq(a).addClass("on");
                     s.removeClass("on");
                     s.eq(a).addClass("on");
                     l=a
@@ -185,7 +221,7 @@
         });
     })
     function Imgswipeleft(){
-        var index = $("#banner_id ul li.nuw").index();
+        var index = $("#banner_id ul li.on").index();
         var length = $("#banner_id ul li").length;
         if(index!=0){
             $("#banner_id ul li:eq("+(index-1)+")").click();
@@ -195,7 +231,7 @@
     }
 
     function Imgswiperight(){
-        var index = $("#banner_id ul li.nuw").index();
+        var index = $("#banner_id ul li.on").index();
         var length = $("#banner_id ul li").length;
         if(index!=length-1){
             $("#banner_id ul li:eq("+(index+1)+")").click();
@@ -207,53 +243,97 @@
 </script>
 <body>
 <div class="common">
+    <p class="Title">黄油推荐</p>
     <div class="Top">
         <!--此处banner图片区域-->
         <div data-role="page" class="banner" id="banner">
-            <div class="d2" id="banner_id" style="margin-right: -102.5px;display:none;">
-                <ul>
-                    <!--此处banner图片切换按钮区域-->
-                    <li class="" th:each="bannerVo,bannerStat : ${carouselList}"></li>
-                </ul>
-            </div>
             <a th:if="${carouselList}!=null" th:each="bannerVo,bannerStat : ${carouselList}" th:href="${bannerVo.url}">
                 <img class="d1" style="display: none; z-index: 2;" th:src="${bannerVo.image}" src="banner.png" />
             </a>
             <img th:if="${carouselList}==null" class="d1" style="display: none; z-index: 2;" th:src="@{/img/menus/banner.png}" src="banner.png" />
         </div>
-    </div>
-
-    <div class="AllPage">
-        <p class="Title">全部专栏</p>
-        <div>
+        <div class="d2" id="banner_id">
             <ul>
-        	<li class="Item" th:each="outVo,outVoStat : ${menuList}" >
+                <!--此处banner图片切换按钮区域-->
+                <li class="" th:each="bannerVo,bannerStat : ${carouselList}"></li>
+            </ul>
+        </div>
+    </div>
+    <div class="AllPage">
+        <p class="Title">热门专栏</p>
+        <ul>
+            <li class="Item">
+                <a>
+                    <div class="ItemLeft">
+                        <div class="ImgBox">
+                            <img src="left.png" th:src="@{${outVo.menuImg}}" alt=""/>
+                            <span>更新至23期</span>
+                        </div>
+                    </div>
+                    <div class="ItemRight">
+                        <p class="ItemRightTop">人人都是面包师</p>
+                        <p class="ItemRightCenter">
+                            有香味的人生，耐人寻味和我一起来做一个完美的妈妈。。。
+                        </p>
+                        <div class="ItemRightBottom">
+                            <p>99999订阅</p>
+                            <a class="btn">订阅：99元</a>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li class="Item">
+                <a th:onclick="|showArticle(${hongBei.menuId},${hongBei.isSubscriber});|">
+                    <div class="ItemLeft">
+                        <div class="ImgBox">
+                            <img src="left.png" alt="" th:src="@{${hongBei.menuImg}}"/>
+                            <span th:text="|更新至${hongBei.updateNum}期|">更新至4期</span>
+                        </div>
+                    </div>
+                    <div class="ItemRight">
+                        <p class="ItemRightTop" th:text="${hongBei.menuName}">跟着安琪学烘焙</p>
+                        <p class="ItemRightCenter" th:text="${hongBei.subTitle}">
+                            有香味的人生，耐人寻味和我一起来做一个完美的妈妈。。。
+                        </p>
+                        <div class="ItemRightBottom">
+                            <p th:text="|${hongBei.subscriberNum}订阅|">99999订阅</p>
+                            <a th:if="${hongBei.isSubscriber}==0" class="btn">订阅：<span th:text="${hongBei.point}"></span>积分</a>
+                            <a th:if="${hongBei.isSubscriber}==1" class="btn menubtn">查看目录</a>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+
+        <p class="Title">全部专栏</p>
+        <ul>
+            <li class="Item" th:each="outVo,outVoStat : ${menuList}" >
                 <a th:onclick="|showArticle(${outVo.menuId},${outVo.isSubscriber});|">
-            	<div class="ItemLeft">
-                    <div class="ImgBox">
-                	    <img src="" alt="" th:src="@{${outVo.menuImg}}" />
+                    <div class="ItemLeft">
+                        <div class="ImgBox">
+                            <img src="left.png" alt="" th:src="@{${outVo.menuImg}}" />
+                            <span th:text="|更新至${outVo.updateNum}期|">更新至34期</span>
+                        </div>
                     </div>
-                </div>
-                <div class="ItemRight">
-                	<p class="ItemRightTop" th:text="${outVo.menuName}">跟着安琪学烘焙</p>
-                    <div class="ItemRightTime">
-                    	<span th:text="|更新至${outVo.updateNum}期|"></span>
-                        <span style="margin:0 5px;">|</span>
-                        <span><span th:text="${outVo.subscriberNum}"></span>人订阅</span>
+                    <div class="ItemRight">
+                        <p class="ItemRightTop" th:text="${outVo.menuName}">烘焙地图</p>
+                        <p class="ItemRightCenter" th:text="${outvo.subTitle}">
+                        </p>
+                        <div class="ItemRightBottom">
+                            <p th:text="|${outVo.subscriberNum}订阅|">99999订阅</p>
+                            <a th:if="${outVo.isSubscriber}==0" class="btn">订阅：<span th:text="${outVo.point}"></span>积分</a>
+                            <a th:if="${outVo.isSubscriber}==1" class="btn menubtn">查看目录</a>
+                        </div>
                     </div>
-                    <div style="clear:both;"></div>
-					<p th:if="${outVo.isSubscriber}==0" class="ItemRightBottom">订阅：<span><span th:text="${outVo.point}"></span>积分</span></p>
-                    <p th:if="${outVo.isSubscriber}==1" class="ItemRightBottom on">已订阅</p>
-                </div>
                 </a>
             </li>
         </ul>
     </div>
 </div>
-</div>
 <script>
     /*<![CDATA[*/
     $(function(){
+        $("#banner_id ul").css("margin-left",($("#banner_id")[0].offsetWidth-$("#banner_id ul")[0].offsetWidth)/2+"px");
         var windowResize = function(){
             document.documentElement.style.fontSize = document.documentElement.clientWidth >750?(100+ 'px'):(document.documentElement.clientWidth / 7.5 + 'px');
             $(".AllPage ul li .ItemRight").css("width",$(".Item").width()-$(".Item .ItemLeft").width()-11);

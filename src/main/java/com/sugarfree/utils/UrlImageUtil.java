@@ -7,10 +7,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * @ClassName: 网络图片工具包
@@ -65,6 +69,13 @@ public class UrlImageUtil {
         if (baseMap==null){
             return qrCode;
         }
+        //添加文件夹
+        checkOrCreateDir(filePath);
+        //压缩二维码图片
+        String destPath = filePath+StringUtil.generateShortUuid()+".png";
+        File destFile = new File(destPath);
+        ImageHelper.scaleQrCodeImage(qrCode,destFile,104,104);
+
         //底图
         BufferedImage ImageOne = ImageIO.read(baseMap);
         int width = ImageOne.getWidth();//图片宽度
@@ -73,7 +84,7 @@ public class UrlImageUtil {
         int[] ImageArrayOne = new int[width*height];
         ImageArrayOne = ImageOne.getRGB(0,0,width,height,ImageArrayOne,0,width);
         //二维码
-        BufferedImage ImageTwo = ImageIO.read(qrCode);
+        BufferedImage ImageTwo = ImageIO.read(destFile);
         int widthTwo = ImageTwo.getWidth();//图片宽度
         int heightTwo = ImageTwo.getHeight();//图片高度
         //从图片中地区RGB
@@ -84,13 +95,12 @@ public class UrlImageUtil {
         BufferedImage ImageNew = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
         ImageNew.setRGB(0,0,width,height,ImageArrayOne,0,width);//设置左半部分的RGB
         //进行设置叠加坐标
-        ImageNew.setRGB(120,120,widthTwo,heightTwo,ImageArrayTwo,0,widthTwo);//设置右半部分的RGB
-        //添加文件夹
-        checkOrCreateDir(filePath);
+        ImageNew.setRGB(43,617,widthTwo,heightTwo,ImageArrayTwo,0,widthTwo);//设置右半部分的RGB
         //生成图片路径
         String path = filePath+StringUtil.generateShortUuid()+".png";
         File outFile = new File(path);
         ImageIO.write(ImageNew, "png", outFile);//写图片
         return outFile;
     }
+
 }

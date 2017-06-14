@@ -555,8 +555,10 @@ public class ViewController {
             wxUser = getWxUser();
         }
         List<MenuOutVo> menuList = this.subscriberService.getMenuList(wxUser.getId());
+        MenuOutVo menuOutVo = menuList.get(0);
         ModelAndView modelAndView = new ModelAndView("menus");
         modelAndView.addObject("menuList",menuList);
+        modelAndView.addObject("hongBei",menuOutVo);
         List<TCarousel> carouselList = this.subscriberService.getCarouselList();
         if(!CollectionUtils.isEmpty(carouselList)){
             modelAndView.addObject("carouselList",carouselList);
