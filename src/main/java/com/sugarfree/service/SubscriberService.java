@@ -77,4 +77,10 @@ public interface SubscriberService {
      * @return
      */
     List<TCarousel> getCarouselList();
+
+    /**
+     * 获得写死的订阅数
+     * @return
+     */
+    Integer getSubNum(String columnName);
 }

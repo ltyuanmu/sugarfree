@@ -302,7 +302,7 @@
                         <div class="ImgBox">
                             <label class="jingxuan"></label>
                             <img src="left.png" th:src="@{img/menus/mianbaoshi.png}" alt=""/>
-                            <span>更新至3期</span>
+                            <span th:text="|更新至${mianbaoTime}期|">更新至3期</span>
                         </div>
                     </div>
                     <div class="ItemRight">
@@ -311,7 +311,7 @@
                             9大类，37款面包，800张图解，100天入门面包。
                         </p>
                         <div class="ItemRightBottom">
-                            <p>10订阅</p>
+                            <p th:text="|${miambaoNum} 订阅|">10 订阅</p>
                             <label class="btn overtext">订阅：99元</label>
                         </div>
                     </div>
@@ -332,7 +332,7 @@
                             有香味的人生，耐人寻味和我一起来做一个完美的妈妈。。。
                         </p>
                         <div class="ItemRightBottom">
-                            <p th:text="|${hongBei.subscriberNum}订阅|">99999订阅</p>
+                            <p th:text="|${hongBei.subscriberNum} 订阅|">99999订阅</p>
                             <label th:if="${hongBei.isSubscriber}==0" class="btn overtext">订阅：<span th:text="${hongBei.point}"></span>积分</label>
                             <label th:if="${hongBei.isSubscriber}==1" class="btn menubtn">查看目录</label>
                         </div>
@@ -356,7 +356,7 @@
                         <p class="ItemRightCenter" th:text="${outVo.subTitle}">
                         </p>
                         <div class="ItemRightBottom">
-                            <p th:text="|${outVo.subscriberNum}订阅|">99999订阅</p>
+                            <p th:text="|${outVo.subscriberNum} 订阅|">99999订阅</p>
                             <label th:if="${outVo.isSubscriber}==0" class="btn overtext">订阅：<span th:text="${outVo.point}"></span>积分</label>
                             <label th:if="${outVo.isSubscriber}==1" class="btn menubtn">查看目录</label>
                         </div>

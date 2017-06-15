@@ -52,6 +52,8 @@ public class SubscriberServiceImpl implements SubscriberService{
     private SubscriberDao subscriberDao;
     @Autowired
     private TCarouselMapper tCarouselMapper;
+    @Autowired
+    private TParaMapper tParaMapper;
 
     @Override
     public void insert(TSubscriber subscriber) {
@@ -242,5 +244,15 @@ public class SubscriberServiceImpl implements SubscriberService{
         List<TCarousel> list = this.tCarouselMapper.select(tCarousel);
         list.sort((t1,t2)->t1.getId()-t2.getId());
         return this.tCarouselMapper.select(tCarousel);
+    }
+
+    @Override
+    public Integer getSubNum(String columnName) {
+        TPara tPara = new TPara();
+        tPara.setParaName(columnName);
+        tPara.setDeleteState("0");
+        TPara tPara1 = tParaMapper.selectOne(tPara);
+        Optional<TPara> optional = Optional.ofNullable(tPara1);
+        return optional.map(t -> Integer.parseInt(t.getParaValue())).orElse(0);
     }
 }

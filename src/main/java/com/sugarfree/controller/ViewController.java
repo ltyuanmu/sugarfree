@@ -563,6 +563,11 @@ public class ViewController {
         if(!CollectionUtils.isEmpty(carouselList)){
             modelAndView.addObject("carouselList",carouselList);
         }
+        //获得面包师的订阅个数 和更新期数
+        Integer miambaoNum = this.subscriberService.getSubNum("miambao_num");
+        Integer mianbaoTime =this.subscriberService.getSubNum("miambao_time");
+        modelAndView.addObject("miambaoNum",miambaoNum);
+        modelAndView.addObject("mianbaoTime",mianbaoTime);
         return modelAndView;
     }
 
