@@ -84,7 +84,7 @@ public class SubscribeHandler extends AbstractHandler {
             }
             pointService.updatePoint(userWxInfo.getOpenId(), Enum.PointEvent.SUBSCRIBE,recommendId);
             //发送消息
-            StringBuilder contentSB = new StringBuilder(userWxInfo.getNickname());
+            //StringBuilder contentSB = new StringBuilder(userWxInfo.getNickname());
             /*contentSB.append(",你来啦~是闻着黄油的香味找到这儿的吗？").append("\n")
                     .append("这里是一间创造美好食物的厨房，也是体验、分享生活的好地方。")
                     .append("你可以发现来自世界各地的烘焙美食，探索和食物之间的美味关系。")
@@ -101,19 +101,26 @@ public class SubscribeHandler extends AbstractHandler {
                     .append(shareProperties.getServerUrl()).append("/link/1002").append("\n")
                     .append("/:sun烘焙地图：跟着黄油一起逛世界").append("\n")
                     .append(shareProperties.getServerUrl()).append("/link/1004");*/
-            contentSB.append(",你来啦~是闻着黄油的香味找到这儿的吗？").append("\n").append("\n")
-                    .append("这里是一间创造美好食物的厨房。欢迎你来和黄油一起探索美食、生活的可能性。")
-                    .append("\n").append("\n")
-                    .append("/:sun").append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1101").append("\">").append("了解会飞的黄油").append("</a>").append("\n").append("\n")
+            //contentSB.append(",你来啦~是闻着黄油的香味找到这儿的吗？").append("\n").append("\n")
+            //        .append("这里是一间创造美好食物的厨房。欢迎你来和黄油一起探索美食、生活的可能性。")
+            //        .append("\n").append("\n")
+            //       .append("/:sun").append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1101").append("\">").append("了解会飞的黄油").append("</a>").append("\n").append("\n")
                     //.append("/:sun了解会飞的黄油").append("\n")
                     //.append(shareProperties.getServerUrl()).append("/link/1101").append("\n").append("\n")
-                    .append("/:sun跟着安琪学烘焙：").append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1001").append("\">").append("教你从0开始系统入门烘焙").append("</a>").append("\n").append("\n")
+            //        .append("/:sun跟着安琪学烘焙：").append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1001").append("\">").append("教你从0开始系统入门烘焙").append("</a>").append("\n").append("\n")
                     //.append("/:sun点击菜单栏“发现黄油”，订阅专栏“跟着安琪学烘焙”，教你从0开始系统入门烘焙").append("\n")
                     //.append(shareProperties.getServerUrl()).append("/link/1001").append("\n").append("\n")
-                    .append("/:sun点击菜单栏“黄油优选”，").append("<a href=\"").append("https://kdt.im/ryj0Rr").append("\">").append("购买专栏内烘焙原料").append("</a>");
+            //        .append("/:sun点击菜单栏“黄油优选”，").append("<a href=\"").append("https://kdt.im/ryj0Rr").append("\">").append("购买专栏内烘焙原料").append("</a>");
                     //.append("/:sun点击菜单栏“黄油优选”，购买专栏内烘焙原料").append("\n")
                     //.append("https://kdt.im/ryj0Rr");
                     //.append("更多精彩专栏，点击菜单栏左下角“专栏订阅”了解并订阅。");
+            StringBuilder contentSB = new StringBuilder();
+            contentSB.append("哈喽，").append(userWxInfo.getNickname()).append("，这里是烘焙爱好者的成长基地，就差你了。在蓝带和米其林餐厅的学习让我知道，专业知识才能创造更好的美味。所以我想和你一起告别零散的方子，杂乱的技巧，用最简单明了的方式，带你从零开始学烘焙。").append("\n").append("\n")
+                    .append("我为你准备了各类烘焙学习专栏，点击下方“发现黄油” 进入").append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1098").append("\">").append("“专栏课程”").append("</a>").append("，跟我一起探索烘焙的世界吧。").append("\n").append("\n")
+                    .append("热门专栏").append("\n")
+                    .append("/:sun").append("<a href=\"").append("https://st.h5.xiaoe-tech.com/st/7H7LvcyoH").append("\">").append("面包专栏，“人人都是面包师” 点我点我").append("</a>").append("\n")
+                    .append("/:sun").append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1001").append("\">").append("基础烘焙专栏，“跟着安琪学烘焙”").append("</a>");
+
             WxMpKefuMessage keFuMessage=WxMpKefuMessage.TEXT().content(contentSB.toString()).toUser(userWxInfo.getOpenId()).build();
             weixinService.getKefuService().sendKefuMessage(keFuMessage);
             //发送二维码消息

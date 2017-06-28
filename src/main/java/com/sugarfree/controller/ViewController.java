@@ -447,6 +447,9 @@ public class ViewController {
         }
         List<TMenu> subscriberList = this.subscriberService.getSubscriberList(wxUser);
         ModelAndView modelAndView = new ModelAndView("menuList");
+        if(CollectionUtils.isEmpty(subscriberList)){
+            return getCloumns(wxUser.getOpenId());
+        }
         modelAndView.addObject("menus",subscriberList);
         return modelAndView;
     }
