@@ -560,6 +560,8 @@ public class ViewController {
         List<MenuOutVo> menuList = this.subscriberService.getMenuList(wxUser.getId());
         MenuOutVo menuOutVo = menuList.get(0);
         ModelAndView modelAndView = new ModelAndView("menus");
+        //目前去掉跟着安琪烘焙在MenuList 2017年7月13日16:09:20
+        menuList.remove(0);
         modelAndView.addObject("menuList",menuList);
         modelAndView.addObject("hongBei",menuOutVo);
         List<TCarousel> carouselList = this.subscriberService.getCarouselList();
