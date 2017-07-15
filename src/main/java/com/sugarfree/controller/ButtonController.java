@@ -12,10 +12,7 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 
@@ -29,6 +26,8 @@ import java.io.UnsupportedEncodingException;
 @Slf4j
 public class ButtonController {
 
+    @Autowired
+    private WxMpService wxService;
     @Autowired
     private SubscriberService subscriberService;
     @Autowired
@@ -60,4 +59,13 @@ public class ButtonController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping(value = "/access_token", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity getAccesssToken(String uuid) throws WxErrorException {
+        if(!"7ef91c4b34ab4cfebe5cb806f1ae8648".equals(uuid)){
+            log.error("非法调用");
+            return ResponseEntity.status(400).build();
+        }
+        String accesstoken  = this.wxService.getAccessToken();
+        return ResponseEntity.ok(accesstoken);
+    }
 }
