@@ -312,7 +312,7 @@
                         </p>
                         <div class="ItemRightBottom">
                             <p th:text="|${miambaoNum} 订阅|">10 订阅</p>
-                            <label class="btn overtext">订阅：99元</label>
+                            <label class="btn overtext">查看专栏</label>
                         </div>
                     </div>
                 </a>
@@ -334,7 +334,7 @@
                         <div class="ItemRightBottom">
                             <p th:text="|${hongBei.subscriberNum} 订阅|">99999订阅</p>
                             <label th:if="${hongBei.isSubscriber}==0" class="btn overtext">订阅：<span th:text="${hongBei.point}"></span>积分</label>
-                            <label th:if="${hongBei.isSubscriber}==1" class="btn menubtn">查看目录</label>
+                            <label th:if="${hongBei.isSubscriber}==1" class="btn overtext">查看专栏</label>
                         </div>
                     </div>
                 </a>
@@ -358,7 +358,7 @@
                         <div class="ItemRightBottom">
                             <p th:text="|${outVo.subscriberNum} 订阅|">99999订阅</p>
                             <label th:if="${outVo.isSubscriber}==0" class="btn overtext">订阅：<span th:text="${outVo.point}"></span>积分</label>
-                            <label th:if="${outVo.isSubscriber}==1" class="btn menubtn">查看目录</label>
+                            <label th:if="${outVo.isSubscriber}==1" class="btn overtext">查看专栏</label>
                         </div>
                     </div>
                 </a>
