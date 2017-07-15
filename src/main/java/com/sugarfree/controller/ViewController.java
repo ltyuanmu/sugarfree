@@ -448,7 +448,7 @@ public class ViewController {
         List<TMenu> subscriberList = this.subscriberService.getSubscriberList(wxUser);
         ModelAndView modelAndView = new ModelAndView("menuList");
         if(CollectionUtils.isEmpty(subscriberList)){
-            return getCloumns(wxUser.getOpenId());
+            return new ModelAndView("emptyMenus");
         }
         modelAndView.addObject("menus",subscriberList);
         return modelAndView;
@@ -549,7 +549,7 @@ public class ViewController {
     }
 
     @RequestMapping(method = RequestMethod.GET,value = "/columns")
-    public ModelAndView getCloumns(String state) throws WxErrorException {
+    public ModelAndView getColumns(String state) throws WxErrorException {
         TWxUser wxUser;
         if(!"1".equals(state)&&StringUtils.isNotEmpty(state)){
             wxUser = this.wxUserService.getWxUserByOpenId(state);

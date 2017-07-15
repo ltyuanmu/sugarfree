@@ -1,0 +1,58 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=0.6,maximum-scale=1.0,user-scalable=0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <title>专栏列表</title>
+    <style>
+        body{
+            margin: 4%;
+            padding: 0;
+        }
+        p{
+            margin: 0;  
+        }
+        .MyTakeNone img.top{
+            width: 256px;
+            height: 199px;
+            margin: 100px auto 0;
+            display: block;
+        }
+        .MyTakeNone p{
+            font-size: 28px;
+            line-height: 40px;
+            letter-spacing: 2px;
+            color: #ADADAD;
+            text-align:center;
+            margin-top: 20px;
+        }
+        .MyTakeNone img.bottom{
+            width: 280px;
+            margin: 100px auto 0;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <a th:onclick="getColumns()">
+    <div class="MyTakeNone">
+        <img class="top" th:src="@{/img/empty/Group1.png}" alt="" />
+        <p>
+            &nbsp;&nbsp;&nbsp;你还没有订阅专栏哦！<br />
+            去看看更多精彩专栏
+        </p>
+        <img class="bottom" th:src="@{/img/empty/Group2.png}" alt="" />
+    </div>
+    </a>
+</body>
+<script type="text/javascript">
+    function getColumns(){
+        location.href="/wx/columns";
+    }
+
+</script>
+</html>
