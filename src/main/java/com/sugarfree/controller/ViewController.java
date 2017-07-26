@@ -562,6 +562,7 @@ public class ViewController {
         ModelAndView modelAndView = new ModelAndView("menus");
         //目前去掉跟着安琪烘焙在MenuList 2017年7月13日16:09:20
         menuList.remove(0);
+        //目前去掉拍出好滋味在MenuList 2017年7月26日16:33:27
         modelAndView.addObject("menuList",menuList);
         modelAndView.addObject("hongBei",menuOutVo);
         List<TCarousel> carouselList = this.subscriberService.getCarouselList();
@@ -573,6 +574,11 @@ public class ViewController {
         Integer mianbaoTime =this.subscriberService.getSubNum("miambao_time");
         modelAndView.addObject("miambaoNum",miambaoNum);
         modelAndView.addObject("mianbaoTime",mianbaoTime);
+        //拍照订阅格式和更新期数
+        Integer paizhaoNum = this.subscriberService.getSubNum("paizhao_num");
+        Integer paizhaoTime =this.subscriberService.getSubNum("paizhao_time");
+        modelAndView.addObject("paizhaoNum",paizhaoNum);
+        modelAndView.addObject("paizhaoTime",paizhaoTime);
         return modelAndView;
     }
 
