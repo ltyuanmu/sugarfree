@@ -316,7 +316,7 @@ public class ViewController {
         }
         //目前如果是分享给别人 则不出现订阅按钮
         //isSelf 0代表 别人 1 代表自己
-        modelAndView.addObject("isSelf",1);
+        modelAndView.addObject("isSelf", 1);
         if(!"1".equals(state)&&!"1".equals(isSelf)){
             modelAndView.addObject("isSelf",0);
             modelAndView.addObject("subscriber",2);
@@ -336,7 +336,7 @@ public class ViewController {
         String shareUrl = this.shareProperties.getShareArticleUrl(id, wxUser.getOpenId());
         //签名需要的Url
         String signatureUrl = getRequestUrl();
-        log.info("signatureUrl:{}",signatureUrl);
+        log.info("signatureUrl:{}", signatureUrl);
         WxJsapiSignature signature = this.wxService.createJsapiSignature(signatureUrl);
         modelAndView.addObject("signature",signature);
         modelAndView.addObject("shareUrl",shareUrl);
@@ -348,7 +348,7 @@ public class ViewController {
             modelAndView.addObject("entry",entry);
         }
         //获得文章的音乐
-        modelAndView.addObject("isMusic",0);
+        modelAndView.addObject("isMusic", 0);
         modelAndView.addObject("music",new TMusic());
         TMusic music = this.articleService.getMusicByArticleId(article.getId());
         if(music!=null){
@@ -451,19 +451,6 @@ public class ViewController {
         if(CollectionUtils.isEmpty(subscriberList)){
             return new ModelAndView("emptyMenus");
         }
-        //获得用户头像
-        WxMpUser wxMpUser = this.wxService.getUserService().userInfo(wxUser.getOpenId());
-        modelAndView.addObject("icon",wxMpUser.getHeadImgUrl());
-        modelAndView.addObject("name",wxMpUser.getNickname());
-        modelAndView.addObject("subscriberNum",subscriberList.size());
-        //获得用户已读篇数
-        Integer readNum = this.articleService.getArticleReadNumByUserId(wxUser.getId());
-        modelAndView.addObject("readNum",readNum);
-        //添加积分
-        int point = this.pointService.getPointByOpenId(wxUser.getOpenId());
-        modelAndView.addObject("point",point);
-        //TODO
-
         modelAndView.addObject("menus",subscriberList);
         return modelAndView;
     }
@@ -612,7 +599,7 @@ public class ViewController {
         ModelAndView modelAndView = new ModelAndView("column");
         //目前如果是分享给别人 则不出现订阅按钮
         //订阅专栏需要统计 true为分享 false为自己
-        this.articleService.updateArticleStat(wxUser,menuAbstract,true);
+        this.articleService.updateArticleStat(wxUser, menuAbstract, true);
         modelAndView.addObject("menuAbstract",menuAbstract);
         //获得二维码图片
         //如果没有永久二维码 则获得临时二维码
@@ -644,6 +631,42 @@ public class ViewController {
     public ModelAndView getNewArticleList(@PathVariable int menuId,String state,String isSelf) throws WxErrorException {
         ModelAndView modelAndView = this.getArticleList(menuId, state, isSelf);
         modelAndView.setViewName("newArticleList");
+        return modelAndView;
+    }
+
+    /**新版获得我的订阅专栏*/
+    @RequestMapping(method = RequestMethod.GET,value = "/user/columns/subscriber")
+    public ModelAndView getSubscriberMenusList(String state) throws WxErrorException {
+        //获取用户信息
+        TWxUser wxUser;
+        if(StringUtils.isNotEmpty(state)){
+            wxUser = this.wxUserService.getWxUserByOpenId(state);
+            setUserSession(wxUser);
+        }else{
+            wxUser = getWxUser();
+        }
+        //List<TMenu> subscriberList = this.subscriberService.getSubscriberList(wxUser);
+        ModelAndView modelAndView = new ModelAndView("menuList");
+        List<MenuOutVo> menuList = this.subscriberService.getMenuList(wxUser.getId());
+        menuList = menuList.stream().filter(t -> 1 == t.getIsSubscriber()).collect(Collectors.toList());
+
+        if(CollectionUtils.isEmpty(menuList)){
+            return new ModelAndView("emptyMenus");
+        }
+        //获得用户头像
+        WxMpUser wxMpUser = this.wxService.getUserService().userInfo(wxUser.getOpenId());
+        modelAndView.addObject("icon",wxMpUser.getHeadImgUrl());
+        modelAndView.addObject("name",wxMpUser.getNickname());
+        modelAndView.addObject("subscriberNum",menuList.size());
+        //获得用户已读篇数
+        Integer readNum = this.articleService.getArticleReadNumByUserId(wxUser.getId());
+        modelAndView.addObject("readNum",readNum);
+        //添加积分
+        int point = this.pointService.getPointByOpenId(wxUser.getOpenId());
+        modelAndView.addObject("point",point);
+        //TODO
+
+        modelAndView.addObject("menuList",menuList);
         return modelAndView;
     }
 }
