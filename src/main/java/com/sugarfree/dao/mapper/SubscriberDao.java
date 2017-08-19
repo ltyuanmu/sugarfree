@@ -23,4 +23,11 @@ public interface SubscriberDao {
      * @return 返回MenuOutVo列表
      */
     List<MenuOutVo> getMenuList(Integer wxUserId);
+
+    /**
+     * 获得用户已阅读文章数
+     * @param wxUserId
+     * @return
+     */
+    Integer getArticleReadNumByUserId(Integer wxUserId);
 }

@@ -47,4 +47,13 @@
         AND t.type = '1'
         AND t.delete_state ='0'
     </select>
+
+
+    <select id="getArticleReadNumByUserId" resultType="Integer" parameterType="Integer">
+        SELECT COUNT(1) AS count from t_article_stat t
+        INNER JOIN t_article ta ON t.fk_article_id = ta.id AND ta.type = '1'
+        WHERE t.fk_wx_user_id = #{wxUserId}
+        AND t.type = '0'
+    </select>
+
 </mapper>

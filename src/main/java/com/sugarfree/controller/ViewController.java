@@ -13,6 +13,7 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -450,6 +451,19 @@ public class ViewController {
         if(CollectionUtils.isEmpty(subscriberList)){
             return new ModelAndView("emptyMenus");
         }
+        //获得用户头像
+        WxMpUser wxMpUser = this.wxService.getUserService().userInfo(wxUser.getOpenId());
+        modelAndView.addObject("icon",wxMpUser.getHeadImgUrl());
+        modelAndView.addObject("name",wxMpUser.getNickname());
+        modelAndView.addObject("subscriberNum",subscriberList.size());
+        //获得用户已读篇数
+        Integer readNum = this.articleService.getArticleReadNumByUserId(wxUser.getId());
+        modelAndView.addObject("readNum",readNum);
+        //添加积分
+        int point = this.pointService.getPointByOpenId(wxUser.getOpenId());
+        modelAndView.addObject("point",point);
+        //TODO
+
         modelAndView.addObject("menus",subscriberList);
         return modelAndView;
     }

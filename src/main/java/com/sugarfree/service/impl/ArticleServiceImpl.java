@@ -38,6 +38,9 @@ public class ArticleServiceImpl implements ArticleService{
     @Autowired
     private TMusicMapper tMusicMapper;
 
+    @Autowired
+    private SubscriberDao subscriberDao;
+
     @Override
     public TArticle getArticleByEnumId(Integer enumId) {
         TArticle tArticle = new TArticle();
@@ -115,5 +118,10 @@ public class ArticleServiceImpl implements ArticleService{
         music.setStatus("1");
         List<TMusic> list = this.tMusicMapper.select(music);
         return list.stream().findFirst().orElse(null);
+    }
+
+    @Override
+    public Integer getArticleReadNumByUserId(Integer wxUserId) {
+        return this.subscriberDao.getArticleReadNumByUserId(wxUserId);
     }
 }

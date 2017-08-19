@@ -55,4 +55,11 @@ public interface ArticleService {
      * @return 音乐
      */
     TMusic getMusicByArticleId(Integer articleId);
+
+    /**
+     * 通过用户id会哦的用户已读输两
+     * @param wxUserId
+     * @return
+     */
+    Integer getArticleReadNumByUserId(Integer wxUserId);
 }
