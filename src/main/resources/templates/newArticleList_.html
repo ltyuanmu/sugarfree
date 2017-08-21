@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name = "format-detection" content = "telephone=no" />
+    <title>文章列表</title>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/newcommon.css}"/>
+    <style>
+        p{
+            margin-bottom:0;
+        }
+        .AllPage ul{
+            margin:0;
+            padding:0;
+        }
+        .AllPage ul li{
+            float:left;
+            width:100%;
+            padding: 5px 0;
+            border-bottom: 1px solid #bfbfbf;
+        }
+        .AllPage ul li .ItemLeft{
+            width:44%;
+            float:left;
+        }
+        .AllPage ul li .ItemLeft .ImgBox{
+            width:100%;
+            overflow: hidden;
+        }
+        .AllPage ul li .ItemRight{
+            width:52%;
+            padding:2%;
+            float:left;
+        }
+        .AllPage ul li .ItemRight .ItemRightTop{
+            font-size:18px;
+            font-weight:bold;
+            color:#000;
+            margin-bottom: 5px;
+            line-height: 24px;
+        }
+        .AllPage ul li .ItemRight .ItemRightContent{
+            color:#8c8c8c;
+            font-size:14px;
+            line-height:20px;
+        }
+        .AllPage ul li .ItemLeft .ImgBox img{
+            width:100%;
+        }
+    </style>
+</head>
+
+
+<body>
+<div class="common">
+    <div class="AllPage">
+        <div>
+            <ul>
+        	<li class="Item" th:each="article,articleStat : ${list}">
+                <a th:onclick="|showArticle(${article.id});|">
+                    <div class="ItemLeft">
+                        <div class="ImgBox">
+                            <img th:src="${article.icon}"  alt="" />
+                        </div>
+                    </div>
+                    <div class="ItemRight">
+                        <p class="ItemRightTop" th:text="|第${article.classTime}课:${article.title}|"></p>
+                        <p class="ItemRightContent" th:text="|897|">
+                        </p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+</body>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    $(function(){
+        var windowResize = function(){
+            document.documentElement.style.fontSize = document.documentElement.clientWidth >750?(100+ 'px'):(document.documentElement.clientWidth / 7.5 + 'px');
+            if($(".Item .ItemLeft .ImgBox").length>0){
+                $(".Item .ItemLeft .ImgBox").each(function(index, element) {
+                    $(this).css({"height":$(".Item .ItemLeft .ImgBox")[0].offsetWidth*11/21,"width":"100%"});
+                    if($(this).find("img").width()/$(this).find("img").height()<21/11){
+                        $(this).find("img").css({"width":"100%"}).css("margin-top",($(this)[0].offsetHeight-$(this).find("img")[0].offsetHeight)/2+"px").css("margin-left","0");
+                    }
+                    else{
+                        $(this).find("img").css({"height":"100%","width":"initial"}).css("margin-left",($(this)[0].offsetWidth-$(this).find("img")[0].offsetWidth)/2+"px").css("margin-top","0");
+                    }
+                });
+            }
+        }
+        window.onresize = windowResize;
+        $(".Item .ItemLeft .ImgBox").css({"height":$(".Item .ItemLeft .ImgBox")[0].offsetWidth*11/21,"width":"100%"});
+        window.onload=function(){
+            windowResize();
+        }
+    })
+    function showArticle(articleId){
+        location.href="/wx/article/"+articleId+"?isSelf=1";
+    }
+    /*]]>*/
+</script>
+</html>
