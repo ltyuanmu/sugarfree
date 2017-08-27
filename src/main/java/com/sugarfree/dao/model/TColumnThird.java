@@ -15,21 +15,15 @@ public class TColumnThird {
     @Column(name = "column_desc")
     private String columnDesc;
 
-    /**
-     * ¸üĞÂÆÚÊı
-     */
+
     @Column(name = "update_num")
     private Integer updateNum;
 
-    /**
-     * ¶©ÔÄÊı
-     */
+
     @Column(name = "sub_num")
     private Integer subNum;
 
-    /**
-     * À¸Ä¿Í¼Æ¬
-     */
+
     private String img;
 
     private String url;
@@ -43,7 +37,7 @@ public class TColumnThird {
     private Date createTime;
 
     @Column(name = "update_user")
-    private Date updateUser;
+    private String updateUser;
 
     @Column(name = "update_time")
     private Date updateTime;
@@ -94,54 +88,54 @@ public class TColumnThird {
     }
 
     /**
-     * »ñÈ¡¸üĞÂÆÚÊı
+     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      *
-     * @return update_num - ¸üĞÂÆÚÊı
+     * @return update_num - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     public Integer getUpdateNum() {
         return updateNum;
     }
 
     /**
-     * ÉèÖÃ¸üĞÂÆÚÊı
+     * ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      *
-     * @param updateNum ¸üĞÂÆÚÊı
+     * @param updateNum ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     public void setUpdateNum(Integer updateNum) {
         this.updateNum = updateNum;
     }
 
     /**
-     * »ñÈ¡¶©ÔÄÊı
+     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      *
-     * @return sub_num - ¶©ÔÄÊı
+     * @return sub_num - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     public Integer getSubNum() {
         return subNum;
     }
 
     /**
-     * ÉèÖÃ¶©ÔÄÊı
+     * ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½
      *
-     * @param subNum ¶©ÔÄÊı
+     * @param subNum ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     public void setSubNum(Integer subNum) {
         this.subNum = subNum;
     }
 
     /**
-     * »ñÈ¡À¸Ä¿Í¼Æ¬
+     * ï¿½ï¿½È¡ï¿½ï¿½Ä¿Í¼Æ¬
      *
-     * @return img - À¸Ä¿Í¼Æ¬
+     * @return img - ï¿½ï¿½Ä¿Í¼Æ¬
      */
     public String getImg() {
         return img;
     }
 
     /**
-     * ÉèÖÃÀ¸Ä¿Í¼Æ¬
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Í¼Æ¬
      *
-     * @param img À¸Ä¿Í¼Æ¬
+     * @param img ï¿½ï¿½Ä¿Í¼Æ¬
      */
     public void setImg(String img) {
         this.img = img;
@@ -206,14 +200,14 @@ public class TColumnThird {
     /**
      * @return update_user
      */
-    public Date getUpdateUser() {
+    public String getUpdateUser() {
         return updateUser;
     }
 
     /**
      * @param updateUser
      */
-    public void setUpdateUser(Date updateUser) {
+    public void setUpdateUser(String updateUser) {
         this.updateUser = updateUser;
     }
 
