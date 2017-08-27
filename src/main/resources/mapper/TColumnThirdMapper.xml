@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sugarfree.dao.mapper.TColumnThirdMapper" >
+  <resultMap id="BaseResultMap" type="com.sugarfree.dao.model.TColumnThird" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="column_name" property="columnName" jdbcType="VARCHAR" />
+    <result column="column_desc" property="columnDesc" jdbcType="VARCHAR" />
+    <result column="update_num" property="updateNum" jdbcType="INTEGER" />
+    <result column="sub_num" property="subNum" jdbcType="INTEGER" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="delete_state" property="deleteState" jdbcType="CHAR" />
+  </resultMap>
+</mapper>
