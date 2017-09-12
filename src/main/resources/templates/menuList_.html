@@ -179,11 +179,11 @@
 <body>
 <div class="common AllPage">
     <div class="PageTop">
-        <img src="" alt="">
+        <img th:src="@{icon}" alt="">
         <p class="overtext">我的名字</p>
         <div class="NumBox">
-            <a><span>2</span>个订阅</a>
-            <a><span>2</span>篇已读</a>
+            <a><span th:text="${subscriberNum}"></span>个订阅</a>
+            <a><span th:text="${readNum}"></span>篇已读</a>
         </div>
     </div>
     <ul>
