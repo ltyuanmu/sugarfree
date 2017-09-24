@@ -630,7 +630,7 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.GET,value = "/article/list/new/{menuId}")
     public ModelAndView getNewArticleList(@PathVariable int menuId,String state,String isSelf) throws WxErrorException {
         ModelAndView modelAndView = this.getArticleList(menuId, state, isSelf);
-        modelAndView.setViewName("newArticleList");
+        modelAndView.setViewName("newArticleList_");
         return modelAndView;
     }
 
@@ -646,7 +646,7 @@ public class ViewController {
             wxUser = getWxUser();
         }
         //List<TMenu> subscriberList = this.subscriberService.getSubscriberList(wxUser);
-        ModelAndView modelAndView = new ModelAndView("menuList");
+        ModelAndView modelAndView = new ModelAndView("menuList_");
         List<MenuOutVo> menuList = this.subscriberService.getMenuList(wxUser.getId());
         menuList = menuList.stream().filter(t -> 1 == t.getIsSubscriber()).collect(Collectors.toList());
 
