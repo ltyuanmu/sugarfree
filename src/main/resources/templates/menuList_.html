@@ -50,7 +50,7 @@
         .AllPage ul li .ItemLeft .ImgBox span{
             position: relative;
             float: right;
-            margin: -65px 5px;
+            margin: -45px 5px;
             z-index: 999;
             padding: 4px 6px;
             background: rgba(0,0,0,0.6);
@@ -158,7 +158,7 @@
         }
         .PageTop .NumBox{
             overflow: hidden;
-            padding: 15px 0 30px;
+            padding: 30px 0;
             border-bottom: 10px solid #c3c3c3;
         }
         .PageTop .NumBox a{
@@ -173,13 +173,14 @@
             font-size: 30px;
             display: block;
             color: #3d3d3d;
+            height:35px;
         }
     </style>
 </head>
 <body>
 <div class="common AllPage">
     <div class="PageTop">
-        <img th:src="${icon}" alt=""/>
+        <img th:src="${icon}" alt="">
         <p class="overtext">我的名字</p>
         <div class="NumBox">
             <a><span th:text="${subscriberNum}"></span>个订阅</a>
@@ -196,9 +197,9 @@
                     </div>
                 </div>
                 <div class="ItemRight">
-                    <p class="ItemRightTop overtext" th:text="${outVo.menuName}"><span>烘焙地图</span><label class="updateover">已更新</label></p>
+                    <p class="ItemRightTop overtext"><span th:text="${outVo.menuName}">烘焙地图</span><label class="updateover">已更新</label></p>
                     <p class="ItemRightCenter" th:text="${outVo.subTitle}">
-                        烘焙地图de meorpmh
+                        烘焙地图
                     </p>
                     <div class="ItemRightBottom">
                         <p th:text="|${outVo.subscriberNum} 订阅|">99999订阅</p>
