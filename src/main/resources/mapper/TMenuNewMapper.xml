@@ -16,5 +16,6 @@
     <result column="op_user" property="opUser" jdbcType="VARCHAR" />
     <result column="point" property="point" jdbcType="INTEGER" />
     <result column="sub_count" property="subCount" jdbcType="VARCHAR" />
+    <result column="menu_sort" property="menuSort" jdbcType="INTEGER" />
   </resultMap>
 </mapper>

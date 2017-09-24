@@ -51,12 +51,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public void updateMenu() throws UnsupportedEncodingException {
         List<TMenuNew> tMenus = tMenuNewMapper.selectAll();
-        List<TMenu> tMenuList = tMenus.stream().map(t -> {
-            TMenu tMenu = new TMenu();
-            BeanUtils.copyProperties(t, tMenu);
-            return tMenu;
-        }).collect(Collectors.toList());
-        WxMenu wxMeun = this.generateWxMenu(tMenuList);
+        WxMenu wxMeun = this.generateWxMenu(tMenus);
         System.out.println(wxMeun.toJson());
         try {
             this.wxService.getMenuService().menuCreate(wxMeun);
@@ -94,10 +89,10 @@ public class MenuServiceImpl implements MenuService {
      * @param tMenus
      * @return
      */
-    private WxMenu generateWxMenu(List<TMenu> tMenus) throws UnsupportedEncodingException {
-        List<TMenu> buttonList = new ArrayList<>();
-        Map<String,List<TMenu>> map = new HashMap<>();
-        for(TMenu menu:tMenus){
+    private WxMenu generateWxMenu(List<TMenuNew> tMenus) throws UnsupportedEncodingException {
+        List<TMenuNew> buttonList = new ArrayList<>();
+        Map<String,List<TMenuNew>> map = new HashMap<>();
+        for(TMenuNew menu:tMenus){
             if(!"0".equals(menu.getDeleteState())){
                 continue;
             }
@@ -106,20 +101,20 @@ public class MenuServiceImpl implements MenuService {
             }else{
                 String parentId = String.valueOf(menu.getId()).substring(0, 2);
                 if(map.get(parentId)==null){
-                    List<TMenu> subList = new ArrayList<>();
+                    List<TMenuNew> subList = new ArrayList<>();
                     map.put(parentId,subList);
                 }
                 map.get(parentId).add(menu);
             }
         }
         Collections.sort(buttonList,(m1,m2) -> {
-            return m1.getId()-m2.getId();
+            return m1.getMenuSort()-m2.getMenuSort();
         });
 
         WxMenu wxMenu = new WxMenu();
         List<WxMenuButton> buttons = new ArrayList();
 
-        for(TMenu menu:buttonList){
+        for(TMenuNew menu:buttonList){
             WxMenuButton button  = new WxMenuButton();
             button.setName(menu.getName());
             if("2".equals(menu.getType())){
@@ -134,17 +129,17 @@ public class MenuServiceImpl implements MenuService {
                 url = templateUrl.replaceAll("_MENUURL_", url);
                 button.setUrl(url);
             }
-            List<TMenu> subMenus = map.get(String.valueOf(menu.getId()));
+            List<TMenuNew> subMenus = map.get(String.valueOf(menu.getId()));
             if(!CollectionUtils.isEmpty(subMenus)){
                 Collections.sort(subMenus,(m1,m2) -> {
-                    return m1.getId()-m2.getId();
+                    return m1.getMenuSort()-m2.getMenuSort();
                 });
             }
             List<WxMenuButton> subButtons = new ArrayList();
             String templateUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=_APPID_&redirect_uri=_MENUURL_&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
             templateUrl = templateUrl.replaceAll("_APPID_",wechatMpProperties.getAppId());
             if(!CollectionUtils.isEmpty(subMenus)){
-                for(TMenu subMenu :subMenus){
+                for(TMenuNew subMenu :subMenus){
                     WxMenuButton subButton  = new WxMenuButton();
                     subButton.setName(subMenu.getName());
                     String type = subMenu.getType();

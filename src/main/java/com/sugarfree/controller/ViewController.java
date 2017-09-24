@@ -69,6 +69,9 @@ public class ViewController {
     @Autowired
     private WxUserSubscribeService wxUserSubscribeService;
 
+    @Autowired
+    private ColumnService columnService;
+
     /*菜单文章的详细介绍
     *以上是静态内容
     *出现订阅按钮 提示订阅需要XX积分
@@ -570,16 +573,20 @@ public class ViewController {
         if(!CollectionUtils.isEmpty(carouselList)){
             modelAndView.addObject("carouselList",carouselList);
         }
+        //添加第三方平台连接动态
+        List<TColumnThird> columnThirdList = this.columnService.getColumnThirdList();
+
+        modelAndView.addObject("columnThirdList",columnThirdList);
         //获得面包师的订阅个数 和更新期数
-        Integer miambaoNum = this.subscriberService.getSubNum("miambao_num");
-        Integer mianbaoTime =this.subscriberService.getSubNum("miambao_time");
-        modelAndView.addObject("miambaoNum",miambaoNum);
-        modelAndView.addObject("mianbaoTime",mianbaoTime);
+//        Integer miambaoNum = this.subscriberService.getSubNum("miambao_num");
+//        Integer mianbaoTime =this.subscriberService.getSubNum("miambao_time");
+//        modelAndView.addObject("miambaoNum",miambaoNum);
+//        modelAndView.addObject("mianbaoTime",mianbaoTime);
         //拍照订阅格式和更新期数
-        Integer paizhaoNum = this.subscriberService.getSubNum("paizhao_num");
-        Integer paizhaoTime =this.subscriberService.getSubNum("paizhao_time");
-        modelAndView.addObject("paizhaoNum",paizhaoNum);
-        modelAndView.addObject("paizhaoTime",paizhaoTime);
+//        Integer paizhaoNum = this.subscriberService.getSubNum("paizhao_num");
+//        Integer paizhaoTime =this.subscriberService.getSubNum("paizhao_time");
+//        modelAndView.addObject("paizhaoNum",paizhaoNum);
+//        modelAndView.addObject("paizhaoTime",paizhaoTime);
         return modelAndView;
     }
 

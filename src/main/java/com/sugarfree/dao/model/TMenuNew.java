@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "t_menu_new")
 public class TMenuNew {
     /**
-     * ä¸»é”®id
+     * Ö÷¼üid
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class TMenuNew {
     private String url;
 
     /**
-     * èœå•æ˜¯ç±»å‹:1.è®¢é˜…,2.é™æ€è¿æ¥,3ç§¯åˆ†
+     * ²Ëµ¥ÊÇÀàĞÍ:1.¶©ÔÄ,2.¾²Ì¬Á¬½Ó,3»ı·Ö
      */
     private String type;
 
@@ -40,26 +40,29 @@ public class TMenuNew {
     private String opUser;
 
     /**
-     * è®¢é˜…æ¶ˆè€—çš„ç§¯åˆ†
+     * ¶©ÔÄÏûºÄµÄ»ı·Ö
      */
     private Integer point;
 
     @Column(name = "sub_count")
     private String subCount;
 
+    @Column(name = "menu_sort")
+    private Integer menuSort;
+
     /**
-     * è·å–ä¸»é”®id
+     * »ñÈ¡Ö÷¼üid
      *
-     * @return id - ä¸»é”®id
+     * @return id - Ö÷¼üid
      */
     public Integer getId() {
         return id;
     }
 
     /**
-     * è®¾ç½®ä¸»é”®id
+     * ÉèÖÃÖ÷¼üid
      *
-     * @param id ä¸»é”®id
+     * @param id Ö÷¼üid
      */
     public void setId(Integer id) {
         this.id = id;
@@ -108,18 +111,18 @@ public class TMenuNew {
     }
 
     /**
-     * è·å–èœå•æ˜¯ç±»å‹:1.è®¢é˜…,2.é™æ€è¿æ¥,3ç§¯åˆ†
+     * »ñÈ¡²Ëµ¥ÊÇÀàĞÍ:1.¶©ÔÄ,2.¾²Ì¬Á¬½Ó,3»ı·Ö
      *
-     * @return type - èœå•æ˜¯ç±»å‹:1.è®¢é˜…,2.é™æ€è¿æ¥,3ç§¯åˆ†
+     * @return type - ²Ëµ¥ÊÇÀàĞÍ:1.¶©ÔÄ,2.¾²Ì¬Á¬½Ó,3»ı·Ö
      */
     public String getType() {
         return type;
     }
 
     /**
-     * è®¾ç½®èœå•æ˜¯ç±»å‹:1.è®¢é˜…,2.é™æ€è¿æ¥,3ç§¯åˆ†
+     * ÉèÖÃ²Ëµ¥ÊÇÀàĞÍ:1.¶©ÔÄ,2.¾²Ì¬Á¬½Ó,3»ı·Ö
      *
-     * @param type èœå•æ˜¯ç±»å‹:1.è®¢é˜…,2.é™æ€è¿æ¥,3ç§¯åˆ†
+     * @param type ²Ëµ¥ÊÇÀàĞÍ:1.¶©ÔÄ,2.¾²Ì¬Á¬½Ó,3»ı·Ö
      */
     public void setType(String type) {
         this.type = type;
@@ -154,7 +157,7 @@ public class TMenuNew {
     }
 
     /**
-     * è·å–0
+     * »ñÈ¡0
      *
      * @return delete_state - 0
      */
@@ -163,7 +166,7 @@ public class TMenuNew {
     }
 
     /**
-     * è®¾ç½®0
+     * ÉèÖÃ0
      *
      * @param deleteState 0
      */
@@ -186,18 +189,18 @@ public class TMenuNew {
     }
 
     /**
-     * è·å–è®¢é˜…æ¶ˆè€—çš„ç§¯åˆ†
+     * »ñÈ¡¶©ÔÄÏûºÄµÄ»ı·Ö
      *
-     * @return point - è®¢é˜…æ¶ˆè€—çš„ç§¯åˆ†
+     * @return point - ¶©ÔÄÏûºÄµÄ»ı·Ö
      */
     public Integer getPoint() {
         return point;
     }
 
     /**
-     * è®¾ç½®è®¢é˜…æ¶ˆè€—çš„ç§¯åˆ†
+     * ÉèÖÃ¶©ÔÄÏûºÄµÄ»ı·Ö
      *
-     * @param point è®¢é˜…æ¶ˆè€—çš„ç§¯åˆ†
+     * @param point ¶©ÔÄÏûºÄµÄ»ı·Ö
      */
     public void setPoint(Integer point) {
         this.point = point;
@@ -215,5 +218,19 @@ public class TMenuNew {
      */
     public void setSubCount(String subCount) {
         this.subCount = subCount;
+    }
+
+    /**
+     * @return menu_sort
+     */
+    public Integer getMenuSort() {
+        return menuSort;
+    }
+
+    /**
+     * @param menuSort
+     */
+    public void setMenuSort(Integer menuSort) {
+        this.menuSort = menuSort;
     }
 }
