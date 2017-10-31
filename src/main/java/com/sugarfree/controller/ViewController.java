@@ -671,8 +671,9 @@ public class ViewController {
         //添加积分
         int point = this.pointService.getPointByOpenId(wxUser.getOpenId());
         modelAndView.addObject("point",point);
-        //TODO
-
+        //添加第三方平台连接动态
+        List<TColumnThird> columnThirdList = this.columnService.getColumnThirdList();
+        modelAndView.addObject("columnThirdList",columnThirdList);
         modelAndView.addObject("menuList",menuList);
         return modelAndView;
     }
