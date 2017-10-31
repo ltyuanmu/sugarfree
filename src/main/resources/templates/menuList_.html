@@ -186,22 +186,22 @@
         <p class="overtext" th:text="${name}">我的名字</p>
     </div>
     <ul>
-        <li class="Item" th:each="outVo,outVoStat : ${columnThirdList}" >
-            <a th:onclick="|showArticle(${outVo.menuId},${outVo.isSubscriber});|">
+        <li class="Item" th:each="columnThird,columnThirdStat : ${columnThirdList}" >
+            <a th:href="${columnThird.url}">
                 <div class="ItemLeft">
                     <div class="ImgBox">
-                        <img src="left.png" alt="" th:src="@{${outVo.menuImg}}" />
-                        <span th:text="|更新至${outVo.updateNum}期|">更新至34期</span>
+                        <img src="left.png" alt="" th:src="${columnThird.img}" />
+                        <span th:text="|更新至${columnThird.updateNum}期|">更新至34期</span>
                     </div>
                 </div>
                 <div class="ItemRight">
-                    <p class="ItemRightTop overtext"><span th:text="${outVo.menuName}">烘焙地图</span><label class="updateover">已更新</label></p>
-                    <p class="ItemRightCenter" th:text="${outVo.subTitle}">
+                    <p class="ItemRightTop overtext"><span th:text="${columnThird.columnName}">烘焙地图</span><label class="updateover">已更新</label></p>
+                    <p class="ItemRightCenter" th:text="${columnThird.columnDesc}">
                         烘焙地图
                     </p>
                     <div class="ItemRightBottom">
-                        <p th:text="|${outVo.subscriberNum} 订阅|">99999订阅</p>
-                        <label th:if="${outVo.isSubscriber}==1" class="btn overtext">查看专栏</label>
+                        <p th:text="|${columnThird.subNum} 订阅|">99999订阅</p>
+                        <label class="btn overtext">查看专栏</label>
                     </div>
                 </div>
             </a>
