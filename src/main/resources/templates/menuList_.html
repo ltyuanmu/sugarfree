@@ -183,10 +183,6 @@
     <div class="PageTop">
         <img th:src="${icon}" alt="" />
         <p class="overtext" th:text="${name}">我的名字</p>
-        <div class="NumBox">
-            <a><span th:text="${subscriberNum}"></span>个订阅</a>
-            <a><span th:text="${readNum}"></span>篇已读</a>
-        </div>
     </div>
     <ul>
         <li class="Item" th:each="outVo,outVoStat : ${menuList}" >
