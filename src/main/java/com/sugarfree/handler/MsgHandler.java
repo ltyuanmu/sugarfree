@@ -68,17 +68,17 @@ public class MsgHandler extends AbstractHandler {
             return null;
         }
 
-        if("积分".equals(wxMessage.getContent())){
+        /*if("积分".equals(wxMessage.getContent())){
             //int point = pointService.getPointByOpenId(wxMessage.getFromUser());
             //String message = "您的积分为:"+point;
             String message = this.pointService.getPointMag(wxMessage.getFromUser());
             return new TextBuilder().build(message,wxMessage,weixinService);
-        }else if(StringUtils.isNotEmpty(wxMessage.getContent())&&wxMessage.getContent().startsWith("DHJF_")){
+        }else*/ if(StringUtils.isNotEmpty(wxMessage.getContent())&&wxMessage.getContent().startsWith("DHJF_")){
             String content = wxMessage.getContent();
             String code = content.replaceFirst("DHJF_","");
             String message = pointService.addPointForVoucher(wxMessage.getFromUser(), code);
             return new TextBuilder().build(message,wxMessage,weixinService);
-        }else if("二维码".equals(wxMessage.getContent())||"我的二维码".equals(wxMessage.getContent())) {
+        }/*else if("二维码".equals(wxMessage.getContent())||"我的二维码".equals(wxMessage.getContent())) {
             //获得个人专属二维码
             TWxUser wxUser = this.wxUserSubscribeService.getWxUserByOpenId(wxMessage.getFromUser());
             //个人二维码如果不是永久则返回临时二维码
@@ -103,7 +103,7 @@ public class MsgHandler extends AbstractHandler {
             WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
             String message = uploadResult.getMediaId();
             return new ImageBuilder().build(message, wxMessage, weixinService);
-        }else if("巧克力烘焙".equals(wxMessage.getContent())){
+        }*/else if("巧克力烘焙".equals(wxMessage.getContent())){
             return new TextBuilder().build("https://pan.baidu.com/s/1nv37FXf",wxMessage,weixinService);
         }else if("原料".equals(wxMessage.getContent())){
             File file = new File("/home/sugarfree/wx_front/img/yuanliao.jpg");
@@ -171,6 +171,11 @@ public class MsgHandler extends AbstractHandler {
             return new ImageBuilder().build(message, wxMessage, weixinService);
         }else if("烘焙书".equals(wxMessage.getContent())){
             return new TextBuilder().build("https://pan.baidu.com/s/1i4Jei3N",wxMessage,weixinService);
+        }else if("积分课程".equals(wxMessage.getContent())){
+            StringBuilder contentSB = new StringBuilder();
+            contentSB.append("跟着安琪学烘焙：").append(shareProperties.getServerUrl()).append("/link/1001").append("\n")
+                    .append("烘焙地图：").append(shareProperties.getServerUrl()).append("/link/1004");
+            return new TextBuilder().build(contentSB.toString(),wxMessage,weixinService);
         }else{
           //  StringBuilder sb = new StringBuilder();
           //  sb.append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1101").append("\">").append("了解会飞的黄油").append("</a>").append("\n");

@@ -2,6 +2,7 @@ package com.sugarfree.controller;
 
 import com.sugarfree.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class EnumController {
     public ResponseEntity updateMenu(){
         try {
             this.menuService.updateMenu();
-        } catch (UnsupportedEncodingException e) {
+        } catch (WxErrorException |UnsupportedEncodingException e) {
             log.error(e.getMessage(),e);
             return ResponseEntity.status(500).build();
         }

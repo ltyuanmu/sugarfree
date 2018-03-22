@@ -49,15 +49,12 @@ public class MenuServiceImpl implements MenuService {
     private WechatMpProperties wechatMpProperties;
 
     @Override
-    public void updateMenu() throws UnsupportedEncodingException {
+    public void updateMenu() throws UnsupportedEncodingException, WxErrorException {
         List<TMenuNew> tMenus = tMenuNewMapper.selectAll();
         WxMenu wxMeun = this.generateWxMenu(tMenus);
         System.out.println(wxMeun.toJson());
-        try {
-            this.wxService.getMenuService().menuCreate(wxMeun);
-        } catch (WxErrorException e) {
-            log.error(e.getMessage(),e);
-        }
+        this.wxService.getMenuService().menuCreate(wxMeun);
+
     }
 
     @Override

@@ -646,7 +646,7 @@ public class ViewController {
     public ModelAndView getSubscriberMenusList(String state) throws WxErrorException {
         //获取用户信息
         TWxUser wxUser;
-        if(StringUtils.isNotEmpty(state)){
+        if(!"1".equals(state)&&StringUtils.isNotEmpty(state)){
             wxUser = this.wxUserService.getWxUserByOpenId(state);
             setUserSession(wxUser);
         }else{

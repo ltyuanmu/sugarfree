@@ -13,9 +13,9 @@
         </plugin>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://223.167.85.2:40788/wutang"
-                        userId="lt"
-                        password="lt7jiannan">
+                        connectionURL="jdbc:mysql://muchuan1.mysql.rds.aliyuncs.com:3306/sugarfree"
+                        userId="uop_sf6"
+                        password="U6s123">
         </jdbcConnection>
 
         <javaModelGenerator targetPackage="${targetModelPackage}" targetProject="${targetJavaProject}"/>
@@ -25,8 +25,15 @@
         <javaClientGenerator targetPackage="${targetMapperPackage}" targetProject="${targetJavaProject}" type="XMLMAPPER" />
 
 
-        <table tableName="t_menu_new" >
+        <table tableName="t_activity" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnOverride column="enable_flag" javaType="java.lang.Boolean"/>
+        </table>
+<!--        <table tableName="t_activity_join" >
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
+        <table tableName="t_activity_help" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>-->
     </context>
 </generatorConfiguration>

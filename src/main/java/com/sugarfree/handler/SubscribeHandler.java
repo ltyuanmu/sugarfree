@@ -59,7 +59,7 @@ public class SubscribeHandler extends AbstractHandler {
             //WxMpQrCodeTicket wxUserQRImage = wxUserSubscribeService.getWxUserQRImage(wxMessage.getFromUser());
             TWxUser tWxUser = this.wxUserSubscribeService.saveWxUser(userWxInfo, null);
             //获得临时用户二维码
-            WxMpQrCodeTicket wxUserQRImage = wxUserSubscribeService.getWxUserIMPQRImage(tWxUser.getId());
+            /*WxMpQrCodeTicket wxUserQRImage = wxUserSubscribeService.getWxUserIMPQRImage(tWxUser.getId());
             //上传用户二维码
             File file = weixinService.getQrcodeService().qrCodePicture(wxUserQRImage);
             WxMediaUploadResult uploadResult = weixinService.getMaterialService().mediaUpload("image", file);
@@ -82,7 +82,7 @@ public class SubscribeHandler extends AbstractHandler {
                     weixinService.getKefuService().sendKefuMessage(keFuMessage);
                 }
             }
-            pointService.updatePoint(userWxInfo.getOpenId(), Enum.PointEvent.SUBSCRIBE,recommendId);
+            pointService.updatePoint(userWxInfo.getOpenId(), Enum.PointEvent.SUBSCRIBE,recommendId);*/
             //发送消息
             //StringBuilder contentSB = new StringBuilder(userWxInfo.getNickname());
             /*contentSB.append(",你来啦~是闻着黄油的香味找到这儿的吗？").append("\n")
@@ -118,16 +118,16 @@ public class SubscribeHandler extends AbstractHandler {
             contentSB.append("哈喽，").append(userWxInfo.getNickname()).append("，这里是烘焙爱好者的成长基地，就差你了。在蓝带和米其林餐厅的学习让我知道，专业知识才能创造更好的美味。所以我想和你一起告别零散的方子，杂乱的技巧，用最简单明了的方式，带你从零开始学烘焙。").append("\n").append("\n")
                     .append("我为你准备了各类烘焙学习专栏，点击下方“发现黄油” 进入").append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1098").append("\">").append("“专栏课程”").append("</a>").append("，跟我一起探索烘焙的世界吧。").append("\n").append("\n")
                     .append("热门专栏").append("\n")
-                    .append("/:sun").append("<a href=\"").append("https://st.h5.xiaoe-tech.com/st/6Wkq64P79").append("\">").append("面包专栏，“人人都是面包师2” 点我点我").append("</a>").append("\n")
-                    .append("/:sun").append("<a href=\"").append(shareProperties.getServerUrl()).append("/link/1001").append("\">").append("基础烘焙专栏，“跟着安琪学烘焙”").append("</a>");
+                    .append("/:sun").append("<a href=\"").append("https://st.h5.xiaoe-tech.com/st/3buWH4Ej5").append("\">").append("面包专栏，“人人都是面包师3” 点我点我").append("</a>").append("\n")
+                    .append("/:sun").append("<a href=\"").append("https://st.h5.xiaoe-tech.com/st/9U3MK6nqU").append("\">").append("基础烘焙专栏，“跟着安琪学烘焙”").append("</a>");
 
-            WxMpKefuMessage keFuMessage=WxMpKefuMessage.TEXT().content(contentSB.toString()).toUser(userWxInfo.getOpenId()).build();
-            weixinService.getKefuService().sendKefuMessage(keFuMessage);
+            //WxMpKefuMessage keFuMessage=WxMpKefuMessage.TEXT().content(contentSB.toString()).toUser(userWxInfo.getOpenId()).build();
+            //weixinService.getKefuService().sendKefuMessage(keFuMessage);
             //发送二维码消息
-            WxMpKefuMessage keFuOmageMessage=WxMpKefuMessage.IMAGE().mediaId(uploadResult.getMediaId()).toUser(userWxInfo.getOpenId()).build();
-            weixinService.getKefuService().sendKefuMessage(keFuOmageMessage);
+            //WxMpKefuMessage keFuOmageMessage=WxMpKefuMessage.IMAGE().mediaId(uploadResult.getMediaId()).toUser(userWxInfo.getOpenId()).build();
+            //weixinService.getKefuService().sendKefuMessage(keFuOmageMessage);
             //发送最后的消息
-            StringBuilder sb = new StringBuilder();
+            /*StringBuilder sb = new StringBuilder();
             //获得订阅的积分
             int subscribePoint = this.pointService.getPointByEvent(Enum.PointEvent.SUBSCRIBE);
             int recommendPoint=this.pointService.getPointByEvent(Enum.PointEvent.RECOMMEND);
@@ -136,8 +136,8 @@ public class SubscribeHandler extends AbstractHandler {
                     .append(recommendPoint).append("个积分。")
                     .append("积分可用于订阅菜单栏左下角的专栏。").append("\n").append("\n")
                     .append("你的初始积分为").append(subscribePoint).append("分。").append("\n")
-                    .append("即刻订阅专栏，开始你的烘焙之旅吧。");
-            return new TextBuilder().build(sb.toString(),wxMessage,weixinService);
+                    .append("即刻订阅专栏，开始你的烘焙之旅吧。");*/
+            return new TextBuilder().build(contentSB.toString(),wxMessage,weixinService);
         }
 
         WxMpXmlOutMessage responseResult = null;

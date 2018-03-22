@@ -1,6 +1,7 @@
 package com.sugarfree.service;
 
 import com.sugarfree.dao.model.TMenu;
+import me.chanjar.weixin.common.exception.WxErrorException;
 
 import java.io.UnsupportedEncodingException;
 
@@ -14,7 +15,7 @@ public interface MenuService {
     /**
      * 更新菜单样式
      */
-    void updateMenu() throws UnsupportedEncodingException;
+    void updateMenu() throws UnsupportedEncodingException, WxErrorException;
 
     TMenu getMenuById(int menuId);
 
